@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private int dir;
     private int jumpTime;
     private int jumpTimeMax;
-    [SerializeField] private bool isGrounded = true;
+    private bool isGrounded = true;
     void Awake()
     {
         _rigid = gameObject.GetComponent<Rigidbody2D>();
@@ -31,14 +31,19 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        MovementType move = MovementType.Idle;
+        JumpType jump = JumpType.Idle;
+        AttackType atk = AttackType.Idle;
         if(!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) dir = 0;
         if(Input.GetKey(KeyCode.A)) {
             _sprite.flipX = true;
             dir = -1;
+            move = MovementType.LeftNormal;
         }
         else if(Input.GetKey(KeyCode.D)) {
             _sprite.flipX = false;
             dir = 1;
+            move = MovementType.RightNormal;
         }
         if(Input.GetKeyDown(KeyCode.Space))
         {
@@ -47,9 +52,12 @@ public class PlayerController : MonoBehaviour
                 jumpTime--;
                 _rigid.linearVelocity = new Vector2(_rigid.linearVelocity.x, 0f);
                 _rigid.AddForce(Vector2.up*playerJumpPower, ForceMode2D.Impulse);
+                jump = JumpType.JumpNormal;
             }
-            
         }
+        ActionRecorder.instance.ApplyAction(move);
+        ActionRecorder.instance.ApplyAction(jump);
+        ActionRecorder.instance.ApplyAction(atk);
     }
      private void FixedUpdate()
     {

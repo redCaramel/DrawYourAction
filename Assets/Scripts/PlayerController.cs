@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     private float playerSpeed;
     private float playerJumpPower;
     private int dir;
+    private int jumpTime;
+    private int jumpTimeMax;
     [SerializeField] private bool isGrounded = true;
     void Awake()
     {
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
     {
         playerSpeed = StatManager.instance.playerSpeed;
         playerJumpPower = StatManager.instance.playerJumpPower;
+        jumpTimeMax = StatManager.instance.playerJumpTime;
         _rigid.gravityScale = StatManager.instance.playerGravity;
     }
     void Start()
@@ -39,8 +42,9 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            if (isGrounded)
+            if (jumpTime > 0)
             {
+                jumpTime--;
                 _rigid.linearVelocity = new Vector2(_rigid.linearVelocity.x, 0f);
                 _rigid.AddForce(Vector2.up*playerJumpPower, ForceMode2D.Impulse);
             }
@@ -50,6 +54,7 @@ public class PlayerController : MonoBehaviour
      private void FixedUpdate()
     {
         isGrounded = CheckGrounded();
+        if(isGrounded) jumpTime = jumpTimeMax;
         _rigid.linearVelocity = new Vector2(playerSpeed * dir, _rigid.linearVelocityY);
     }
     private bool CheckGrounded()

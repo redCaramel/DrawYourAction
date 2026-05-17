@@ -285,7 +285,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5b7dc4dd412914b9cdbccd1e39a00c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrounded: 1
 --- !u!1 &242788215
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,7 +719,7 @@ MonoBehaviour:
   _playerSpeed: 7
   _playerJumpPower: 15
   _playerGravity: 4
-  _playerJumpTime: 5
+  _playerJumpTime: 2
 --- !u!4 &867788923
 Transform:
   m_ObjectHideFlags: 0

@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         ResetStats();
+        ActionRecorder.instance.StartRecording(5);
     }
 
     void Update()
@@ -55,9 +56,13 @@ public class PlayerController : MonoBehaviour
                 jump = JumpType.JumpNormal;
             }
         }
-        ActionRecorder.instance.ApplyAction(move);
-        ActionRecorder.instance.ApplyAction(jump);
-        ActionRecorder.instance.ApplyAction(atk);
+        if(ActionRecorder.instance.isRecording())
+        {
+            ActionRecorder.instance.ApplyAction(move);
+            ActionRecorder.instance.ApplyAction(jump);
+            ActionRecorder.instance.ApplyAction(atk);
+        }
+        
     }
      private void FixedUpdate()
     {

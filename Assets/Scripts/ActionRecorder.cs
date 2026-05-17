@@ -3,9 +3,12 @@ using UnityEngine;
 
 public class ActionRecorder : MonoBehaviour
 {
-    [SerializeField] private List<MovementType> Movements = new List<MovementType>();
-    [SerializeField] private List<JumpType> Jumps= new List<JumpType>();
-    [SerializeField] private List<AttackType> Attacks= new List<AttackType>();
+    // TODO - After Refactoring Action Logic, Change These Lists to [Private]. WTF
+    // ----------------------------------------------------
+    [SerializeField] public List<MovementType> Movements = new List<MovementType>();
+    [SerializeField] public List<JumpType> Jumps= new List<JumpType>();
+    [SerializeField] public List<AttackType> Attacks= new List<AttackType>();
+    // ----------------------------------------------------
     private bool recording = false;
     private float recordTime = 0f;
     private float currentTime = 0f;

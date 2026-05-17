@@ -154,7 +154,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 7
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -165,7 +165,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!70 &80321161
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -285,6 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5b7dc4dd412914b9cdbccd1e39a00c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGrounded: 1
 --- !u!1 &419229151
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,7 +299,7 @@ GameObject:
   - component: {fileID: 419229152}
   m_Layer: 3
   m_Name: Land
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -669,8 +670,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c913b2aebaf6860468565b5005a76dce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerSpeed: 0
-  _playerJumpPower: 0
+  _playerSpeed: 7
+  _playerJumpPower: 15
+  _playerGravity: 2
 --- !u!4 &867788923
 Transform:
   m_ObjectHideFlags: 0

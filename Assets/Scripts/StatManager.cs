@@ -7,6 +7,8 @@ public class StatManager : MonoBehaviour
     public float playerSpeed => _playerSpeed;
     [SerializeField] private float _playerJumpPower;
     public float playerJumpPower => _playerJumpPower;
+    [SerializeField] private float _playerGravity;
+    public float playerGravity => _playerGravity;
 
     // ----------------------------------------------------
     // Creating and Resetting Instance

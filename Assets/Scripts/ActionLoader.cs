@@ -1,11 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ActionLoader : MonoBehaviour
 {
-    [SerializeField] private List<MovementType> Movements;
-    [SerializeField] private List<JumpType> Jumps;
-    [SerializeField] private List<AttackType> Attacks;
+    [SerializeField] private List<Action> Actions;
     private bool loading = false;
 
     // ----------------------------------------------------
@@ -42,22 +41,17 @@ public class ActionLoader : MonoBehaviour
     {
         if(loading)
         {
-            if(Movements.Count > 0 && Jumps.Count > 0 && Attacks.Count > 0) {
-                PlayerController.instance.ExecuteAction(Movements[0], Jumps[0], Attacks[0]);
-                Movements.RemoveAt(0);
-                Jumps.RemoveAt(0);
-                Attacks.RemoveAt(0);
+            if(Actions != null && Actions.Count > 0) {
+                PlayerController.instance.ExecuteAction(Actions[0]);
+                Actions.RemoveAt(0);
             }
             else loading = false;
-            
         }
     }
 
-    public void StartLoading(List<MovementType> a, List<JumpType> b, List<AttackType> c)
+    public void StartLoading(List<Action> acts)
     {
-        Movements = a;
-        Jumps = b;
-        Attacks = c;
+        Actions = acts;
         loading = true;
     }
     public bool isLoading()

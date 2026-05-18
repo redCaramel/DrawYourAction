@@ -3,12 +3,8 @@ using UnityEngine;
 
 public class ActionRecorder : MonoBehaviour
 {
-    // TODO - After Refactoring Action Logic, Change These Lists to [Private]. WTF
     // ----------------------------------------------------
-    [SerializeField] public List<MovementType> Movements = new List<MovementType>();
-    [SerializeField] public List<JumpType> Jumps= new List<JumpType>();
-    [SerializeField] public List<AttackType> Attacks= new List<AttackType>();
-    // ----------------------------------------------------
+    [SerializeField] private List<Action> Actions = new List<Action>();
     private bool recording = false;
     private float recordTime = 0f;
     private float currentTime = 0f;
@@ -55,21 +51,13 @@ public class ActionRecorder : MonoBehaviour
             }
         }
     }
-
-    public void ApplyAction(MovementType act)
+    public void ApplyAction(Action act)
     {
-        Movements.Add(act);
-        //Debug.Log("move" + act);
+        Actions.Add(act);
     }
-    public void ApplyAction(JumpType act)
+    public List<Action> GetAction()
     {
-        Jumps.Add(act);
-        //Debug.Log("jump" +act);
-    }
-    public void ApplyAction(AttackType act)
-    {
-        Attacks.Add(act);
-        //Debug.Log("atk" +act);
+        return Actions;
     }
     public void StartRecording(int time)
     {

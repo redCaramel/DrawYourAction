@@ -1,3 +1,4 @@
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if(ActionLoader.instance.isLoading()) return; 
-        if(Input.GetKeyDown(KeyCode.I)) ActionLoader.instance.StartLoading(ActionRecorder.instance.Movements, ActionRecorder.instance.Jumps, ActionRecorder.instance.Attacks);
+        if(Input.GetKeyDown(KeyCode.I)) ActionLoader.instance.StartLoading(ActionRecorder.instance.GetAction());
         MovementType move = MovementType.Idle;
         JumpType jump = JumpType.Idle;
         AttackType atk = AttackType.Idle;
@@ -78,9 +79,11 @@ public class PlayerController : MonoBehaviour
         }
         if (ActionRecorder.instance.isRecording())
         {
-            ActionRecorder.instance.ApplyAction(move);
-            ActionRecorder.instance.ApplyAction(jump);
-            ActionRecorder.instance.ApplyAction(atk);
+            Action act;
+            act.move = move;
+            act.jump = jump;
+            act.atk = atk;
+            ActionRecorder.instance.ApplyAction(act);
         }
 
         
@@ -119,17 +122,14 @@ public class PlayerController : MonoBehaviour
 
         return jump;
     }
-
-    public void ExecuteAction(MovementType move, JumpType jump, AttackType atk)
+    public void ExecuteAction(Action act)
     {
-        Debug.Log(move + " " + jump+ " " + atk);
-        if(move == MovementType.Idle) SetDirZero();
-        else if(move == MovementType.LeftNormal) ActionLeftNormal();
-        else if(move == MovementType.RightNormal) ActionRightNormal();
+        if(act.move == MovementType.Idle) SetDirZero();
+        else if(act.move == MovementType.LeftNormal) ActionLeftNormal();
+        else if(act.move == MovementType.RightNormal) ActionRightNormal();
         
-        if(jump == JumpType.JumpNormal) ActionJumpNormal();
+        if(act.jump == JumpType.JumpNormal) ActionJumpNormal();
     }
-
     private void FixedUpdate()
     {
         isGrounded = CheckGrounded();

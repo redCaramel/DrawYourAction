@@ -56,38 +56,6 @@ public class PlayerController : MonoBehaviour
         ResetStats();
         ActionRecorder.instance.StartRecording(5);
     }
-
-    void Update()
-    {
-        if(ActionLoader.instance.isLoading()) return; 
-        if(Input.GetKeyDown(KeyCode.I)) ActionLoader.instance.StartLoading(ActionRecorder.instance.GetAction());
-        MovementType move = MovementType.Idle;
-        JumpType jump = JumpType.Idle;
-        AttackType atk = AttackType.Idle;
-        if(!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) dir = 0;
-        if(Input.GetKey(KeyCode.A))
-        {
-            move = ActionLeftNormal();
-        }
-        else if(Input.GetKey(KeyCode.D))
-        {
-            move = ActionRightNormal();
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            jump = ActionJumpNormal();
-        }
-        if (ActionRecorder.instance.isRecording())
-        {
-            Action act;
-            act.move = move;
-            act.jump = jump;
-            act.atk = atk;
-            ActionRecorder.instance.ApplyAction(act);
-        }
-
-        
-    }
     private void SetDirZero()
     {
         dir = 0;

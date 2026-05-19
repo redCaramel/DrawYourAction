@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ActionRecorder : MonoBehaviour
 {
-    // ----------------------------------------------------
     [SerializeField] private List<Action> Actions = new List<Action>();
     private bool recording = false;
     private float recordTime = 0f;

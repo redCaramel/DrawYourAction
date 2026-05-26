@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class ActionLoader : MonoBehaviour
 {
-    [SerializeField] private List<Action> Actions;
+    private Queue<Action> _queue = new Queue<Action>();
     private bool loading = false;
+    private float _elapsedTime = 0f;
 
     // ----------------------------------------------------
     // Creating and Resetting Instance
@@ -15,17 +15,15 @@ public class ActionLoader : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStatic()
     {
-        instance = null; 
+        instance = null;
     }
     private void Awake()
     {
         if(instance == null)
         {
             instance = this;
-            Debug.Log("yay");
         }
         else Destroy(gameObject);
-       
     }
     private void OnDestroy()
     {
@@ -39,19 +37,22 @@ public class ActionLoader : MonoBehaviour
 
     public void Update()
     {
-        if(loading)
+        if (!loading) return;
+
+        _elapsedTime += Time.deltaTime;
+
+        while (_queue.Count > 0 && _queue.Peek().timestamp <= _elapsedTime)
         {
-            if(Actions != null && Actions.Count > 0) {
-                PlayerController.instance.ExecuteAction(Actions[0]);
-                Actions.RemoveAt(0);
-            }
-            else loading = false;
+            PlayerController.instance.ExecuteAction(_queue.Dequeue());
         }
+
+        if (_queue.Count == 0) loading = false;
     }
 
     public void StartLoading(List<Action> acts)
     {
-        Actions = acts;
+        _queue = new Queue<Action>(acts);
+        _elapsedTime = 0f;
         loading = true;
     }
     public bool isLoading()

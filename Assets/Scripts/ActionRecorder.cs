@@ -5,7 +5,7 @@ public class ActionRecorder : MonoBehaviour
 {
     [SerializeField] private List<Action> Actions = new List<Action>();
     private bool recording = false;
-    private float recordTime = 0f;
+    private float recordDuration = 0f;
     private float currentTime = 0f;
 
     // ----------------------------------------------------
@@ -16,17 +16,15 @@ public class ActionRecorder : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStatic()
     {
-        instance = null; 
+        instance = null;
     }
     private void Awake()
     {
         if(instance == null)
         {
             instance = this;
-            Debug.Log("yay");
         }
         else Destroy(gameObject);
-       
     }
     private void OnDestroy()
     {
@@ -42,7 +40,6 @@ public class ActionRecorder : MonoBehaviour
     {
         if(recording)
         {
-            Debug.Log(currentTime);
             currentTime -= Time.deltaTime;
             if(currentTime <= 0f)
             {
@@ -52,17 +49,19 @@ public class ActionRecorder : MonoBehaviour
     }
     public void ApplyAction(Action act)
     {
+        act.timestamp = recordDuration - currentTime;
         Actions.Add(act);
     }
     public List<Action> GetAction()
     {
-        return Actions;
+        return new List<Action>(Actions);
     }
     public void StartRecording(int time)
     {
+        Actions.Clear();
         recording = true;
+        recordDuration = time;
         currentTime = time;
-        recordTime = time;
     }
     public bool isRecording()
     {

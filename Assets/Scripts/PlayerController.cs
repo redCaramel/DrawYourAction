@@ -54,7 +54,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         ResetStats();
-        ActionRecorder.instance.StartRecording(5);
     }
     private void SetDirZero()
     {

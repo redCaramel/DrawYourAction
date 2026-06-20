@@ -1,3 +1,4 @@
+[System.Serializable]
 public struct Action
 {
     public float timestamp;

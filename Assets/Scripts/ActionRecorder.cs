@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class ActionRecorder : MonoBehaviour
 {
-    private List<List<Action>> recordActions = new List<List<Action>>();
+    private List<ScriptData> recordActions = new List<ScriptData>();
     private int currentRecordingIndex = 0;
-    private List<Action> Actions => recordActions.Count > currentRecordingIndex ? recordActions[currentRecordingIndex] : null;
+    private List<Action> Actions => recordActions.Count > currentRecordingIndex ? recordActions[currentRecordingIndex].actions : null;
     private int recordCount = 0;
     private bool recording = false;
     private float recordDuration = 0f;
@@ -64,15 +64,15 @@ public class ActionRecorder : MonoBehaviour
     public List<Action> GetAction(int index)
     {
         if (index < 0 || index >= recordActions.Count) return new List<Action>();
-        return new List<Action>(recordActions[index]);
+        return new List<Action>(recordActions[index].actions);
     }
     public int GetRecordCount() => recordCount;
     public void StartRecording(int time)
     {
         currentRecordingIndex = ScriptSelector.instance.GetScriptIndex();
         while (recordActions.Count <= currentRecordingIndex)
-            recordActions.Add(new List<Action>());
-        recordActions[currentRecordingIndex] = new List<Action>();
+            recordActions.Add(new ScriptData(""));
+        recordActions[currentRecordingIndex] = new ScriptData("");
         ScriptSelector.instance.SetScriptColor(currentRecordingIndex, 2);
         recordCount++;
         recording = true;

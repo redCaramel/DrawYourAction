@@ -5,8 +5,16 @@ using UnityEngine.UI;
 public class ScriptSelector : MonoBehaviour
 {
     [SerializeField] private int selectedScriptIndex;
-    [SerializeField] private List<Button> Scripts;
+    [SerializeField] private List<GameObject> Scripts;
     [SerializeField] private int MaxScript;
+
+    public static readonly List<Color> ScriptColor = new List<Color>
+    {
+        new Color(1f, 1f, 1f),
+        new Color(241/255f, 255/255f, 139/255f),
+        new Color(1f, 0f, 0f),
+        new Color(81/255f, 1f, 0f)
+    };
 
     // ----------------------------------------------------
     // Creating and Resetting Instance
@@ -29,7 +37,8 @@ public class ScriptSelector : MonoBehaviour
         for(int i = 0;i < MaxScript;i++)
         {
             int index = i;
-            Scripts[i].onClick.AddListener(() => OnScriptClicked(index));
+            Scripts[i].GetComponent<Button>().onClick.AddListener(() => OnScriptClicked(index));
+            SetScriptColor(i, 1);
         }
         selectedScriptIndex = 0;
     }
@@ -51,5 +60,11 @@ public class ScriptSelector : MonoBehaviour
     public int GetScriptIndex()
     {
         return selectedScriptIndex;
+    }
+    public void SetScriptColor(int index, int val)
+    {
+
+        Scripts[index].GetComponent<Image>().color = ScriptColor[val];
+
     }
 }

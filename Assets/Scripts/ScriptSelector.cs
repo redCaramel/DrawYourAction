@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,13 +35,8 @@ public class ScriptSelector : MonoBehaviour
             instance = this;
         }
         else Destroy(gameObject);
-        for(int i = 0;i < MaxScript;i++)
-        {
-            int index = i;
-            Scripts[i].GetComponent<Button>().onClick.AddListener(() => OnScriptClicked(index));
-            SetScriptColor(i, 1);
-        }
-        selectedScriptIndex = 0;
+        init();
+        
     }
     private void OnDestroy()
     {
@@ -51,8 +47,20 @@ public class ScriptSelector : MonoBehaviour
     }
 
     // ----------------------------------------------------
-    
-    public void OnScriptClicked(int index)
+
+    private void init()
+    {
+        for(int i = 0;i < MaxScript;i++)
+        {
+            int index = i;
+            Scripts[i].GetComponent<Button>().onClick.AddListener(() => OnScriptClicked(index));
+            Scripts[i].GetComponentInChildren<TMP_Text>().text = "스크립트 " + (i+1);
+            SetScriptColor(i, 1);
+        }
+        selectedScriptIndex = 0;
+    }
+
+    private void OnScriptClicked(int index)
     {
         selectedScriptIndex = index;
     }

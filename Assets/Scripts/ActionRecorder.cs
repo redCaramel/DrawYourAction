@@ -83,4 +83,11 @@ public class ActionRecorder : MonoBehaviour
     {
         return recording;
     }
+    public void setScriptTitle(int index, string title)
+    {
+        if (index < 0 || index >= recordActions.Count) return;
+        ScriptData data = recordActions[index];
+        data.name = title;
+        recordActions[index] = data;
+    }
 }

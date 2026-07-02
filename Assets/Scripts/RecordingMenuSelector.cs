@@ -55,5 +55,6 @@ public class RecordingMenuSelector : MonoBehaviour
         rec.sprite = buttonSprites[0];
         write.sprite = buttonSprites[2];
         set.sprite = buttonSprites[5];
+        RecordUIManager.instance.ShowContent(2);
     }
 }

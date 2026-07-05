@@ -11,7 +11,17 @@ public class RecordingMenuSelector : MonoBehaviour
     [SerializeField] private List<Sprite> buttonSprites;
     private Image rec, write, set;
     private int selectedMenu;
-    void Awake()
+    // ----------------------------------------------------
+    // Creating and Resetting Instance
+    // Don't modify here
+    public static RecordingMenuSelector instance {get; private set;}
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatic()
+    {
+        instance = null;
+    }
+    private void Awake()
     {
         selectedMenu = 1;
         rec = recordButton.GetComponent<Image>();
@@ -25,13 +35,21 @@ public class RecordingMenuSelector : MonoBehaviour
         recordButton.GetComponent<Button>().onClick.AddListener(OnRecordButtonClicked);
         writeButton.GetComponent<Button>().onClick.AddListener(OnWriteButtonClicked);
         setButton.GetComponent<Button>().onClick.AddListener(OnSetButtonClicked);
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else Destroy(gameObject);
+    }
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // ----------------------------------------------------
 
     public void OnRecordButtonClicked()
     {

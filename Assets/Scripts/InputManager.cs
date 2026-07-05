@@ -22,15 +22,17 @@ public class InputManager : MonoBehaviour
         MovementType move = MovementType.Idle;
         JumpType jump = JumpType.Idle;
         AttackType atk = AttackType.Idle;
+        if(RecordingMenuSelector.instance.getMenu()==1)
+        {
+            if(Input.GetKey(KeyCode.A))
+                move = MovementType.LeftNormal;
+            else if(Input.GetKey(KeyCode.D))
+                move = MovementType.RightNormal;
 
-        if(Input.GetKey(KeyCode.A))
-            move = MovementType.LeftNormal;
-        else if(Input.GetKey(KeyCode.D))
-            move = MovementType.RightNormal;
-
-        if (Input.GetKeyDown(KeyCode.Space))
-            jump = JumpType.JumpNormal;
-
+            if (Input.GetKeyDown(KeyCode.Space))
+                jump = JumpType.JumpNormal;
+        }
+        
         Action act = default;
         act.move = move;
         act.jump = jump;

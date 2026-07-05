@@ -3,23 +3,39 @@ using UnityEngine.EventSystems;
 
 public class ScriptDropper : MonoBehaviour, IDropHandler
 {
+    [SerializeField] private int slotIndex;
+    public int SlotIndex => slotIndex;
+
     public void OnDrop(PointerEventData eventData)
     {
         GameObject dragged = eventData.pointerDrag;
         if (dragged == null) return;
 
-        ScriptDragger item = dragged.GetComponent<ScriptDragger>();
-        if (item == null) return;
+        ScriptDragger draggedItem = dragged.GetComponent<ScriptDragger>();
+        if (draggedItem == null) return;
 
-        // 슬롯 안에 이미 아이템이 있으면 처리 방식은 자유 (예: 막기, 교체 등)
+        Transform draggedOriginalParent = draggedItem.OriginalParent;
+
         if (transform.childCount > 0)
         {
-            Debug.Log("이미 아이템이 있는 슬롯입니다.");
-            return;
+            Transform existingChild = transform.GetChild(0);
+            existingChild.SetParent(draggedOriginalParent);
+            existingChild.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+            ScriptDragger existingItem = existingChild.GetComponent<ScriptDragger>();
+            ScriptDropper originalDropper = draggedOriginalParent != null
+                ? draggedOriginalParent.GetComponent<ScriptDropper>()
+                : null;
+            if (originalDropper != null && existingItem != null)
+            {
+                ScriptArrManager.instance.SetScriptAtSlot(originalDropper.SlotIndex, existingItem.ScriptIndex);
+            }
         }
 
         // 드래그된 아이템을 이 슬롯의 자식으로 설정
         dragged.transform.SetParent(transform);
         dragged.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+        ScriptArrManager.instance.SetScriptAtSlot(slotIndex, draggedItem.ScriptIndex);
     }
 }

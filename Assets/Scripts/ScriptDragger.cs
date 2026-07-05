@@ -2,9 +2,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ScriptDragger : MonoBehaviour, 
+public class ScriptDragger : MonoBehaviour,
     IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    [SerializeField] private int scriptIndex;
+    public int ScriptIndex => scriptIndex;
+    public Transform OriginalParent => originalParent;
+
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Transform originalParent;

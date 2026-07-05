@@ -62,6 +62,7 @@ public class ScriptSelector : MonoBehaviour
 
     private void OnScriptClicked(int index)
     {
+        if(ActionRecorder.instance.isRecording()) return;
         selectedScriptIndex = index;
     }
 

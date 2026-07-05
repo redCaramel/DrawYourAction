@@ -47,6 +47,9 @@ public class ActionRecorder : MonoBehaviour
             if(currentTime <= 0f)
             {
                 ScriptSelector.instance.SetScriptColor(currentRecordingIndex, 3);
+                ScriptData data = recordActions[currentRecordingIndex];
+                data.status = 2;
+                recordActions[currentRecordingIndex] = data;
                 recording = false;
                 
             }
@@ -56,6 +59,10 @@ public class ActionRecorder : MonoBehaviour
     {
         act.timestamp = recordDuration - currentTime;
         Actions.Add(act);
+    }
+    public ScriptData getScript(int index)
+    {
+        return recordActions[index];
     }
     public List<Action> GetAction()
     {

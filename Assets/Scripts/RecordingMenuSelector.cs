@@ -43,6 +43,7 @@ public class RecordingMenuSelector : MonoBehaviour
     }
     public void OnWriteButtonClicked()
     {
+        if(ActionRecorder.instance.isRecording()) return;
         selectedMenu = 2;
         rec.sprite = buttonSprites[0];
         write.sprite = buttonSprites[3];
@@ -51,10 +52,15 @@ public class RecordingMenuSelector : MonoBehaviour
     }
     public void OnSetButtonClicked()
     {
+        if(ActionRecorder.instance.isRecording()) return;
         selectedMenu = 3;
         rec.sprite = buttonSprites[0];
         write.sprite = buttonSprites[2];
         set.sprite = buttonSprites[5];
         RecordUIManager.instance.ShowContent(2);
+    }
+    public int getMenu()
+    {
+        return selectedMenu;
     }
 }

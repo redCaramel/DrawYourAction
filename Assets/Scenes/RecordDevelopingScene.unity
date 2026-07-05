@@ -768,11 +768,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedScriptIndex: 0
-  Scripts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  MaxScript: 3
+  Scripts: []
+  scriptPrefab: {fileID: 3587122302888105789, guid: 1232178f4294295448bd5dbc11618a34, type: 3}
+  scriptListContent: {fileID: 2140859963}
+  scriptSpacing: 20
 --- !u!4 &349585589
 Transform:
   m_ObjectHideFlags: 0
@@ -4330,11 +4329,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df229c10ea8debb4da4891171e361cb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scriptPrefab: {fileID: 3587122302888105789, guid: 1232178f4294295448bd5dbc11618a34, type: 3}
-  scriptListContent: {fileID: 2140859963}
-  scriptSpacing: 20
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!4 &2074916624
 Transform:
   m_ObjectHideFlags: 0

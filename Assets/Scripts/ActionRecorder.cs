@@ -43,9 +43,8 @@ public class ActionRecorder : MonoBehaviour
             currentTime -= Time.deltaTime;
             if(currentTime <= 0f)
             {
-                ScriptSelector.instance.SetScriptColor(currentRecordingIndex, 3);
                 ScriptData data = ScriptManager.instance.getScript(currentRecordingIndex);
-                data.status = 2;
+                data.status = 3;
                 ScriptManager.instance.SetScript(currentRecordingIndex, data);
                 recording = false;
 
@@ -63,8 +62,8 @@ public class ActionRecorder : MonoBehaviour
     {
         currentRecordingIndex = ScriptSelector.instance.GetScriptIndex();
         ScriptManager.instance.EnsureScript(currentRecordingIndex);
-        ScriptManager.instance.SetScript(currentRecordingIndex, new ScriptData(""));
-        ScriptSelector.instance.SetScriptColor(currentRecordingIndex, 2);
+        ScriptData data = ScriptManager.instance.getScript(currentRecordingIndex);
+        ScriptManager.instance.SetScript(currentRecordingIndex, new ScriptData(data.name, data.maxDuration, 2));
         recordCount++;
         recording = true;
         recordDuration = time;

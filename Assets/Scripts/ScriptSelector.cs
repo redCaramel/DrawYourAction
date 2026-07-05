@@ -6,8 +6,11 @@ using UnityEngine.UI;
 public class ScriptSelector : MonoBehaviour
 {
     [SerializeField] private int selectedScriptIndex;
-    [SerializeField] private List<GameObject> Scripts;
-    [SerializeField] private int MaxScript;
+    [SerializeField] private List<GameObject> Scripts = new List<GameObject>();
+
+    [SerializeField] private GameObject scriptPrefab;
+    [SerializeField] private RectTransform scriptListContent;
+    [SerializeField] private float scriptSpacing = 20f;
 
     public static readonly List<Color> ScriptColor = new List<Color>
     {
@@ -47,18 +50,34 @@ public class ScriptSelector : MonoBehaviour
 
     // ----------------------------------------------------
 
-    public void init(List<GameObject> Scripts)
+    // Instantiates slots up to and including index, so the GameObject list always
+    // has one entry per ScriptData index in ScriptManager.
+    private void EnsureSlot(int index)
     {
-        MaxScript = Scripts.Count;
-        for(int i = 0;i < MaxScript;i++)
+        float itemHeight = scriptPrefab.GetComponent<RectTransform>().rect.height;
+        while (Scripts.Count <= index)
         {
-            this.Scripts[i] = Scripts[i];
-            int index = i;
-            this.Scripts[i].GetComponent<Button>().onClick.AddListener(() => OnScriptClicked(index));
-            this.Scripts[i].GetComponentInChildren<TMP_Text>().text = "스크립트 " + (i+1);
-            SetScriptColor(i, 1);
+            int i = Scripts.Count;
+            GameObject slot = Instantiate(scriptPrefab, scriptListContent);
+            RectTransform rect = slot.GetComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0.5f, 1f);
+            rect.anchorMax = new Vector2(0.5f, 1f);
+            rect.pivot = new Vector2(0.5f, 1f);
+            rect.anchoredPosition = new Vector2(0f, -i * (itemHeight + scriptSpacing));
+
+            slot.GetComponent<Button>().onClick.AddListener(() => OnScriptClicked(i));
+            Scripts.Add(slot);
         }
-        selectedScriptIndex = 0;
+    }
+
+    // Called by ScriptManager whenever a ScriptData entry is created or changed,
+    // so the GameObject view always reflects the latest ScriptData.
+    public void UpdateScriptView(int index, ScriptData data)
+    {
+        EnsureSlot(index);
+        Scripts[index].GetComponentInChildren<TMP_Text>().text =
+            string.IsNullOrEmpty(data.name) ? "스크립트 " + (index + 1) : data.name;
+        SetScriptColor(index, data.status);
     }
 
     private void OnScriptClicked(int index)
@@ -70,7 +89,7 @@ public class ScriptSelector : MonoBehaviour
     {
         return selectedScriptIndex;
     }
-    public void SetScriptColor(int index, int val)
+    private void SetScriptColor(int index, int val)
     {
 
         Scripts[index].GetComponent<Image>().color = ScriptColor[val];

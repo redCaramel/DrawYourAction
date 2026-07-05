@@ -35,7 +35,6 @@ public class ScriptSelector : MonoBehaviour
             instance = this;
         }
         else Destroy(gameObject);
-        init();
         
     }
     private void OnDestroy()
@@ -48,13 +47,15 @@ public class ScriptSelector : MonoBehaviour
 
     // ----------------------------------------------------
 
-    private void init()
+    public void init(List<GameObject> Scripts)
     {
+        MaxScript = Scripts.Count;
         for(int i = 0;i < MaxScript;i++)
         {
+            this.Scripts[i] = Scripts[i];
             int index = i;
-            Scripts[i].GetComponent<Button>().onClick.AddListener(() => OnScriptClicked(index));
-            Scripts[i].GetComponentInChildren<TMP_Text>().text = "스크립트 " + (i+1);
+            this.Scripts[i].GetComponent<Button>().onClick.AddListener(() => OnScriptClicked(index));
+            this.Scripts[i].GetComponentInChildren<TMP_Text>().text = "스크립트 " + (i+1);
             SetScriptColor(i, 1);
         }
         selectedScriptIndex = 0;
@@ -62,7 +63,6 @@ public class ScriptSelector : MonoBehaviour
 
     private void OnScriptClicked(int index)
     {
-        if(ActionRecorder.instance.isRecording()) return;
         selectedScriptIndex = index;
     }
 

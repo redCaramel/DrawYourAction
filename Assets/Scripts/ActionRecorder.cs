@@ -1,11 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ActionRecorder : MonoBehaviour
 {
-    private List<ScriptData> recordActions = new List<ScriptData>();
     private int currentRecordingIndex = 0;
-    private List<Action> Actions => recordActions.Count > currentRecordingIndex ? recordActions[currentRecordingIndex].actions : null;
     private int recordCount = 0;
     private bool recording = false;
     private float recordDuration = 0f;
@@ -47,39 +44,26 @@ public class ActionRecorder : MonoBehaviour
             if(currentTime <= 0f)
             {
                 ScriptSelector.instance.SetScriptColor(currentRecordingIndex, 3);
-                ScriptData data = recordActions[currentRecordingIndex];
+                ScriptData data = ScriptManager.instance.getScript(currentRecordingIndex);
                 data.status = 2;
-                recordActions[currentRecordingIndex] = data;
+                ScriptManager.instance.SetScript(currentRecordingIndex, data);
                 recording = false;
-                
+
             }
         }
     }
     public void ApplyAction(Action act)
     {
         act.timestamp = recordDuration - currentTime;
-        Actions.Add(act);
+        ScriptManager.instance.AddAction(currentRecordingIndex, act);
     }
-    public ScriptData getScript(int index)
-    {
-        return recordActions[index];
-    }
-    public List<Action> GetAction()
-    {
-        return Actions != null ? new List<Action>(Actions) : new List<Action>();
-    }
-    public List<Action> GetAction(int index)
-    {
-        if (index < 0 || index >= recordActions.Count) return new List<Action>();
-        return new List<Action>(recordActions[index].actions);
-    }
+    public int CurrentRecordingIndex => currentRecordingIndex;
     public int GetRecordCount() => recordCount;
     public void StartRecording(int time)
     {
         currentRecordingIndex = ScriptSelector.instance.GetScriptIndex();
-        while (recordActions.Count <= currentRecordingIndex)
-            recordActions.Add(new ScriptData(""));
-        recordActions[currentRecordingIndex] = new ScriptData("");
+        ScriptManager.instance.EnsureScript(currentRecordingIndex);
+        ScriptManager.instance.SetScript(currentRecordingIndex, new ScriptData(""));
         ScriptSelector.instance.SetScriptColor(currentRecordingIndex, 2);
         recordCount++;
         recording = true;
@@ -92,9 +76,9 @@ public class ActionRecorder : MonoBehaviour
     }
     public void setScriptTitle(int index, string title)
     {
-        if (index < 0 || index >= recordActions.Count) return;
-        ScriptData data = recordActions[index];
+        if (index < 0 || index >= ScriptManager.instance.ScriptCount) return;
+        ScriptData data = ScriptManager.instance.getScript(index);
         data.name = title;
-        recordActions[index] = data;
+        ScriptManager.instance.SetScript(index, data);
     }
 }

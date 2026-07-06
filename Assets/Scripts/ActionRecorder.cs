@@ -43,9 +43,9 @@ public class ActionRecorder : MonoBehaviour
             currentTime -= Time.deltaTime;
             if(currentTime <= 0f)
             {
-                ScriptData data = ScriptManager.instance.getScript(currentRecordingIndex);
+                ScriptData data = ScriptDataManager.instance.getScript(currentRecordingIndex);
                 data.status = 3;
-                ScriptManager.instance.SetScript(currentRecordingIndex, data);
+                ScriptDataManager.instance.SetScript(currentRecordingIndex, data);
                 recording = false;
 
             }
@@ -54,16 +54,16 @@ public class ActionRecorder : MonoBehaviour
     public void ApplyAction(Action act)
     {
         act.timestamp = recordDuration - currentTime;
-        ScriptManager.instance.AddAction(currentRecordingIndex, act);
+        ScriptDataManager.instance.AddAction(currentRecordingIndex, act);
     }
     public int CurrentRecordingIndex => currentRecordingIndex;
     public int GetRecordCount() => recordCount;
     public void StartRecording(int time)
     {
-        currentRecordingIndex = ScriptSelector.instance.GetScriptIndex();
-        ScriptManager.instance.EnsureScript(currentRecordingIndex);
-        ScriptData data = ScriptManager.instance.getScript(currentRecordingIndex);
-        ScriptManager.instance.SetScript(currentRecordingIndex, new ScriptData(data.name, data.maxDuration, 2));
+        currentRecordingIndex = ScriptObjectManager.instance.GetScriptIndex();
+        ScriptDataManager.instance.EnsureScript(currentRecordingIndex);
+        ScriptData data = ScriptDataManager.instance.getScript(currentRecordingIndex);
+        ScriptDataManager.instance.SetScript(currentRecordingIndex, new ScriptData(data.name, data.maxDuration, 2));
         recordCount++;
         recording = true;
         recordDuration = time;
@@ -75,9 +75,9 @@ public class ActionRecorder : MonoBehaviour
     }
     public void setScriptTitle(int index, string title)
     {
-        if (index < 0 || index >= ScriptManager.instance.ScriptCount) return;
-        ScriptData data = ScriptManager.instance.getScript(index);
+        if (index < 0 || index >= ScriptDataManager.instance.ScriptCount) return;
+        ScriptData data = ScriptDataManager.instance.getScript(index);
         data.name = title;
-        ScriptManager.instance.SetScript(index, data);
+        ScriptDataManager.instance.SetScript(index, data);
     }
 }

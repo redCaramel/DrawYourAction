@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
     {
         if(ActionLoader.instance.isLoading()) return;
 
-        if(Input.GetKeyDown(KeyCode.I)) ActionLoader.instance.StartLoading(ScriptManager.instance.GetAction(ActionRecorder.instance.CurrentRecordingIndex));
+        if(Input.GetKeyDown(KeyCode.I)) ActionLoader.instance.StartLoading(ScriptDataManager.instance.GetAction(ActionRecorder.instance.CurrentRecordingIndex));
 
         MovementType move = MovementType.Idle;
         JumpType jump = JumpType.Idle;
@@ -48,12 +48,12 @@ public class InputManager : MonoBehaviour
 
     public void OnRecordButtonClicked()
     {
-        int index = ScriptSelector.instance.GetScriptIndex();
-        ActionRecorder.instance.StartRecording(ScriptManager.instance.getScript(index).maxDuration);
+        int index = ScriptObjectManager.instance.GetScriptIndex();
+        ActionRecorder.instance.StartRecording(ScriptDataManager.instance.getScript(index).maxDuration);
     }
     public void OnPlayButtonClicked()
     {
-        ActionLoader.instance.StartLoading(ScriptManager.instance.GetAction(ScriptSelector.instance.GetScriptIndex()));
+        ActionLoader.instance.StartLoading(ScriptDataManager.instance.GetAction(ScriptObjectManager.instance.GetScriptIndex()));
     }
     
 }

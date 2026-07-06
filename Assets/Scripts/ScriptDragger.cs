@@ -28,7 +28,7 @@ public class ScriptDragger : MonoBehaviour,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(ScriptManager.instance.getScript(ScriptIndex).status!=3) return;
+        if(ScriptDataManager.instance.getScript(ScriptIndex).status!=3) return;
         originalParent = transform.parent;
         originalPosition = rectTransform.anchoredPosition;
 
@@ -41,14 +41,14 @@ public class ScriptDragger : MonoBehaviour,
 
     public void OnDrag(PointerEventData eventData)
     {
-        if(ScriptManager.instance.getScript(ScriptIndex).status!=3) return;
+        if(ScriptDataManager.instance.getScript(ScriptIndex).status!=3) return;
         // 마우스 이동량만큼 위치 이동
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(ScriptManager.instance.getScript(ScriptIndex).status!=3) return;
+        if(ScriptDataManager.instance.getScript(ScriptIndex).status!=3) return;
         canvasGroup.blocksRaycasts = true;
 
         // 유효한 슬롯에 드롭되지 않았다면 원래 자리로 복귀

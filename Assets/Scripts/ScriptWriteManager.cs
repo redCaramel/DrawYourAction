@@ -12,6 +12,6 @@ public class ScriptWriteManager : MonoBehaviour
     }
     public void OnTitleApplyButtonClicked()
     {
-        ActionRecorder.instance.setScriptTitle(ScriptSelector.instance.GetScriptIndex(), titleInputField.text);
+        ActionRecorder.instance.setScriptTitle(ScriptObjectManager.instance.GetScriptIndex(), titleInputField.text);
     }
 }

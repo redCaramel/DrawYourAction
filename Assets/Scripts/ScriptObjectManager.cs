@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScriptSelector : MonoBehaviour
+public class ScriptObjectManager : MonoBehaviour
 {
     [SerializeField] private int selectedScriptIndex;
     [SerializeField] private List<GameObject> Scripts = new List<GameObject>();
@@ -23,7 +23,7 @@ public class ScriptSelector : MonoBehaviour
     // ----------------------------------------------------
     // Creating and Resetting Instance
     // Don't modify here
-    public static ScriptSelector instance {get; private set;}
+    public static ScriptObjectManager instance {get; private set;}
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStatic()

@@ -64,7 +64,7 @@ public class ScriptObjectManager : MonoBehaviour
             rect.anchorMax = new Vector2(0.5f, 1f);
             rect.pivot = new Vector2(0.5f, 1f);
             rect.anchoredPosition = new Vector2(0f, -i * (itemHeight + scriptSpacing) - scriptSpacing);
-
+            slot.GetComponent<ScriptDragger>().ScriptIndex = i;
             slot.GetComponent<Button>().onClick.AddListener(() => OnScriptClicked(i));
             Scripts.Add(slot);
         }

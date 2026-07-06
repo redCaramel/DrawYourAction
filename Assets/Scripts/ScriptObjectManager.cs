@@ -68,6 +68,8 @@ public class ScriptObjectManager : MonoBehaviour
             slot.GetComponent<Button>().onClick.AddListener(() => OnScriptClicked(i));
             Scripts.Add(slot);
         }
+        RectTransform rt = scriptListContent.GetComponent<RectTransform>();
+        rt.sizeDelta = new Vector2(rt.sizeDelta.x, Scripts.Count * 350);
     }
 
     // Called by ScriptManager whenever a ScriptData entry is created or changed,

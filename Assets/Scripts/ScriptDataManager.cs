@@ -40,7 +40,9 @@ public class ScriptDataManager : MonoBehaviour
         Scripts.Add(new ScriptData("a", 1, 1));
         Scripts.Add(new ScriptData("b", 3, 1));
         Scripts.Add(new ScriptData("c", 5, 1));
-
+        Scripts.Add(new ScriptData("d", 1, 1));
+        Scripts.Add(new ScriptData("e", 3, 1));
+        Scripts.Add(new ScriptData("f", 5, 1));
         for (int i = 0; i < Scripts.Count; i++)
             ScriptObjectManager.instance.UpdateScriptView(i, Scripts[i]);
     }

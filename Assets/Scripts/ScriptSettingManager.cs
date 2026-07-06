@@ -3,16 +3,33 @@ using UnityEngine;
 
 public class ScriptSettingManager : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> scripts;
-    [SerializeField] private List<GameObject> slots;
-    void Start()
+    
+    [SerializeField] private Vector2 StartVector;
+    [SerializeField] private float XSpacing;
+    [SerializeField] private float YSpacing;
+    [SerializeField] private GameObject SlotPrefab;
+    [SerializeField] private GameObject contentParent;
+    [SerializeField] private int instanceCount;
+
+    private const int SlotsPerRow = 6;
+
+    private void Start()
     {
-        
+        init();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void init()
     {
-        
+        for (int i = 0; i < instanceCount; i++)
+        {
+            int row = i / SlotsPerRow;
+            int col = i % SlotsPerRow;
+
+            GameObject slot = Instantiate(SlotPrefab, contentParent.transform);
+            RectTransform rect = slot.GetComponent<RectTransform>();
+            rect.anchoredPosition = new Vector2(StartVector.x + col * XSpacing, StartVector.y -  row * YSpacing);
+            slot.GetComponent<ScriptDropper>().slotIndex = i;
+        }
     }
+
 }

@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class ScriptDropper : MonoBehaviour, IDropHandler
 {
-    [SerializeField] private int slotIndex;
+    public int slotIndex;
     public int SlotIndex => slotIndex;
 
     public void OnDrop(PointerEventData eventData)

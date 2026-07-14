@@ -13,12 +13,14 @@ public class ScriptDropper : MonoBehaviour, IDropHandler
 
         ScriptDragger draggedItem = dragged.GetComponent<ScriptDragger>();
         if (draggedItem == null) return;
+        if(ScriptDataManager.instance.getScript(draggedItem.ScriptIndex).status!=3) return;
 
         Transform draggedOriginalParent = draggedItem.OriginalParent;
 
         if (transform.childCount > 0)
         {
             Transform existingChild = transform.GetChild(0);
+            
             existingChild.SetParent(draggedOriginalParent);
             existingChild.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ScriptDataManager : MonoBehaviour
 {
-    private List<ScriptData> Scripts = new List<ScriptData>();
+    [SerializeField] private List<ScriptData> Scripts = new List<ScriptData>();
 
     // ----------------------------------------------------
     // Creating and Resetting Instance

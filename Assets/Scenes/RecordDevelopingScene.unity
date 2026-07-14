@@ -783,6 +783,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &356891236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 356891237}
+  m_Layer: 0
+  m_Name: ScriptExporter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &356891237
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356891236}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 740.50275, y: 673.63007, z: -4.029356}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &415139716
 GameObject:
   m_ObjectHideFlags: 0
@@ -2136,7 +2167,6 @@ MonoBehaviour:
   YSpacing: 300
   SlotPrefab: {fileID: 7175915180749061146, guid: 7749f62c22c6f574a99ec33ddeb42cf1, type: 3}
   contentParent: {fileID: 740281846}
-  instanceCount: 20
 --- !u!1 &866545787
 GameObject:
   m_ObjectHideFlags: 0
@@ -4055,6 +4085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df229c10ea8debb4da4891171e361cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Scripts: []
 --- !u!4 &2074916624
 Transform:
   m_ObjectHideFlags: 0
@@ -4357,3 +4388,4 @@ SceneRoots:
   - {fileID: 956201719}
   - {fileID: 165542627}
   - {fileID: 2074916624}
+  - {fileID: 356891237}

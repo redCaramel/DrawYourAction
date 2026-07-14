@@ -75,5 +75,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 .vscode
+.claude
+.codegraph
+.cursor
 
 # End of https://www.toptal.com/developers/gitignore/api/unity

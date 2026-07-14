@@ -47,6 +47,11 @@ public class ScriptDataManager : MonoBehaviour
 
     public int ScriptCount => Scripts.Count;
 
+    public List<ScriptData> GetScripts()
+    {
+        return new List<ScriptData>(Scripts);
+    }
+
     public ScriptData getScript(int index)
     {
         return Scripts[index];

@@ -12,6 +12,12 @@ public class CreateRecordInstance : MonoBehaviour
 
     public static int InstanceCount { get; private set; }
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatic()
+    {
+        InstanceCount = 0;
+    }
+
     void Awake()
     {
         createButton.onClick.AddListener(OnCreateButtonClicked);

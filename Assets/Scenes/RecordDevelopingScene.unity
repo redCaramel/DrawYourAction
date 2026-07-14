@@ -2136,7 +2136,7 @@ MonoBehaviour:
   YSpacing: 300
   SlotPrefab: {fileID: 7175915180749061146, guid: 7749f62c22c6f574a99ec33ddeb42cf1, type: 3}
   contentParent: {fileID: 740281846}
-  instanceCount: 7
+  instanceCount: 20
 --- !u!1 &866545787
 GameObject:
   m_ObjectHideFlags: 0

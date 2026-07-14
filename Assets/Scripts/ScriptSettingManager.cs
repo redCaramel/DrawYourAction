@@ -9,12 +9,13 @@ public class ScriptSettingManager : MonoBehaviour
     [SerializeField] private float YSpacing;
     [SerializeField] private GameObject SlotPrefab;
     [SerializeField] private GameObject contentParent;
-    [SerializeField] private int instanceCount;
+    private int instanceCount;
 
     private const int SlotsPerRow = 6;
 
     private void Start()
-    {
+    {   
+        instanceCount = CreateRecordInstance.InstanceCount;
         init();
     }
 

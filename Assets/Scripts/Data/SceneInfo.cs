@@ -6,6 +6,5 @@ public struct SceneInfo
 {
     public int sceneNum; 
     public string content;
-    public List<string> missonList;
-    public List<int> missonType;
+    public List<MissionData> missonList;
 }

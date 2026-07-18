@@ -16,9 +16,13 @@ public class PreviewUIManager : MonoBehaviour
         string result = "";
         result = $"#{sc.sceneNum} - {sc.content}\n\n";
 
-        foreach (string mission in sc.missonList)
+        foreach (MissionData mission in sc.missonList)
         {
-            result += $"{mission}\n";
+            if(mission.maxValue!=0)
+                result += $"* {mission.mainText} ({mission.currentValue}/{mission.maxValue})\n";
+            else 
+                result += $"* {mission.mainText}\n";
+
         }
         SceneText.text = result;
     }

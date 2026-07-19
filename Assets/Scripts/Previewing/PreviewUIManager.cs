@@ -30,11 +30,12 @@ public class PreviewUIManager : MonoBehaviour
 
         foreach (MissionData mission in currentScene.missonList)
         {
-            string status = mission.isCleared ? " (클리어)" : "";
+            string st = mission.isCleared ? "<s>" : "";
+            string end = mission.isCleared ? "</s>" : "";
             if(mission.maxValue!=0)
-                result += $"* {mission.mainText} ({mission.currentValue}/{mission.maxValue}){status}\n";
+                result += $"* {st}{mission.mainText} ({mission.currentValue}/{mission.maxValue}){end}\n";
             else
-                result += $"* {mission.mainText}{status}\n";
+                result += $"* {st}{mission.mainText}{end}\n";
 
         }
         SceneText.text = result;

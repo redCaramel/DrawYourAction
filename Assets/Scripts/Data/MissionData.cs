@@ -8,4 +8,5 @@ public class MissionData
     public int currentValue;
     public int maxValue;
     public int type;
+    public bool isCleared;
 }

@@ -7,7 +7,7 @@ public class ScriptExporter : MonoBehaviour
 {
     [SerializeField] private Button exportButton;
 
-    private const string NextSceneName = "ResultScene";
+    private const string NextSceneName = "ActionDevelopingScene";
 
     public static List<ScriptData> ExportedScripts { get; private set; }
 

@@ -37,7 +37,7 @@ public class CardSpawnManager : MonoBehaviour
     [SerializeField] private Transform handParent;        // 카드가 들어갈 UI 부모 (Canvas 내부의 Panel/RectTransform)
 
     [Header("[카드 생성 및 배치 설정]")]
-    [SerializeField] private int initialHandSize = 3;     // 초기에 들고 시작할 카드 수
+    private int initialHandSize;     // 초기에 들고 시작할 카드 수
     [SerializeField] private float cardSpacing = 200f;    // 카드 간의 가로 간격
     [SerializeField] private float handCenterY = -350f;   // 손패의 Y축 기본 위치
     [SerializeField] private float spawnInterval = 0.15f; // 카드 생성 시 차례대로 튀어나오는 시간 간격
@@ -56,6 +56,7 @@ public class CardSpawnManager : MonoBehaviour
     /// </summary>
     public void InitializeAndSpawnHand()
     {
+        initialHandSize = CreateRecordInstance.handCount;
         // 1. 기존 데이터 및 남아있는 카드 UI 제거
         drawPile.Clear();
         foreach (var cardUI in spawnedCards)

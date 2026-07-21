@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScriptCardManager : MonoBehaviour
 {
 
-    [SerializeField] private int handSize = 3;
+    private int handSize;
     private List<ScriptData> masterDeck = new List<ScriptData>();
 
     private List<ScriptData> drawScript = new List<ScriptData>();
@@ -28,6 +28,7 @@ public class ScriptCardManager : MonoBehaviour
 
     public void InitializeDeck()
     {
+        handSize = CreateRecordInstance.handCount;
         drawScript.Clear();
         handScript.Clear();
 

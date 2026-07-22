@@ -1402,10 +1402,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 3587122302888105789, guid: c418512d3c93e9f49997ca224c2f55b0, type: 3}
   handParent: {fileID: 1588344624}
-  initialHandSize: 3
   cardSpacing: 200
   handCenterY: -350
-  spawnInterval: 0.15
+  spawnInterval: 1
+  previewPosition: {x: -100, y: 10}
+  previewAlpha: 0.4
 --- !u!4 &846628884
 Transform:
   m_ObjectHideFlags: 0
@@ -1430,28 +1431,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 860760020}
-  - component: {fileID: 860760019}
+  - component: {fileID: 860760021}
   m_Layer: 0
-  m_Name: PreviewManager
+  m_Name: ActionManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &860760019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 860760018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c461d74d4de7b704ebf42ddaf9e418a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ui: {fileID: 900807521}
-  missonManager: {fileID: 1206989242}
 --- !u!4 &860760020
 Transform:
   m_ObjectHideFlags: 0
@@ -1468,6 +1455,20 @@ Transform:
   - {fileID: 900807522}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &860760021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860760018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ab1795b6727be4085cc61ee73409d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ui: {fileID: 900807523}
+  missonManager: {fileID: 1206989244}
 --- !u!1 &867788921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1630,27 +1631,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 900807522}
-  - component: {fileID: 900807521}
+  - component: {fileID: 900807523}
   m_Layer: 0
-  m_Name: PreviewUIManager
+  m_Name: UIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &900807521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900807520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 350219fd867c9ac4bbf4b0e6ac95c791, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SceneText: {fileID: 1595155618}
 --- !u!4 &900807522
 Transform:
   m_ObjectHideFlags: 0
@@ -1666,6 +1654,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 860760020}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &900807523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900807520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efc279f136e93974db57eb51a5f81158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SceneText: {fileID: 1595155618}
 --- !u!1 &1011113840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,28 +1676,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1011113842}
-  - component: {fileID: 1011113841}
+  - component: {fileID: 1011113843}
   m_Layer: 0
-  m_Name: PreviewMissionResultManager
+  m_Name: MissionResultManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1011113841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1011113840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65636922c3c084940ba7f9a371f20fd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SuccessPopup: {fileID: 2052332784}
-  FailurePopup: {fileID: 1074119443}
 --- !u!4 &1011113842
 Transform:
   m_ObjectHideFlags: 0
@@ -1712,6 +1699,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1011113843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011113840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75e82399cc367b14aa74605890eb3f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SuccessPopup: {fileID: 2052332784}
+  FailurePopup: {fileID: 1074119443}
 --- !u!1 &1074119443
 GameObject:
   m_ObjectHideFlags: 0
@@ -2095,7 +2096,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1206989243}
-  - component: {fileID: 1206989242}
+  - component: {fileID: 1206989244}
   m_Layer: 0
   m_Name: MissionManager
   m_TagString: Untagged
@@ -2103,21 +2104,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1206989242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1206989241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 749151876fcbc5f428f679d5809628a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  missionObjects:
-  - {fileID: 1178042590}
-  ui: {fileID: 900807521}
 --- !u!4 &1206989243
 Transform:
   m_ObjectHideFlags: 0
@@ -2133,6 +2119,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1206989244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206989241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb7cd68319e5c840a1781c8c1803551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missionObjects:
+  - {fileID: 1178042590}
+  ui: {fileID: 900807523}
 --- !u!1 &1218278651
 GameObject:
   m_ObjectHideFlags: 0
@@ -2737,10 +2738,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 868507892}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -766.39, y: 0}
-  m_SizeDelta: {x: -1980.3737, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -635.1942, y: -37}
+  m_SizeDelta: {x: -1270.3884, y: -310.8397}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1595155616
 GameObject:
@@ -3270,7 +3271,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc61d6308359d614d9ea32b854378560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handSize: 3
 --- !u!4 &2142985643
 Transform:
   m_ObjectHideFlags: 0

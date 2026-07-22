@@ -40,13 +40,20 @@ public class CardSpawnManager : MonoBehaviour
     private int initialHandSize;     // 초기에 들고 시작할 카드 수
     [SerializeField] private float cardSpacing = 200f;    // 카드 간의 가로 간격
     [SerializeField] private float handCenterY = -350f;   // 손패의 Y축 기본 위치
-    [SerializeField] private float spawnInterval = 0.15f; // 카드 생성 시 차례대로 튀어나오는 시간 간격
+    [SerializeField] private float spawnInterval = 0.15f; // 초기 손패를 순차적으로 채울 때의 시간 간격
+
+    [Header("[다음 카드 미리보기 설정]")]
+    [SerializeField] private Vector2 previewPosition = new Vector2(-750f, 400f); // 좌측 상단 대기 위치
+    [SerializeField] private float previewAlpha = 0.4f;   // 대기 중인 카드의 흐림 정도
 
     // 실시간 관리용 데이터 및 생성된 CardUI 리스트
     private List<ScriptData> drawPile = new List<ScriptData>();
     private List<ScriptDragManager> spawnedCards = new List<ScriptDragManager>();
     // 슬롯(인덱스)별 고정 좌표. 카드가 교체되어도 다른 슬롯의 카드는 움직이지 않음
     private List<Vector2> slotPositions = new List<Vector2>();
+
+    // 좌측 상단에 희미하게 대기 중인, 다음에 뽑힐 카드
+    private ScriptDragManager previewCard;
 
     private void Start()
     {
@@ -59,6 +66,7 @@ public class CardSpawnManager : MonoBehaviour
     public void InitializeAndSpawnHand()
     {
         initialHandSize = CreateRecordInstance.handCount;
+
         // 1. 기존 데이터 및 남아있는 카드 UI 제거
         drawPile.Clear();
         foreach (var cardUI in spawnedCards)
@@ -67,6 +75,12 @@ public class CardSpawnManager : MonoBehaviour
         }
         spawnedCards.Clear();
 
+        if (previewCard != null)
+        {
+            Destroy(previewCard.gameObject);
+            previewCard = null;
+        }
+
         // 2. ScriptImporter가 불러온 스크립트 데이터를 덱으로 복사 (순서 유지)
         drawPile.AddRange(ScriptImporter.scripts ?? new List<ScriptData>());
 
@@ -74,7 +88,10 @@ public class CardSpawnManager : MonoBehaviour
         int countToSpawn = Mathf.Min(initialHandSize, drawPile.Count);
         CalculateSlotPositions(countToSpawn);
 
-        // 4. countToSpawn만큼 코루틴을 통해 순차적으로 생성 및 연출
+        // 4. 첫 미리보기 카드를 좌측 상단에 준비
+        PrepareNextPreview();
+
+        // 5. countToSpawn만큼 코루틴을 통해 순차적으로 슬롯을 채움
         StartCoroutine(Co_SpawnInitialHand(countToSpawn));
     }
 
@@ -97,30 +114,55 @@ public class CardSpawnManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 초기에 카드가 하나씩 차례대로 아래에서 튀어나오는 연출 코루틴
+    /// 초기 손패 슬롯을 순차적으로 채우는 코루틴. 각 슬롯은 대기 중이던 미리보기 카드를 끌어와 채워짐
     /// </summary>
     private IEnumerator Co_SpawnInitialHand(int countToSpawn)
     {
         for (int i = 0; i < countToSpawn; i++)
         {
-            // 덱 맨 위 데이터 추출
-            ScriptData cardData = drawPile[0];
-            drawPile.RemoveAt(0);
+            spawnedCards.Add(null); // 슬롯 자리 확보
+            DrawCardIntoSlot(i);
 
-            // 프리팹 생성 및 데이터 연동
-            ScriptDragManager cardUI = SpawnCard(cardData);
-            spawnedCards.Add(cardUI);
-
-            // 자신의 슬롯 고정 위치로만 등장 연출 (다른 카드는 영향 없음)
-            cardUI.AnimateSpawn(slotPositions[i]);
-
-            // 약간의 시차를 두어 릴레이로 튀어나오게 만듦
+            // 약간의 시차를 두어 카드가 하나씩 채워지도록 함
             yield return new WaitForSeconds(spawnInterval);
         }
     }
 
     /// <summary>
-    /// 카드를 사용했을 때 호출되어 해당 카드를 제거하고, 같은 슬롯 위치에 새 카드로 교체합니다.
+    /// 좌측 상단에 다음으로 뽑힐 카드를 희미하게 미리 배치합니다. (아직 덱에서 제거하지 않음)
+    /// </summary>
+    private void PrepareNextPreview()
+    {
+        if (drawPile.Count == 0)
+        {
+            previewCard = null;
+            return;
+        }
+
+        ScriptData nextData = drawPile[0];
+        previewCard = SpawnCard(nextData);
+        previewCard.ShowAsPreview(previewPosition, previewAlpha);
+    }
+
+    /// <summary>
+    /// 대기 중이던 미리보기 카드를 실제로 덱에서 꺼내 지정된 슬롯으로 끌어와 사용 가능하게 만듭니다.
+    /// 이후 곧바로 다음 미리보기 카드를 준비합니다.
+    /// </summary>
+    private void DrawCardIntoSlot(int slotIndex)
+    {
+        if (previewCard == null) return; // 더 이상 뽑을 카드가 없으면 슬롯은 빈 채로 남음
+
+        drawPile.RemoveAt(0);
+
+        ScriptDragManager drawnCard = previewCard;
+        spawnedCards[slotIndex] = drawnCard;
+        drawnCard.DrawIntoSlot(slotPositions[slotIndex]);
+
+        PrepareNextPreview();
+    }
+
+    /// <summary>
+    /// 카드를 사용했을 때 호출되어 해당 카드를 제거하고, 대기 중이던 미리보기 카드를 같은 슬롯으로 끌어옵니다.
     /// 사용되지 않은 나머지 카드들은 제자리에 그대로 유지됩니다.
     /// </summary>
     public void OnCardUsed(ScriptDragManager usedCard)
@@ -136,23 +178,16 @@ public class CardSpawnManager : MonoBehaviour
 
         if (slotIndex < 0) return; // 안전장치: 슬롯을 찾지 못하면 교체하지 않음
 
-        // 4. 덱에 남은 카드가 있다면 같은 슬롯에 새 카드로 교체
-        if (drawPile.Count > 0)
-        {
-            ScriptData nextCardData = drawPile[0];
-            drawPile.RemoveAt(0);
+        spawnedCards[slotIndex] = null;
 
-            ScriptDragManager newCardUI = SpawnCard(nextCardData);
-            spawnedCards[slotIndex] = newCardUI;
-
-            // 비워진 슬롯의 고정 위치로만 등장 연출
-            newCardUI.AnimateSpawn(slotPositions[slotIndex]);
-        }
-        else
+        // 덱이 바닥나 미리보기가 비어 있던 상태였다면, 방금 돌아온 카드로 다시 준비
+        if (previewCard == null)
         {
-            // 보충할 카드가 없다면 해당 슬롯은 빈 자리로 남김
-            spawnedCards[slotIndex] = null;
+            PrepareNextPreview();
         }
+
+        // 4. 대기 중이던 미리보기 카드를 빈 슬롯으로 끌어옴
+        DrawCardIntoSlot(slotIndex);
     }
 
     /// <summary>
@@ -164,26 +199,5 @@ public class CardSpawnManager : MonoBehaviour
         ScriptDragManager cardUI = newCardObj.GetComponent<ScriptDragManager>();
         cardUI.Setup(data);
         return cardUI;
-    }
-
-    /// <summary>
-    /// 현재 생성된 CardUI들을 중앙 정렬 기준으로 가로 위치를 계산하여 정렬합니다.
-    /// </summary>
-    private void UpdateCardPositions()
-    {
-        int cardCount = spawnedCards.Count;
-        if (cardCount == 0) return;
-
-        // 중앙 기준 좌우 배치 공식
-        // 예: 3장일 때 -> -cardSpacing, 0, +cardSpacing
-        float startX = -((cardCount - 1) * cardSpacing) / 2f;
-
-        for (int i = 0; i < cardCount; i++)
-        {
-            Vector2 targetPos = new Vector2(startX + (i * cardSpacing), handCenterY);
-            
-            // 기존 CardUI의 DOTween 연출 실행
-            spawnedCards[i].AnimateSpawn(targetPos);
-        }
     }
 }

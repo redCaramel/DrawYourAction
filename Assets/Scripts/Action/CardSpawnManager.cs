@@ -28,6 +28,11 @@ public class CardSpawnManager : MonoBehaviour
         {
             instance = null;
         }
+
+        if (InitialCutSceneManager.instance != null)
+        {
+            InitialCutSceneManager.instance.OnCutSceneEnded -= HandleCutSceneEnded;
+        }
     }
 
     // ----------------------------------------------------
@@ -57,6 +62,21 @@ public class CardSpawnManager : MonoBehaviour
 
     private void Start()
     {
+        var cutSceneManager = InitialCutSceneManager.instance;
+        if (cutSceneManager != null && cutSceneManager.isCutSceneShowing)
+        {
+            // 컷씬 재생 중에는 카드를 띄우지 않고, 컷씬이 끝나는 시점에 맞춰 등장시킴
+            cutSceneManager.OnCutSceneEnded += HandleCutSceneEnded;
+        }
+        else
+        {
+            InitializeAndSpawnHand();
+        }
+    }
+
+    private void HandleCutSceneEnded()
+    {
+        InitialCutSceneManager.instance.OnCutSceneEnded -= HandleCutSceneEnded;
         InitializeAndSpawnHand();
     }
 

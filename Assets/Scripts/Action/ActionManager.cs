@@ -23,5 +23,6 @@ public class ActionManager : MonoBehaviour
         });
         ui.Init(sampleData);
         missonManager.Init(sampleData.missonList);
+        InitialCutSceneManager.instance.StartCutScene(sampleData.sceneNum);
     }
 }

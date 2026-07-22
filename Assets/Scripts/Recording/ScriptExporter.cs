@@ -7,7 +7,7 @@ public class ScriptExporter : MonoBehaviour
 {
     [SerializeField] private Button exportButton;
 
-    private const string NextSceneName = "ActionScene1";
+    private string NextSceneName = "ActionScene";
 
     public static List<ScriptData> ExportedScripts { get; private set; }
 
@@ -20,6 +20,7 @@ public class ScriptExporter : MonoBehaviour
     private void Awake()
     {
         exportButton.onClick.AddListener(OnExportButtonClicked);
+        NextSceneName += CreateRecordInstance.stageCount;
     }
 
     private void OnExportButtonClicked()

@@ -80,6 +80,28 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
         canvasGroup.DOFade(1f, drawDuration);
     }
 
+    /// <summary>
+    /// [2-1] 덱에 더 이상 뽑을 카드가 없을 때, 방금 사용한 카드를 재활용하여
+    /// 좌측 상단 미리보기 위치로 잠깐 이동했다가 원래 슬롯으로 되돌아오는 연출
+    /// </summary>
+    public void PlayRecycleSequence(Vector2 previewPos, float previewAlpha, Vector2 slotPosition)
+    {
+        isUsingCard = true;
+        isInteractable = false;
+
+        rectTransform.DOKill();
+        canvasGroup.DOKill();
+
+        canvasGroup.blocksRaycasts = false;
+
+        Sequence recycleSequence = DOTween.Sequence();
+        recycleSequence.Append(rectTransform.DOAnchorPos(previewPos, drawDuration).SetEase(Ease.InOutQuad));
+        recycleSequence.Join(rectTransform.DOScale(previewScale, drawDuration));
+        recycleSequence.Join(canvasGroup.DOFade(previewAlpha, drawDuration));
+        recycleSequence.AppendInterval(0.15f); // 미리보기 위치에서 잠깐 대기
+        recycleSequence.OnComplete(() => DrawIntoSlot(slotPosition));
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         if (isUsingCard || !isInteractable) return;
@@ -136,8 +158,17 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
     private void UseCardSequence()
     {
         isUsingCard = true;
+
         // 연동된 스크립트 데이터의 액션을 실제로 재생
-        ActionExecuter.instance.StartLoading(Data.actions);
+        if (ActionExecuter.instance != null)
+        {
+            ActionExecuter.instance.StartLoading(Data.actions ?? new System.Collections.Generic.List<Action>());
+        }
+        else
+        {
+            Debug.LogWarning("[ScriptDragManager] ActionExecuter 인스턴스를 찾을 수 없어 액션 로드를 건너뜁니다. 씬에 ActionExecuter 오브젝트가 있는지 확인하세요.");
+        }
+
         // 연출: 위로 조금 더 날아가면서 완전히 희미해짐
         Vector2 targetDisappearPos = rectTransform.anchoredPosition + new Vector2(0, 100f);
 

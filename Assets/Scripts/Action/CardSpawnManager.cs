@@ -182,32 +182,40 @@ public class CardSpawnManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 카드를 사용했을 때 호출되어 해당 카드를 제거하고, 대기 중이던 미리보기 카드를 같은 슬롯으로 끌어옵니다.
+    /// 카드를 사용했을 때 호출됩니다.
+    /// 대기 중인 미리보기 카드가 있다면 사용된 카드를 제거하고 그 카드를 같은 슬롯으로 끌어옵니다.
+    /// 덱이 바닥나 불러올 카드가 없다면, 사용된 카드를 재활용해 미리보기 위치로 잠깐 이동했다가 같은 슬롯으로 되돌립니다.
     /// 사용되지 않은 나머지 카드들은 제자리에 그대로 유지됩니다.
     /// </summary>
     public void OnCardUsed(ScriptDragManager usedCard)
     {
-        // 1. 사용된 카드가 있던 슬롯(인덱스)을 먼저 확인
+        // 사용된 카드가 있던 슬롯(인덱스)을 먼저 확인
         int slotIndex = spawnedCards.IndexOf(usedCard);
 
-        // 2. 사용된 카드 UI 제거
-        Destroy(usedCard.gameObject);
-
-        // 3. 사용한 카드를 덱 맨 아래로 추가
-        drawPile.Add(usedCard.Data);
-
-        if (slotIndex < 0) return; // 안전장치: 슬롯을 찾지 못하면 교체하지 않음
-
-        spawnedCards[slotIndex] = null;
-
-        // 덱이 바닥나 미리보기가 비어 있던 상태였다면, 방금 돌아온 카드로 다시 준비
-        if (previewCard == null)
+        if (previewCard != null)
         {
-            PrepareNextPreview();
-        }
+            // 대기 중이던 미리보기 카드가 있는 경우: 사용된 카드는 제거하고 덱 맨 아래로 보낸 뒤,
+            // 미리보기 카드를 같은 슬롯으로 끌어옴
+            Destroy(usedCard.gameObject);
+            drawPile.Add(usedCard.Data);
 
-        // 4. 대기 중이던 미리보기 카드를 빈 슬롯으로 끌어옴
-        DrawCardIntoSlot(slotIndex);
+            if (slotIndex < 0) return; // 안전장치: 슬롯을 찾지 못하면 교체하지 않음
+
+            spawnedCards[slotIndex] = null;
+            DrawCardIntoSlot(slotIndex);
+        }
+        else
+        {
+            // 불러올 카드가 없는 경우: 사용된 카드를 그대로 재활용해
+            // 좌측 상단 미리보기 위치로 잠깐 이동했다가 같은 슬롯으로 되돌아오는 연출을 재생
+            if (slotIndex < 0)
+            {
+                Destroy(usedCard.gameObject);
+                return;
+            }
+
+            usedCard.PlayRecycleSequence(previewPosition, previewAlpha, slotPositions[slotIndex]);
+        }
     }
 
     /// <summary>

@@ -45,6 +45,8 @@ public class CardSpawnManager : MonoBehaviour
     // 실시간 관리용 데이터 및 생성된 CardUI 리스트
     private List<ScriptData> drawPile = new List<ScriptData>();
     private List<ScriptDragManager> spawnedCards = new List<ScriptDragManager>();
+    // 슬롯(인덱스)별 고정 좌표. 카드가 교체되어도 다른 슬롯의 카드는 움직이지 않음
+    private List<Vector2> slotPositions = new List<Vector2>();
 
     private void Start()
     {
@@ -68,17 +70,37 @@ public class CardSpawnManager : MonoBehaviour
         // 2. ScriptImporter가 불러온 스크립트 데이터를 덱으로 복사 (순서 유지)
         drawPile.AddRange(ScriptImporter.scripts ?? new List<ScriptData>());
 
-        // 3. initialHandSize만큼 코루틴을 통해 순차적으로 생성 및 연출
-        StartCoroutine(Co_SpawnInitialHand());
+        // 3. 손패 슬롯들의 고정 좌표를 미리 계산 (이후 카드가 교체되어도 이 좌표는 변하지 않음)
+        int countToSpawn = Mathf.Min(initialHandSize, drawPile.Count);
+        CalculateSlotPositions(countToSpawn);
+
+        // 4. countToSpawn만큼 코루틴을 통해 순차적으로 생성 및 연출
+        StartCoroutine(Co_SpawnInitialHand(countToSpawn));
+    }
+
+    /// <summary>
+    /// 손패 슬롯 각각의 고정 좌표를 중앙 정렬 기준으로 계산합니다.
+    /// </summary>
+    private void CalculateSlotPositions(int slotCount)
+    {
+        slotPositions.Clear();
+        if (slotCount == 0) return;
+
+        // 중앙 기준 좌우 배치 공식
+        // 예: 3장일 때 -> -cardSpacing, 0, +cardSpacing
+        float startX = -((slotCount - 1) * cardSpacing) / 2f;
+
+        for (int i = 0; i < slotCount; i++)
+        {
+            slotPositions.Add(new Vector2(startX + (i * cardSpacing), handCenterY));
+        }
     }
 
     /// <summary>
     /// 초기에 카드가 하나씩 차례대로 아래에서 튀어나오는 연출 코루틴
     /// </summary>
-    private IEnumerator Co_SpawnInitialHand()
+    private IEnumerator Co_SpawnInitialHand(int countToSpawn)
     {
-        int countToSpawn = Mathf.Min(initialHandSize, drawPile.Count);
-
         for (int i = 0; i < countToSpawn; i++)
         {
             // 덱 맨 위 데이터 추출
@@ -89,8 +111,8 @@ public class CardSpawnManager : MonoBehaviour
             ScriptDragManager cardUI = SpawnCard(cardData);
             spawnedCards.Add(cardUI);
 
-            // 생성된 전체 카드 위치 재정렬 및 연출 실행
-            UpdateCardPositions();
+            // 자신의 슬롯 고정 위치로만 등장 연출 (다른 카드는 영향 없음)
+            cardUI.AnimateSpawn(slotPositions[i]);
 
             // 약간의 시차를 두어 릴레이로 튀어나오게 만듦
             yield return new WaitForSeconds(spawnInterval);
@@ -98,29 +120,39 @@ public class CardSpawnManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 카드를 사용했을 때 호출되어 해당 카드를 제거하고 덱 맨 아래로 보낸 뒤 새 카드를 보충합니다.
+    /// 카드를 사용했을 때 호출되어 해당 카드를 제거하고, 같은 슬롯 위치에 새 카드로 교체합니다.
+    /// 사용되지 않은 나머지 카드들은 제자리에 그대로 유지됩니다.
     /// </summary>
     public void OnCardUsed(ScriptDragManager usedCard)
     {
-        // 1. 사용된 카드 UI 제거
-        spawnedCards.Remove(usedCard);
+        // 1. 사용된 카드가 있던 슬롯(인덱스)을 먼저 확인
+        int slotIndex = spawnedCards.IndexOf(usedCard);
+
+        // 2. 사용된 카드 UI 제거
         Destroy(usedCard.gameObject);
 
-        // 2. 사용한 카드를 덱 맨 아래로 추가
+        // 3. 사용한 카드를 덱 맨 아래로 추가
         drawPile.Add(usedCard.Data);
 
-        // 3. 덱에 남은 카드가 있다면 하나 생성하여 보충
+        if (slotIndex < 0) return; // 안전장치: 슬롯을 찾지 못하면 교체하지 않음
+
+        // 4. 덱에 남은 카드가 있다면 같은 슬롯에 새 카드로 교체
         if (drawPile.Count > 0)
         {
             ScriptData nextCardData = drawPile[0];
             drawPile.RemoveAt(0);
 
             ScriptDragManager newCardUI = SpawnCard(nextCardData);
-            spawnedCards.Add(newCardUI);
-        }
+            spawnedCards[slotIndex] = newCardUI;
 
-        // 4. 남아있는 모든 카드들의 위치 재정렬
-        UpdateCardPositions();
+            // 비워진 슬롯의 고정 위치로만 등장 연출
+            newCardUI.AnimateSpawn(slotPositions[slotIndex]);
+        }
+        else
+        {
+            // 보충할 카드가 없다면 해당 슬롯은 빈 자리로 남김
+            spawnedCards[slotIndex] = null;
+        }
     }
 
     /// <summary>

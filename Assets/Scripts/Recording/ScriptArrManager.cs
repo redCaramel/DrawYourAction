@@ -46,4 +46,6 @@ public class ScriptArrManager : MonoBehaviour
         if (slotIndex < 0 || slotIndex >= slotScriptIndices.Count) return -1;
         return slotScriptIndices[slotIndex];
     }
+
+    public int SlotCount => slotScriptIndices.Count;
 }

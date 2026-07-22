@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PreviewManager : MonoBehaviour
+public class ActionManager : MonoBehaviour
 {
-    [SerializeField] PreviewUIManager ui;
-    [SerializeField] PreviewMissonManager missonManager;
+    [SerializeField] ActionUIManager ui;
+    [SerializeField] ActionMissionManager missonManager;
     void Start()
     {
         //TODO - Import Scene Info
@@ -23,5 +23,6 @@ public class PreviewManager : MonoBehaviour
         });
         ui.Init(sampleData);
         missonManager.Init(sampleData.missonList);
+        InitialCutSceneManager.instance.StartCutScene(sampleData.sceneNum);
     }
 }

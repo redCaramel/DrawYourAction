@@ -89,6 +89,10 @@ public class PlayerController : MonoBehaviour
 
         return jump;
     }
+    public void StopMovement()
+    {
+        SetDirZero();
+    }
     public void ExecuteAction(Action act)
     {
         if(act.move == MovementType.Idle) SetDirZero();

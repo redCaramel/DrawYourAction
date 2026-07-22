@@ -15,7 +15,7 @@ public class ScriptSettingManager : MonoBehaviour
 
     private void Start()
     {   
-        instanceCount = CreateRecordInstance.InstanceCount;
+        instanceCount = CreateRecordInstance.scriptCount;
         init();
     }
 

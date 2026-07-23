@@ -11,6 +11,7 @@ public class ScriptObjectManager : MonoBehaviour
     [SerializeField] private GameObject scriptPrefab;
     [SerializeField] private RectTransform scriptListContent;
     [SerializeField] private float scriptSpacing = 20f;
+    private bool isFirstUpdate = true;
 
     public static readonly List<Color> ScriptColor = new List<Color>
     {
@@ -68,6 +69,10 @@ public class ScriptObjectManager : MonoBehaviour
             slot.GetComponent<Button>().onClick.AddListener(() => OnScriptClicked(i));
             Scripts.Add(slot);
         }
+        if(isFirstUpdate) {
+            isFirstUpdate = false;
+            ChangeSelectedScript(0,0);
+        }
         RectTransform rt = scriptListContent.GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, Scripts.Count * 350);
     }
@@ -84,6 +89,7 @@ public class ScriptObjectManager : MonoBehaviour
 
     private void OnScriptClicked(int index)
     {
+        ChangeSelectedScript(selectedScriptIndex, index);
         selectedScriptIndex = index;
     }
 
@@ -96,5 +102,53 @@ public class ScriptObjectManager : MonoBehaviour
 
         Scripts[index].GetComponent<Image>().color = ScriptColor[val];
 
+    }
+    private void ChangeSelectedScript(int old, int newer) {
+        if (old != -1) ClearScriptOutline(old);
+        if (newer != -1) HighlightScriptOutline(newer);
+    }
+
+    private void ClearScriptOutline(int index)
+    {
+        Outline outline = Scripts[index].GetComponent<Outline>();
+        outline.effectColor = new Color(0, 0, 0);
+        outline.effectDistance = new Vector2(1, -1);
+    }
+
+    private void HighlightScriptOutline(int index)
+    {
+        Outline outline = Scripts[index].GetComponent<Outline>();
+        outline.effectColor = new Color(255, 0, 0);
+        outline.effectDistance = new Vector2(10, -10);
+    }
+
+    // Called after ScriptDragger/ScriptDropper places a script into a slot,
+    // so the selection moves on to a script that hasn't been placed yet.
+    // Sets selectedScriptIndex to -1 when every script has been placed.
+    public void SelectNextUnplacedScript()
+    {
+        int nextIndex = FindNextUnplacedScript();
+        ChangeSelectedScript(selectedScriptIndex, nextIndex);
+        selectedScriptIndex = nextIndex;
+    }
+
+    private int FindNextUnplacedScript()
+    {
+        int scriptCount = ScriptDataManager.instance.ScriptCount;
+        for (int i = 0; i < scriptCount; i++)
+        {
+            if (!IsScriptPlaced(i)) return i;
+        }
+        return -1;
+    }
+
+    private bool IsScriptPlaced(int scriptIndex)
+    {
+        int slotCount = ScriptArrManager.instance.SlotCount;
+        for (int slot = 0; slot < slotCount; slot++)
+        {
+            if (ScriptArrManager.instance.GetScriptAtSlot(slot) == scriptIndex) return true;
+        }
+        return false;
     }
 }

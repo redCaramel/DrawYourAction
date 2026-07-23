@@ -6,12 +6,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rigid;
     private SpriteRenderer _sprite;
     private Collider2D _collider;
+    private Animator _anim;
     private float playerSpeed;
     private float playerJumpPower;
     private int dir;
     private int jumpTime;
     private int jumpTimeMax;
     private bool isGrounded = true;
+    private bool jumpRequested;
 
     // ----------------------------------------------------
     // Creating and Resetting Instance
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
             _rigid = gameObject.GetComponent<Rigidbody2D>();
             _sprite = gameObject.GetComponent<SpriteRenderer>();
             _collider = gameObject.GetComponent<Collider2D>();
+            _anim = gameObject.GetComponent<Animator>();
         }
         else Destroy(gameObject);
        
@@ -57,6 +60,7 @@ public class PlayerController : MonoBehaviour
     }
     private void SetDirZero()
     {
+        _anim.SetFloat("Speed", 0);
         dir = 0;
     }
     private MovementType ActionLeftNormal()
@@ -65,6 +69,7 @@ public class PlayerController : MonoBehaviour
         _sprite.flipX = true;
         dir = -1;
         move = MovementType.LeftNormal;
+        _anim.SetFloat("Speed", 1);
         return move;
     }
     private MovementType ActionRightNormal()
@@ -73,21 +78,14 @@ public class PlayerController : MonoBehaviour
         _sprite.flipX = false;
         dir = 1;
         move = MovementType.RightNormal;
+        _anim.SetFloat("Speed", 1);
         return move;
     }
 
     private JumpType ActionJumpNormal()
     {
-        JumpType jump = JumpType.Idle;
-        if (jumpTime > 0)
-        {
-            jumpTime--;
-            _rigid.linearVelocity = new Vector2(_rigid.linearVelocity.x, 0f);
-            _rigid.AddForce(Vector2.up * playerJumpPower, ForceMode2D.Impulse);
-            jump = JumpType.JumpNormal;
-        }
-
-        return jump;
+        jumpRequested = true;
+        return jumpTime > 0 ? JumpType.JumpNormal : JumpType.Idle;
     }
     public void StopMovement()
     {
@@ -105,6 +103,21 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = CheckGrounded();
         if(isGrounded) jumpTime = jumpTimeMax;
+
+        if (jumpRequested)
+        {
+            jumpRequested = false;
+            if (jumpTime > 0)
+            {
+                jumpTime--;
+                _rigid.linearVelocity = new Vector2(_rigid.linearVelocity.x, 0f);
+                _rigid.AddForce(Vector2.up * playerJumpPower, ForceMode2D.Impulse);
+                isGrounded = false;
+                _anim.SetTrigger("Jump");
+            }
+        }
+
+        _anim.SetBool("Ground", isGrounded);
         _rigid.linearVelocity = new Vector2(playerSpeed * dir, _rigid.linearVelocityY);
     }
     private bool CheckGrounded()

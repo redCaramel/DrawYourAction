@@ -132,7 +132,7 @@ public class ScriptObjectManager : MonoBehaviour
         selectedScriptIndex = nextIndex;
     }
 
-    private int FindNextUnplacedScript()
+    public int FindNextUnplacedScript()
     {
         int scriptCount = ScriptDataManager.instance.ScriptCount;
         for (int i = 0; i < scriptCount; i++)

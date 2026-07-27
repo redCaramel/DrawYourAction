@@ -1138,6 +1138,7 @@ MonoBehaviour:
   createButton: {fileID: 1409170919}
   scriptCountInputField: {fileID: 390619598}
   handCountInputField: {fileID: 313556350}
+  stageInputField: {fileID: 368481105}
 --- !u!4 &1091287287
 Transform:
   m_ObjectHideFlags: 0

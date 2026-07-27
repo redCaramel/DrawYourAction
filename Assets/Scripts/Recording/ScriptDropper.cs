@@ -39,5 +39,7 @@ public class ScriptDropper : MonoBehaviour, IDropHandler
         dragged.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 
         ScriptArrManager.instance.SetScriptAtSlot(slotIndex, draggedItem.ScriptIndex);
+
+        ScriptObjectManager.instance.SelectNextUnplacedScript();
     }
 }

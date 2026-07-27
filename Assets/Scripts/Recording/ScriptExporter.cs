@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class ScriptExporter : MonoBehaviour
 {
     [SerializeField] private Button exportButton;
+    [SerializeField] private Sprite nonReadySprite;
+    [SerializeField] private Sprite ReadySprite;
 
+    private Image startImage;
     private string NextSceneName = "ActionScene";
 
     public static List<ScriptData> ExportedScripts { get; private set; }
@@ -21,13 +24,20 @@ public class ScriptExporter : MonoBehaviour
     {
         exportButton.onClick.AddListener(OnExportButtonClicked);
         NextSceneName += CreateRecordInstance.stageCount;
+        startImage = exportButton.GetComponent<Image>();
     }
 
     private void OnExportButtonClicked()
     {
+        if(ScriptObjectManager.instance.FindNextUnplacedScript() != -1) return;
         ExportedScripts = BuildOrderedScripts();
         Debug.Log(ExportedScripts.Count);
         SceneManager.LoadScene(NextSceneName);
+    }
+    void Update()
+    {
+        if(ScriptObjectManager.instance.FindNextUnplacedScript() != -1) startImage.sprite = nonReadySprite;
+        else startImage.sprite = ReadySprite;
     }
 
     private List<ScriptData> BuildOrderedScripts()

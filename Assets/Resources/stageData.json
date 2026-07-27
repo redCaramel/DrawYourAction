@@ -1,0 +1,28 @@
+{
+    "stageData" : [
+        {
+            "sceneNum" : 1, "sceneName" : "ActionScene1", "title" : "여정의 시작", "maxScript" : 1, "handSize" : 1, 
+            "mission" : [
+                {
+                    "mainText" : "깃발에 도달하기",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                }
+            ]
+        },
+        {
+            "sceneNum" : 2, "sceneName" : "ActionScene1", "title" : "여정의 시작", "maxScript" : 1, "handSize" : 1, 
+            "mission" : [
+                {
+                    "mainText" : "깃발에 도달하기",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                }
+            ]
+        }
+    ]  
+}

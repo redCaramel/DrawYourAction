@@ -23,7 +23,7 @@ public class ScriptExporter : MonoBehaviour
     private void Awake()
     {
         exportButton.onClick.AddListener(OnExportButtonClicked);
-        NextSceneName += CreateRecordInstance.stageCount;
+        NextSceneName = StageImporter.sceneName;
         startImage = exportButton.GetComponent<Image>();
     }
 

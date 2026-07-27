@@ -49,31 +49,27 @@ public class InitialCutSceneManager : MonoBehaviour
 
     // ----------------------------------------------------
 
-    public void StartCutScene(int cutSceneNum)
+    public void StartCutScene()
     {
-        CutSceneNum = cutSceneNum;
-
-        if (cutSceneNum < 0 || cutSceneNum >= cutSceneObjects.Count || cutSceneObjects[cutSceneNum] == null)
+        for(int i = 0;i < cutSceneObjects.Count;i++)
         {
-            Debug.LogWarning($"InitialCutSceneManager: no CutScene registered for index {cutSceneNum}.");
-            FinishCutScene();
-            return;
+            activeCutSceneObject = cutSceneObjects[i];
+            activeCutScene = activeCutSceneObject.GetComponent<CutSceneManagerInterface>();
+            if (activeCutScene == null)
+            {
+                Debug.LogWarning($"{activeCutSceneObject.name} dont have script implemented CutSceneManagerInterface.");
+                FinishCutScene();
+                return;
+            }
+
+            // 컷씬이 카메라를 직접 움직이는 동안 플레이어 추적 카메라 로직과 충돌하지 않도록 비활성화
+            if (playerCameraController != null) playerCameraController.enabled = false;
+
+            activeCutSceneObject.SetActive(true);
+            isCutSceneShowing = true;
         }
 
-        activeCutSceneObject = cutSceneObjects[cutSceneNum];
-        activeCutScene = activeCutSceneObject.GetComponent<CutSceneManagerInterface>();
-        if (activeCutScene == null)
-        {
-            Debug.LogWarning($"{activeCutSceneObject.name} dont have script implemented CutSceneManagerInterface.");
-            FinishCutScene();
-            return;
-        }
-
-        // 컷씬이 카메라를 직접 움직이는 동안 플레이어 추적 카메라 로직과 충돌하지 않도록 비활성화
-        if (playerCameraController != null) playerCameraController.enabled = false;
-
-        activeCutSceneObject.SetActive(true);
-        isCutSceneShowing = true;
+        
     }
 
     void Update()

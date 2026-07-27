@@ -37,7 +37,7 @@ public class ScriptDataManager : MonoBehaviour
 
     private void Init()
     {
-        for(int i = 0;i < CreateRecordInstance.scriptCount;i++)
+        for(int i = 0;i < StageImporter.scriptCount;i++)
         {
             Scripts.Add(new ScriptData("sample", 1, 1));
         }

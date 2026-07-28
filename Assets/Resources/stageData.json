@@ -13,7 +13,7 @@
             ]
         },
         {
-            "sceneNum" : 2, "sceneName" : "ActionScene1", "title" : "여정의 시작", "maxScript" : 1, "handSize" : 1, 
+            "sceneNum" : 2, "sceneName" : "ActionScene2", "title" : "점프", "maxScript" : 2, "handSize" : 1, 
             "mission" : [
                 {
                     "mainText" : "깃발에 도달하기",

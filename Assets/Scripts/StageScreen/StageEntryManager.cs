@@ -13,7 +13,8 @@ public class StageEntryManager : MonoBehaviour
     {
         for(int i = 0;i < stageButtons.Count;i++)
         {
-            stageButtons[i].GetComponent<Button>().onClick.AddListener(() => OnStageButtonClicked(i));
+            int stageIndex = i+1;
+            stageButtons[i].GetComponent<Button>().onClick.AddListener(() => OnStageButtonClicked(stageIndex));
         }
         entryButton.onClick.AddListener(OnEntryButtonClicked);
     }

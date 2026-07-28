@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PopupAnim : MonoBehaviour
 {
-    [SerializeField] private RectTransform popup; // 재사용되는 단일 팝업 오브젝트 (World Space Canvas 소속)
+    [SerializeField] private RectTransform popup; // 재사용되는 단일 팝업 오브젝트 (우측 anchor 설정 필수, World Space Canvas 소속)
     [SerializeField] private List<GameObject> buttons; // num번째 버튼 오브젝트
     [SerializeField] private Camera worldCamera; // btn과 popup을 비추는 월드 카메라 (World Space Canvas 기준)
     [SerializeField] private float slideDuration = 0.35f;
 
-    // popup이 카메라 대비 유지해야 하는 상대 위치 (Awake 시점, 즉 디자인상의 초기 배치를 기준으로 고정)
+    // popup이 카메라 대비 유지해야 하는 상대 위치 (Start 시점, 즉 디자인상의 초기 배치를 기준으로 고정)
     private Vector3 popupOffsetFromCamera;
     private bool isVisible;
 
@@ -131,7 +131,7 @@ public class PopupAnim : MonoBehaviour
         popup.DOMove(restPos, slideDuration).SetEase(Ease.OutCubic);
     }
 
-    // 팝업을 왼쪽으로 슬라이드시켜 화면 밖으로 내보낸 뒤 비활성화한다
+    // 팝업을 카메라 기준 우측 바깥으로 슬라이드시켜 화면 밖으로 내보낸 뒤 비활성화한다
     private void Hide()
     {
         if (popup == null || !popup.gameObject.activeSelf) return;

@@ -18,6 +18,7 @@ public class StageMapMover : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !IsPointerOverButton())
         {
+            PopupAnim.HidePopup();
             isDragging = true;
             dragOriginWorld = ScreenToWorld(Input.mousePosition);
         }

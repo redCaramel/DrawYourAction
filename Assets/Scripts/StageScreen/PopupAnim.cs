@@ -18,6 +18,7 @@ public class PopupAnim : MonoBehaviour
     // popup이 카메라 대비 유지해야 하는 상대 위치 (Start 시점, 즉 디자인상의 초기 배치를 기준으로 고정)
     private Vector3 popupOffsetFromCamera;
     private bool isVisible;
+    private CanvasGroup popupCanvasGroup;
 
     // ----------------------------------------------------
     // Creating and Resetting Instance
@@ -51,6 +52,14 @@ public class PopupAnim : MonoBehaviour
         if (popup != null && worldCamera != null)
         {
             popupOffsetFromCamera = popup.position - worldCamera.transform.position;
+        }
+        if (popup != null)
+        {
+            popupCanvasGroup = popup.GetComponent<CanvasGroup>();
+            if (popupCanvasGroup == null)
+            {
+                popupCanvasGroup = popup.gameObject.AddComponent<CanvasGroup>();
+            }
         }
     }
 
@@ -109,6 +118,7 @@ public class PopupAnim : MonoBehaviour
 
         popup.DOKill();
         worldCamera.transform.DOKill();
+        popupCanvasGroup.DOKill();
 
         // btn이 화면의 x축 좌측 25%, y축 상단 50% 지점에 오도록 카메라를 이동
         Vector3 btnScreenPos = worldCamera.WorldToScreenPoint(btn.transform.position);
@@ -136,6 +146,9 @@ public class PopupAnim : MonoBehaviour
 
         popup.position = startPos;
         popup.DOMove(restPos, slideDuration).SetEase(Ease.OutCubic);
+
+        popupCanvasGroup.alpha = 0f;
+        popupCanvasGroup.DOFade(1f, slideDuration).SetEase(Ease.OutCubic);
     }
 
     // 팝업을 카메라 기준 우측 바깥으로 슬라이드시켜 화면 밖으로 내보낸 뒤 비활성화한다
@@ -145,13 +158,15 @@ public class PopupAnim : MonoBehaviour
 
         isVisible = false;
         popup.DOKill();
+        popupCanvasGroup.DOKill();
 
         float popupWorldWidth = popup.rect.width * popup.lossyScale.x;
         float cameraWorldWidth = worldCamera.orthographicSize * 2f * worldCamera.aspect;
-        Vector3 hiddenPos = popup.position - new Vector3(cameraWorldWidth + popupWorldWidth, 0f, 0f);
+        Vector3 hiddenPos = popup.position + new Vector3(cameraWorldWidth + popupWorldWidth, 0f, 0f);
 
         popup.DOMove(hiddenPos, slideDuration).SetEase(Ease.InCubic)
             .OnComplete(() => popup.gameObject.SetActive(false));
+        popupCanvasGroup.DOFade(0f, slideDuration).SetEase(Ease.InCubic);
     }
 
     private void importData()

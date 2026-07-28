@@ -6,14 +6,14 @@ using System.Collections.Generic;
 
 public class StageEntryManager : MonoBehaviour
 {
-    [SerializeField] List<Button> stageButtons;
+    [SerializeField] List<GameObject> stageButtons;
     [SerializeField] private Button entryButton;
     private int currentStage = 0;
     void Awake()
     {
         for(int i = 0;i < stageButtons.Count;i++)
         {
-            stageButtons[i].onClick.AddListener(() => OnStageButtonClicked(i));
+            stageButtons[i].GetComponent<Button>().onClick.AddListener(() => OnStageButtonClicked(i));
         }
         entryButton.onClick.AddListener(OnEntryButtonClicked);
     }
@@ -28,6 +28,7 @@ public class StageEntryManager : MonoBehaviour
     {
         currentStage = num;
         // popup ttiugi
+        PopupAnim.ShowPopup(currentStage);
         Debug.Log(currentStage);
     }
 

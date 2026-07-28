@@ -1,0 +1,149 @@
+using System.Collections.Generic;
+using DG.Tweening;
+using UnityEngine;
+
+public class PopupAnim : MonoBehaviour
+{
+    [SerializeField] private RectTransform popup; // 재사용되는 단일 팝업 오브젝트 (World Space Canvas 소속)
+    [SerializeField] private List<GameObject> buttons; // num번째 버튼 오브젝트
+    [SerializeField] private Camera worldCamera; // btn과 popup을 비추는 월드 카메라 (World Space Canvas 기준)
+    [SerializeField] private float slideDuration = 0.35f;
+
+    // popup이 카메라 대비 유지해야 하는 상대 위치 (Awake 시점, 즉 디자인상의 초기 배치를 기준으로 고정)
+    private Vector3 popupOffsetFromCamera;
+    private bool isVisible;
+
+    // ----------------------------------------------------
+    // Creating and Resetting Instance
+    // Don't modify here
+    public static PopupAnim instance { get; private set; }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatic()
+    {
+        instance = null;
+    }
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else Destroy(gameObject);
+    }
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
+    }
+    // ----------------------------------------------------
+
+    private void Start()
+    {
+        if (popup != null && worldCamera != null)
+        {
+            popupOffsetFromCamera = popup.position - worldCamera.transform.position;
+        }
+    }
+
+    // 슬라이드 애니메이션이 끝난 뒤에도, 카메라가 계속 움직이는 동안(드래그 등) popup이 항상 같은 상대 위치를 유지하도록 추적
+    private void LateUpdate()
+    {
+        if (!isVisible || popup == null || worldCamera == null) return;
+        if (DOTween.IsTweening(popup)) return; // 슬라이드 트윈 중에는 트윈이 위치를 담당
+        popup.position = worldCamera.transform.position + popupOffsetFromCamera;
+    }
+
+    public static void ShowPopup(int num)
+    {
+        if (instance == null)
+        {
+            Debug.LogWarning("[PopupAnim] instance가 존재하지 않아 팝업을 실행할 수 없습니다.");
+            return;
+        }
+        instance.Play(num - 1);
+    }
+
+    public static void HidePopup()
+    {
+        if (instance == null)
+        {
+            Debug.LogWarning("[PopupAnim] instance가 존재하지 않아 팝업을 닫을 수 없습니다.");
+            return;
+        }
+        instance.Hide();
+    }
+
+    private void Play(int index)
+    {
+        if (buttons == null || index < 0 || index >= buttons.Count || buttons[index] == null)
+        {
+            Debug.LogWarning($"[PopupAnim] buttons 리스트에서 인덱스 {index}를 찾을 수 없습니다.");
+            return;
+        }
+        if (popup == null)
+        {
+            Debug.LogWarning("[PopupAnim] popup이 할당되지 않았습니다.");
+            return;
+        }
+        if (worldCamera == null)
+        {
+            Debug.LogWarning("[PopupAnim] worldCamera가 할당되지 않았습니다.");
+            return;
+        }
+        if (!worldCamera.orthographic)
+        {
+            Debug.LogWarning("[PopupAnim] worldCamera가 orthographic이 아니면 카메라 정렬 계산이 정확하지 않습니다.");
+        }
+
+        GameObject btn = buttons[index];
+
+        popup.DOKill();
+        worldCamera.transform.DOKill();
+
+        // btn이 화면의 x축 좌측 25%, y축 상단 50% 지점에 오도록 카메라를 이동
+        Vector3 btnScreenPos = worldCamera.WorldToScreenPoint(btn.transform.position);
+        float desiredScreenX = Screen.width * 0.25f;
+        float desiredScreenY = Screen.height * 0.5f;
+        float deltaScreenX = desiredScreenX - btnScreenPos.x;
+        float deltaScreenY = desiredScreenY - btnScreenPos.y;
+        float worldUnitsPerPixel = worldCamera.orthographicSize * 2f / Screen.height;
+
+        Vector3 camPos = worldCamera.transform.position;
+        float targetCamX = camPos.x - deltaScreenX * worldUnitsPerPixel;
+        float targetCamY = camPos.y - deltaScreenY * worldUnitsPerPixel;
+        worldCamera.transform.DOMoveX(targetCamX, slideDuration).SetEase(Ease.OutCubic);
+        worldCamera.transform.DOMoveY(targetCamY, slideDuration).SetEase(Ease.OutCubic);
+
+        // popup은 캔버스 로컬 좌표가 아니라 카메라 기준 월드 좌표로 위치를 계산해야
+        // 카메라가 맵 어디에 있든(이동 중이어도) 항상 카메라 우측에 일정하게 나타난다.
+        isVisible = true;
+        popup.gameObject.SetActive(true);
+
+        Vector3 targetCamPos = new Vector3(targetCamX, targetCamY, worldCamera.transform.position.z);
+        Vector3 restPos = targetCamPos + popupOffsetFromCamera;
+        float popupWorldWidth = popup.rect.width * popup.lossyScale.x;
+        Vector3 startPos = restPos + new Vector3(popupWorldWidth, 0f, 0f);
+
+        popup.position = startPos;
+        popup.DOMove(restPos, slideDuration).SetEase(Ease.OutCubic);
+    }
+
+    // 팝업을 왼쪽으로 슬라이드시켜 화면 밖으로 내보낸 뒤 비활성화한다
+    private void Hide()
+    {
+        if (popup == null || !popup.gameObject.activeSelf) return;
+
+        isVisible = false;
+        popup.DOKill();
+
+        float popupWorldWidth = popup.rect.width * popup.lossyScale.x;
+        float cameraWorldWidth = worldCamera.orthographicSize * 2f * worldCamera.aspect;
+        Vector3 hiddenPos = popup.position - new Vector3(cameraWorldWidth + popupWorldWidth, 0f, 0f);
+
+        popup.DOMove(hiddenPos, slideDuration).SetEase(Ease.InCubic)
+            .OnComplete(() => popup.gameObject.SetActive(false));
+    }
+}

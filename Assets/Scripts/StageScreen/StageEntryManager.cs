@@ -27,7 +27,7 @@ public class StageEntryManager : MonoBehaviour
     private void OnStageButtonClicked(int num)
     {
         currentStage = num;
-        // popup ttiugi
+        if(!StageImporter.ImportStage(currentStage)) return;
         PopupAnim.ShowPopup(currentStage);
         Debug.Log(currentStage);
     }

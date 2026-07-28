@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
+using UnityEditor.AssetImporters;
 using UnityEngine;
 
 public class PopupAnim : MonoBehaviour
@@ -8,6 +10,10 @@ public class PopupAnim : MonoBehaviour
     [SerializeField] private List<GameObject> buttons; // num번째 버튼 오브젝트
     [SerializeField] private Camera worldCamera; // btn과 popup을 비추는 월드 카메라 (World Space Canvas 기준)
     [SerializeField] private float slideDuration = 0.35f;
+
+    [SerializeField] private TextMeshProUGUI sceneNum;
+    [SerializeField] private TextMeshProUGUI title;
+    [SerializeField] private TextMeshProUGUI missions;
 
     // popup이 카메라 대비 유지해야 하는 상대 위치 (Start 시점, 즉 디자인상의 초기 배치를 기준으로 고정)
     private Vector3 popupOffsetFromCamera;
@@ -63,6 +69,7 @@ public class PopupAnim : MonoBehaviour
             Debug.LogWarning("[PopupAnim] instance가 존재하지 않아 팝업을 실행할 수 없습니다.");
             return;
         }
+        instance.importData();
         instance.Play(num - 1);
     }
 
@@ -145,5 +152,18 @@ public class PopupAnim : MonoBehaviour
 
         popup.DOMove(hiddenPos, slideDuration).SetEase(Ease.InCubic)
             .OnComplete(() => popup.gameObject.SetActive(false));
+    }
+
+    private void importData()
+    {
+        sceneNum.text = $"#{StageImporter.stageCount}";
+        title.text = StageImporter.title;
+        string temp = "";
+        for(int i = 0;i < StageImporter.missionList.Count;i++)
+        {
+            MissionData mission = StageImporter.missionList[i];
+            temp += $"- {mission.mainText}\n";
+        }
+        missions.text = temp;
     }
 }

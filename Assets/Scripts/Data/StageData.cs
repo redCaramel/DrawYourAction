@@ -9,6 +9,7 @@ public class StageData
     public string title;
     public int maxScript;
     public int handSize;
+    public List<int> cardTime;
     public List<MissionData> mission;
 }
 

@@ -13,6 +13,7 @@ public class StageImporter : MonoBehaviour
     public static int stageCount { get; private set; }
     public static string sceneName { get; private set; }
     public static string title { get; private set; }
+    public static List<int> cardTime {get; private set;}
     public static List<MissionData> missionList { get; private set; }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -47,6 +48,7 @@ public class StageImporter : MonoBehaviour
         stageCount = data.sceneNum;
         sceneName = data.sceneName;
         title = data.title;
+        cardTime = data.cardTime;
         missionList = data.mission;
         return true;
     }

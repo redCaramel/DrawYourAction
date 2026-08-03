@@ -1,7 +1,7 @@
 {
     "stageData" : [
         {
-            "sceneNum" : 1, "sceneName" : "ActionScene1", "title" : "여정의 시작", "maxScript" : 1, "handSize" : 1, 
+            "sceneNum" : 1, "sceneName" : "ActionScene1", "title" : "스크립트", "maxScript" : 1, "handSize" : 1, "cardTime" : [1],
             "mission" : [
                 {
                     "mainText" : "깃발에 도달하기",
@@ -13,10 +13,29 @@
             ]
         },
         {
-            "sceneNum" : 2, "sceneName" : "ActionScene2", "title" : "점프", "maxScript" : 2, "handSize" : 1, 
+            "sceneNum" : 2, "sceneName" : "ActionScene2", "title" : "점프", "maxScript" : 2, "handSize" : 1, "cardTime" : [1, 1],
             "mission" : [
                 {
                     "mainText" : "깃발에 도달하기",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                }
+            ]
+        },
+        {
+            "sceneNum" : 3, "sceneName" : "ActionScene3", "title" : "앞뒤", "maxScript" : 2, "handSize" : 1, "cardTime" : [2, 2],
+            "mission" : [
+                {
+                    "mainText" : "우측 깃발에 도달하기",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                },
+                {
+                    "mainText" : "좌측 깃발에 도달하기",
                     "currentValue" : 0,
                     "maxValue" : 0,
                     "type" : 1,

@@ -10,6 +10,7 @@ public class PopupAnim : MonoBehaviour
     [SerializeField] private List<GameObject> buttons; // num번째 버튼 오브젝트
     [SerializeField] private Camera worldCamera; // btn과 popup을 비추는 월드 카메라 (World Space Canvas 기준)
     [SerializeField] private float slideDuration = 0.35f;
+    [SerializeField] private float focusOrthoSize = 3f; // 버튼 포커스 시 목표로 하는 orthographicSize (이 값까지 확대)
 
     [SerializeField] private TextMeshProUGUI sceneNum;
     [SerializeField] private TextMeshProUGUI title;
@@ -118,28 +119,46 @@ public class PopupAnim : MonoBehaviour
 
         popup.DOKill();
         worldCamera.transform.DOKill();
+        DOTween.Kill(worldCamera);
         popupCanvasGroup.DOKill();
 
-        // btn이 화면의 x축 좌측 25%, y축 상단 50% 지점에 오도록 카메라를 이동
-        Vector3 btnScreenPos = worldCamera.WorldToScreenPoint(btn.transform.position);
+        // 버튼에 포커스를 맞추며 확대: 목표 orthographicSize(고정 지점)를 먼저 정하고, 그 크기 기준으로 목표 카메라 위치를 계산한다
+        StageMapMover mapMover = StageMapMover.instance;
+        float targetOrthoSize = worldCamera.orthographicSize;
+        if (worldCamera.orthographic)
+        {
+            targetOrthoSize = mapMover != null
+                ? Mathf.Clamp(focusOrthoSize, mapMover.MinZoom, mapMover.MaxZoom)
+                : Mathf.Max(focusOrthoSize, 0.01f);
+        }
+
+        // btn이 화면의 x축 좌측 25%, y축 상단 50% 지점에 오도록(목표 확대 크기 기준) 카메라를 이동
         float desiredScreenX = Screen.width * 0.25f;
         float desiredScreenY = Screen.height * 0.5f;
-        float deltaScreenX = desiredScreenX - btnScreenPos.x;
-        float deltaScreenY = desiredScreenY - btnScreenPos.y;
-        float worldUnitsPerPixel = worldCamera.orthographicSize * 2f / Screen.height;
+        float worldUnitsPerPixel = targetOrthoSize * 2f / Screen.height;
 
-        Vector3 camPos = worldCamera.transform.position;
-        float targetCamX = camPos.x - deltaScreenX * worldUnitsPerPixel;
-        float targetCamY = camPos.y - deltaScreenY * worldUnitsPerPixel;
-        worldCamera.transform.DOMoveX(targetCamX, slideDuration).SetEase(Ease.OutCubic);
-        worldCamera.transform.DOMoveY(targetCamY, slideDuration).SetEase(Ease.OutCubic);
+        Vector3 btnWorldPos = btn.transform.position;
+        float targetCamX = btnWorldPos.x - (desiredScreenX - Screen.width * 0.5f) * worldUnitsPerPixel;
+        float targetCamY = btnWorldPos.y - (desiredScreenY - Screen.height * 0.5f) * worldUnitsPerPixel;
+
+        Vector3 targetCamPos = new Vector3(targetCamX, targetCamY, worldCamera.transform.position.z);
+        if (mapMover != null)
+        {
+            targetCamPos = mapMover.ClampPosition(targetCamPos, targetOrthoSize);
+        }
+
+        worldCamera.transform.DOMoveX(targetCamPos.x, slideDuration).SetEase(Ease.OutCubic);
+        worldCamera.transform.DOMoveY(targetCamPos.y, slideDuration).SetEase(Ease.OutCubic);
+        if (worldCamera.orthographic)
+        {
+            worldCamera.DOOrthoSize(targetOrthoSize, slideDuration).SetEase(Ease.OutCubic);
+        }
 
         // popup은 캔버스 로컬 좌표가 아니라 카메라 기준 월드 좌표로 위치를 계산해야
         // 카메라가 맵 어디에 있든(이동 중이어도) 항상 카메라 우측에 일정하게 나타난다.
         isVisible = true;
         popup.gameObject.SetActive(true);
 
-        Vector3 targetCamPos = new Vector3(targetCamX, targetCamY, worldCamera.transform.position.z);
         Vector3 restPos = targetCamPos + popupOffsetFromCamera;
         float popupWorldWidth = popup.rect.width * popup.lossyScale.x;
         Vector3 startPos = restPos + new Vector3(popupWorldWidth, 0f, 0f);

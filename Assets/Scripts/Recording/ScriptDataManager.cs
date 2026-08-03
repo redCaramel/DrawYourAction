@@ -39,7 +39,7 @@ public class ScriptDataManager : MonoBehaviour
     {
         for(int i = 0;i < StageImporter.scriptCount;i++)
         {
-            Scripts.Add(new ScriptData("sample", 1, 1));
+            Scripts.Add(new ScriptData("sample", StageImporter.cardTime[i], 1));
         }
         for (int i = 0; i < Scripts.Count; i++)
             ScriptObjectManager.instance.UpdateScriptView(i, Scripts[i]);

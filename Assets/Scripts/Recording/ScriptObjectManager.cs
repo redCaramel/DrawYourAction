@@ -11,6 +11,7 @@ public class ScriptObjectManager : MonoBehaviour
     [SerializeField] private GameObject scriptPrefab;
     [SerializeField] private RectTransform scriptListContent;
     [SerializeField] private float scriptSpacing = 20f;
+    [SerializeField] private float initialSpacing = 30f;
     private bool isFirstUpdate = true;
 
     public static readonly List<Color> ScriptColor = new List<Color>
@@ -55,6 +56,7 @@ public class ScriptObjectManager : MonoBehaviour
     // has one entry per ScriptData index in ScriptManager.
     private void EnsureSlot(int index)
     {
+        bool isFirst = true;
         float itemHeight = scriptPrefab.GetComponent<RectTransform>().rect.height;
         while (Scripts.Count <= index)
         {
@@ -64,7 +66,12 @@ public class ScriptObjectManager : MonoBehaviour
             rect.anchorMin = new Vector2(0.5f, 1f);
             rect.anchorMax = new Vector2(0.5f, 1f);
             rect.pivot = new Vector2(0.5f, 1f);
-            rect.anchoredPosition = new Vector2(0f, -i * (itemHeight + scriptSpacing) - scriptSpacing);
+            if(isFirst)
+            {
+                rect.anchoredPosition = new Vector2(0f, -i * (itemHeight + scriptSpacing) - scriptSpacing - initialSpacing);
+                isFirst = false;
+            }
+            else rect.anchoredPosition = new Vector2(0f, -i * (itemHeight + scriptSpacing) - scriptSpacing);
             slot.GetComponent<ScriptDragger>().ScriptIndex = i;
             slot.GetComponent<Button>().onClick.AddListener(() => OnScriptClicked(i));
             Scripts.Add(slot);

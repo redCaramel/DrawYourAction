@@ -15,6 +15,7 @@ public class PopupAnim : MonoBehaviour
     [SerializeField] private TextMeshProUGUI sceneNum;
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI missions;
+    [SerializeField] private TextMeshProUGUI scriptTimes;
 
     // popup이 카메라 대비 유지해야 하는 상대 위치 (Start 시점, 즉 디자인상의 초기 배치를 기준으로 고정)
     private Vector3 popupOffsetFromCamera;
@@ -199,5 +200,20 @@ public class PopupAnim : MonoBehaviour
             temp += $"- {mission.mainText}\n";
         }
         missions.text = temp;
+        temp = "- ";
+        int[] times = new int[31];
+        for(int i = 0;i < StageImporter.cardTime.Count;i++)
+        {
+            int time = StageImporter.cardTime[i];
+            times[time]++;
+        }
+        for(int i = 0;i < 31;i++)
+        {
+            if(times[i] > 0)
+            {
+                temp += $"{i}초({times[i]}) ";
+            }
+        }
+        scriptTimes.text = temp;
     }
 }

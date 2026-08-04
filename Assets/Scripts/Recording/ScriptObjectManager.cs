@@ -89,14 +89,18 @@ public class ScriptObjectManager : MonoBehaviour
     public void UpdateScriptView(int index, ScriptData data)
     {
         EnsureSlot(index);
-        Scripts[index].GetComponentInChildren<TMP_Text>().text =
+        Scripts[index].transform.Find("title").GetComponent<TMP_Text>().text =
             string.IsNullOrEmpty(data.name) ? "스크립트 " + (index + 1) : data.name;
+        Scripts[index].transform.Find("time").GetComponent<TMP_Text>().text =
+            string.IsNullOrEmpty(data.name) ? "- sec" : $"{data.maxDuration} sec";
         SetScriptColor(index, data.status);
     }
 
     private void OnScriptClicked(int index)
     {
         ChangeSelectedScript(selectedScriptIndex, index);
+        ProgressBarManager.instance.ResetProgress();
+        ProgressBarManager.instance.SetMaxDuration(ScriptDataManager.instance.getScript(index).maxDuration);
         selectedScriptIndex = index;
     }
 

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ProgressBarManager : MonoBehaviour
 {
@@ -39,6 +41,13 @@ public class ProgressBarManager : MonoBehaviour
     float maxProgress = 0f;
     float currentProgress = 0f;
     bool isRunning = false;
+    public static readonly List<Color> ScriptColor = new List<Color>
+    {
+        new Color(1f, 1f, 1f),
+        new Color(241/255f, 255/255f, 139/255f),
+        new Color(1f, 0f, 0f),
+        new Color(81/255f, 1f, 0f)
+    };
 
     private void Start()
     {
@@ -49,6 +58,8 @@ public class ProgressBarManager : MonoBehaviour
 
     private void Update()
     {
+        int index = ScriptObjectManager.instance.GetScriptIndex();
+        ChangeProgressBarColor(ScriptDataManager.instance.getScript(index).status);
         if (!isRunning) return;
 
         currentProgress += Time.deltaTime;
@@ -91,5 +102,9 @@ public class ProgressBarManager : MonoBehaviour
     public void StartProgress()
     {
         isRunning = true;
+    }
+    public void ChangeProgressBarColor(int status)
+    {
+        progressBar.GetComponent<Image>().color = ScriptColor[status];
     }
 }

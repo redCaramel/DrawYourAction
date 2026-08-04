@@ -14,7 +14,7 @@ public class ScriptObjectManager : MonoBehaviour
     [SerializeField] private float initialSpacing = 30f;
     private bool isFirstUpdate = true;
 
-    public static readonly List<Color> ScriptColor = new List<Color>
+    public static readonly List<Color> StatusColor = new List<Color>
     {
         new Color(1f, 1f, 1f),
         new Color(241/255f, 255/255f, 139/255f),
@@ -93,14 +93,13 @@ public class ScriptObjectManager : MonoBehaviour
             string.IsNullOrEmpty(data.name) ? "스크립트 " + (index + 1) : data.name;
         Scripts[index].transform.Find("time").GetComponent<TMP_Text>().text =
             string.IsNullOrEmpty(data.name) ? "- sec" : $"{data.maxDuration} sec";
-        SetScriptColor(index, data.status);
     }
 
     private void OnScriptClicked(int index)
     {
         ChangeSelectedScript(selectedScriptIndex, index);
-        ProgressBarManager.instance.ResetProgress();
         ProgressBarManager.instance.SetMaxDuration(ScriptDataManager.instance.getScript(index).maxDuration);
+        ScriptWriteManager.instance.UpdateWriteScreen(index);
         selectedScriptIndex = index;
     }
 
@@ -108,10 +107,10 @@ public class ScriptObjectManager : MonoBehaviour
     {
         return selectedScriptIndex;
     }
-    private void SetScriptColor(int index, int val)
+    private void SetScriptColor(int index, Color color)
     {
 
-        Scripts[index].GetComponent<Image>().color = ScriptColor[val];
+        Scripts[index].GetComponent<Image>().color = color;
 
     }
     private void ChangeSelectedScript(int old, int newer) {
@@ -129,7 +128,7 @@ public class ScriptObjectManager : MonoBehaviour
     private void HighlightScriptOutline(int index)
     {
         Outline outline = Scripts[index].GetComponent<Outline>();
-        outline.effectColor = new Color(255, 0, 0);
+        outline.effectColor = StatusColor[ScriptDataManager.instance.getScript(index).status];
         outline.effectDistance = new Vector2(10, -10);
     }
 
@@ -161,5 +160,9 @@ public class ScriptObjectManager : MonoBehaviour
             if (ScriptArrManager.instance.GetScriptAtSlot(slot) == scriptIndex) return true;
         }
         return false;
+    }
+    void Update()
+    {
+        HighlightScriptOutline(selectedScriptIndex);
     }
 }

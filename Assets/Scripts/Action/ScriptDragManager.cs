@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using TMPro;
+using System.Collections.Generic;
 
 public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
@@ -19,6 +20,9 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     [Header("카드 데이터 표시")]
     [SerializeField] private TMP_Text titleText; // 카드에 표시할 스크립트 이름
+    [SerializeField] private TMP_Text timeText;
+    [SerializeField] private Image color;
+    [SerializeField] private Image thumbnail;
 
     private Vector2 originalPosition;
     private Canvas parentCanvas;
@@ -27,11 +31,28 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     public ScriptData Data { get; private set; }
 
+    public static readonly List<Color> ScriptColor = new List<Color>
+    {
+        new Color(1f, 0f, 0f),
+        new Color(255f/255f, 131f/255f, 0f/255f),
+        new Color(255f/255f, 255f/255f, 0f/255f),
+        new Color(129f/255f, 255f/255f, 0f/255f),
+        new Color(0f/255f, 255f/255f, 255f/255f),
+        new Color(0f/255f, 24f/255f, 255f/255f),
+        new Color(151f/255f, 0f/255f, 255f/255f),
+        new Color(255f/255f, 0f/255f, 183f/255f),
+        new Color(255f/255f, 255f/255f, 255f/255f),
+        new Color(140f/255f, 140f/255f, 140f/255f)
+    };
+
     private void Awake()
     {
         if (canvasGroup == null) canvasGroup = GetComponent<CanvasGroup>();
         if (rectTransform == null) rectTransform = GetComponent<RectTransform>();
-        if (titleText == null) titleText = GetComponentInChildren<TMP_Text>();
+        if (titleText == null) titleText = transform.Find("title").GetComponent<TMP_Text>();
+        if(timeText == null) timeText = transform.Find("time").GetComponent<TMP_Text>();
+        if(color==null) color = GetComponent<Image>();
+        if(thumbnail==null) thumbnail = transform.Find("thumbnail").GetComponent<Image>();
         parentCanvas = GetComponentInParent<Canvas>();
     }
 
@@ -42,6 +63,9 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
     {
         Data = data;
         if (titleText != null) titleText.text = data.name;
+        if (timeText != null) timeText.text = $"{data.maxDuration} sec";
+        if (color != null) color.color = ScriptColor[data.color];
+        if (thumbnail != null) thumbnail.sprite = data.thumbnail;
     }
 
     /// <summary>

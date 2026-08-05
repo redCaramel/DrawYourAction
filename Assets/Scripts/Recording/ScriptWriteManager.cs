@@ -15,6 +15,7 @@ public class ScriptWriteManager : MonoBehaviour
     private string previewScriptName;
     private string previewScriptTime;
     private int previewScriptColor;
+    private Sprite previewScriptThumbnail;
 
     public static readonly List<Color> ScriptColor = new List<Color>
     {
@@ -69,16 +70,16 @@ public class ScriptWriteManager : MonoBehaviour
     {
         ActionRecorder.instance.setScriptTitle(ScriptObjectManager.instance.GetScriptIndex(), titleInputField.text);
         ScriptObjectManager.instance.SetScriptColor(ScriptObjectManager.instance.GetScriptIndex(), previewScriptColor);
+        ScriptObjectManager.instance.SetScriptThumbnail(ScriptObjectManager.instance.GetScriptIndex(), previewScriptThumbnail);
     }
     private void OnThumbnailButtonClicked()
     {
         DrawingPopup.SetActive(true);
         iconDrawer.ResetCanvas();
     }
-    void Start()
+    void OnEnable()
     {
         int index = ScriptObjectManager.instance.GetScriptIndex();
-        previewScriptColor = ScriptDataManager.instance.getScript(index).color;
         Debug.Log(previewScriptColor);
         UpdateWriteScreen();
         
@@ -100,7 +101,7 @@ public class ScriptWriteManager : MonoBehaviour
         previewScriptColor = ScriptDataManager.instance.getScript(index).color;
         previewScriptName = titleInputField.text;
         previewScriptTime = $"{ScriptDataManager.instance.getScript(index).maxDuration} sec";
-        //TODO - more datas
+        previewScriptThumbnail = ScriptDataManager.instance.getScript(index).thumbnail;
     }
     private void OnColorButtonClicked(int num)
     {
@@ -117,11 +118,17 @@ public class ScriptWriteManager : MonoBehaviour
         previewScriptTime = $"{ScriptDataManager.instance.getScript(index).maxDuration} sec";
         previewScript.transform.Find("title").GetComponent<TMP_Text>().text = previewScriptName;
         previewScript.transform.Find("time").GetComponent<TMP_Text>().text = previewScriptTime;
+        previewScript.transform.Find("thumbnail").GetComponent<Image>().sprite = previewScriptThumbnail;
         previewScript.GetComponent<Image>().color = ScriptColor[previewScriptColor];
         
     }
     void Update()
     {
         UpdatePreviewScript();
+    }
+    public void setPreviewThumbnail(Sprite thumbnail)
+    {
+        previewScriptThumbnail = thumbnail;
+        previewScript.transform.Find("thumbnail").GetComponent<Image>().sprite = thumbnail;
     }
 }

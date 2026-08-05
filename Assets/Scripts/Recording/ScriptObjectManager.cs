@@ -181,4 +181,11 @@ public class ScriptObjectManager : MonoBehaviour
     {
         HighlightScriptOutline(selectedScriptIndex);
     }
+    public void SetScriptThumbnail(int index, Sprite thumbnail)
+    {
+        ScriptData data = ScriptDataManager.instance.getScript(index);
+        data.thumbnail = thumbnail;
+        ScriptDataManager.instance.SetScript(index, data);
+        Scripts[index].transform.Find("thumbnail").GetComponent<Image>().sprite = thumbnail;
+    }
 }

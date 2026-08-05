@@ -7,6 +7,7 @@ public struct ScriptData
     public string name;
     public int maxDuration;
     public int status;
+    public int color;
 
     public ScriptData(string name = "")
     {
@@ -14,6 +15,7 @@ public struct ScriptData
         this.name = name;
         maxDuration = 0;
         status = 0;
+        color = 8;
     }
     public ScriptData(string name = "", int dur = 1, int st= 0)
     {
@@ -21,6 +23,7 @@ public struct ScriptData
         this.name = name;
         maxDuration = dur;
         status = st;
+        color = 8;
     }
 
     // TODO - more Identifier!

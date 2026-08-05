@@ -22,6 +22,19 @@ public class ScriptObjectManager : MonoBehaviour
         new Color(81/255f, 1f, 0f)
     };
 
+    public static readonly List<Color> ScriptColor = new List<Color>
+    {
+        new Color(1f, 0f, 0f),
+        new Color(255f/255f, 131f/255f, 0f/255f),
+        new Color(255f/255f, 255f/255f, 0f/255f),
+        new Color(129f/255f, 255f/255f, 0f/255f),
+        new Color(0f/255f, 255f/255f, 255f/255f),
+        new Color(0f/255f, 24f/255f, 255f/255f),
+        new Color(151f/255f, 0f/255f, 255f/255f),
+        new Color(255f/255f, 0f/255f, 183f/255f),
+        new Color(255f/255f, 255f/255f, 255f/255f),
+        new Color(140f/255f, 140f/255f, 140f/255f)
+    };
     // ----------------------------------------------------
     // Creating and Resetting Instance
     // Don't modify here
@@ -93,6 +106,7 @@ public class ScriptObjectManager : MonoBehaviour
             string.IsNullOrEmpty(data.name) ? "스크립트 " + (index + 1) : data.name;
         Scripts[index].transform.Find("time").GetComponent<TMP_Text>().text =
             string.IsNullOrEmpty(data.name) ? "- sec" : $"{data.maxDuration} sec";
+        Scripts[index].GetComponent<Image>().color = ScriptColor[data.color];
     }
 
     private void OnScriptClicked(int index)
@@ -107,10 +121,12 @@ public class ScriptObjectManager : MonoBehaviour
     {
         return selectedScriptIndex;
     }
-    private void SetScriptColor(int index, Color color)
+    public void SetScriptColor(int index, int color)
     {
-
-        Scripts[index].GetComponent<Image>().color = color;
+        ScriptData data = ScriptDataManager.instance.getScript(index);
+        data.color = color;
+        ScriptDataManager.instance.SetScript(index, data);
+        Scripts[index].GetComponent<Image>().color = ScriptColor[color];
 
     }
     private void ChangeSelectedScript(int old, int newer) {

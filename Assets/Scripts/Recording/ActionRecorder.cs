@@ -63,7 +63,8 @@ public class ActionRecorder : MonoBehaviour
         currentRecordingIndex = ScriptObjectManager.instance.GetScriptIndex();
         ScriptDataManager.instance.EnsureScript(currentRecordingIndex);
         ScriptData data = ScriptDataManager.instance.getScript(currentRecordingIndex);
-        ScriptDataManager.instance.SetScript(currentRecordingIndex, new ScriptData(data.name, data.maxDuration, 2));
+        data.status = 2;
+        ScriptDataManager.instance.SetScript(currentRecordingIndex, data);
         recordCount++;
         recording = true;
         recordDuration = time;

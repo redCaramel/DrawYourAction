@@ -9,6 +9,9 @@ public class ScriptWriteManager : MonoBehaviour
     [SerializeField] private TMP_InputField titleInputField;
     [SerializeField] private List<GameObject> colorGroup;
     [SerializeField] private GameObject previewScript;
+    [SerializeField] private Button thumbnailDrawButton;
+    [SerializeField] private GameObject DrawingPopup;
+    [SerializeField] private IconDrawer iconDrawer;
     private string previewScriptName;
     private string previewScriptTime;
     private int previewScriptColor;
@@ -45,6 +48,7 @@ public class ScriptWriteManager : MonoBehaviour
         }
         else Destroy(gameObject);
         titleApplyButton.onClick.AddListener(OnTitleApplyButtonClicked);
+        thumbnailDrawButton.onClick.AddListener(OnThumbnailButtonClicked);
         for(int i = 0;i < 10;i++)
         {
             int colorIndex = i;
@@ -66,7 +70,11 @@ public class ScriptWriteManager : MonoBehaviour
         ActionRecorder.instance.setScriptTitle(ScriptObjectManager.instance.GetScriptIndex(), titleInputField.text);
         ScriptObjectManager.instance.SetScriptColor(ScriptObjectManager.instance.GetScriptIndex(), previewScriptColor);
     }
-    
+    private void OnThumbnailButtonClicked()
+    {
+        DrawingPopup.SetActive(true);
+        iconDrawer.ResetCanvas();
+    }
     void Start()
     {
         int index = ScriptObjectManager.instance.GetScriptIndex();

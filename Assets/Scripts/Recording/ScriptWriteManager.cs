@@ -89,6 +89,9 @@ public class ScriptWriteManager : MonoBehaviour
             if(i==ScriptDataManager.instance.getScript(index).color) colorGroup[i].GetComponent<RawImage>().color = new Color(0,0,0);
             else colorGroup[i].GetComponent<RawImage>().color = new Color(1,1,1);
         }
+        previewScriptColor = ScriptDataManager.instance.getScript(index).color;
+        previewScriptName = titleInputField.text;
+        previewScriptTime = $"{ScriptDataManager.instance.getScript(index).maxDuration} sec";
         //TODO - more datas
     }
     private void OnColorButtonClicked(int num)

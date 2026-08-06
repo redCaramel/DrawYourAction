@@ -8,6 +8,7 @@ public class StageEntryManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> stageButtons;
     [SerializeField] private Button entryButton;
+    [SerializeField] private Button preivewButton;
     private int currentStage = 0;
     void Awake()
     {
@@ -17,6 +18,7 @@ public class StageEntryManager : MonoBehaviour
             stageButtons[i].GetComponent<Button>().onClick.AddListener(() => OnStageButtonClicked(stageIndex));
         }
         entryButton.onClick.AddListener(OnEntryButtonClicked);
+        preivewButton.onClick.AddListener(OnPreviewButtonClicked);
     }
     private void OnEntryButtonClicked()
     {
@@ -24,6 +26,13 @@ public class StageEntryManager : MonoBehaviour
         if(currentStage == 0) return;
         if(!StageImporter.ImportStage(currentStage)) return;
         SceneManager.LoadScene("RecordDevelopingScene");
+    }
+    private void OnPreviewButtonClicked()
+    {
+        if(currentStage==0) return;
+        if(!StageImporter.ImportStage(currentStage)) return;
+        StageModeSetting.setMode(true);
+        SceneManager.LoadScene(StageImporter.sceneName);
     }
     private void OnStageButtonClicked(int num)
     {

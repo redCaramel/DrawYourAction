@@ -32,7 +32,7 @@ public class ScriptExporter : MonoBehaviour
         if(ScriptObjectManager.instance.FindNextUnplacedScript() != -1) return;
         ExportedScripts = BuildOrderedScripts();
         Debug.Log(ExportedScripts.Count);
-        StageModeSetting.setMode(true);
+        StageModeSetting.setMode(false);
         SceneManager.LoadScene(NextSceneName);
     }
     void Update()

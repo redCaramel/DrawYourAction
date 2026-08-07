@@ -25,6 +25,7 @@ public class StageEntryManager : MonoBehaviour
         Debug.Log(currentStage);
         if(currentStage == 0) return;
         if(!StageImporter.ImportStage(currentStage)) return;
+        StageModeSetting.setMode(false);
         SceneManager.LoadScene("RecordDevelopingScene");
     }
     private void OnPreviewButtonClicked()

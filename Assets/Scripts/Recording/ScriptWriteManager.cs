@@ -114,6 +114,7 @@ public class ScriptWriteManager : MonoBehaviour
     private void UpdatePreviewScript()
     {
         int index = ScriptObjectManager.instance.GetScriptIndex();
+        if(index < 0) return;
         previewScriptName = titleInputField.text;
         previewScriptTime = $"{ScriptDataManager.instance.getScript(index).maxDuration} sec";
         previewScript.transform.Find("title").GetComponent<TMP_Text>().text = previewScriptName;

@@ -4,6 +4,7 @@ public class ActionMissionResultManager : MonoBehaviour
 {
     [SerializeField] GameObject SuccessPopup;
     [SerializeField] GameObject FailurePopup;
+    [SerializeField] GameObject PreviewPopup;
     // ----------------------------------------------------
     // Creating and Resetting Instance
     // Don't modify here
@@ -36,9 +37,19 @@ public class ActionMissionResultManager : MonoBehaviour
 
     public void MissonSuccess()
     {
-        RectTransform popupRect = SuccessPopup.GetComponent<RectTransform>();
-        CanvasGroup canvasGroup = SuccessPopup.GetComponent<CanvasGroup>();
-
+        RectTransform popupRect;
+        CanvasGroup canvasGroup;
+        if(StageModeSetting.isPreview)
+        {
+            popupRect = PreviewPopup.GetComponent<RectTransform>();
+            canvasGroup = PreviewPopup.GetComponent<CanvasGroup>();
+        }
+        else
+        {
+            popupRect = SuccessPopup.GetComponent<RectTransform>();
+            canvasGroup = SuccessPopup.GetComponent<CanvasGroup>();
+        }
+        
         popupRect.DOKill();
         canvasGroup.DOKill();
 

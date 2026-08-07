@@ -37,7 +37,9 @@ public class StageEntryManager : MonoBehaviour
     }
     private void OnStageButtonClicked(int num)
     {
+        
         currentStage = num;
+        if(StageClearManager.currentStage < currentStage) return;
         if(!StageImporter.ImportStage(currentStage)) return;
         PopupAnim.ShowPopup(currentStage);
         Debug.Log(currentStage);

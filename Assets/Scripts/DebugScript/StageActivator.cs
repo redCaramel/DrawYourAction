@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PreviewEntryer : MonoBehaviour
+public class StageActivator : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -11,6 +11,9 @@ public class PreviewEntryer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            StageClearManager.activateStage();
+        }
     }
 }

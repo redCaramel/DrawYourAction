@@ -22,7 +22,9 @@ public class ActionMissionResultManager : MonoBehaviour
             instance = this;
         }
         else Destroy(gameObject);
-
+        SuccessPopup.SetActive(false);
+        FailurePopup.SetActive(false);
+        PreviewPopup.SetActive(false);
 
     }
     private void OnDestroy()
@@ -43,11 +45,13 @@ public class ActionMissionResultManager : MonoBehaviour
         {
             popupRect = PreviewPopup.GetComponent<RectTransform>();
             canvasGroup = PreviewPopup.GetComponent<CanvasGroup>();
+            PreviewPopup.SetActive(true);
         }
         else
         {
             popupRect = SuccessPopup.GetComponent<RectTransform>();
             canvasGroup = SuccessPopup.GetComponent<CanvasGroup>();
+            SuccessPopup.SetActive(true);
         }
         
         popupRect.DOKill();
@@ -64,6 +68,7 @@ public class ActionMissionResultManager : MonoBehaviour
     {
         RectTransform popupRect = FailurePopup.GetComponent<RectTransform>();
         CanvasGroup canvasGroup = FailurePopup.GetComponent<CanvasGroup>();
+        FailurePopup.SetActive(true);
 
         popupRect.DOKill();
         canvasGroup.DOKill();

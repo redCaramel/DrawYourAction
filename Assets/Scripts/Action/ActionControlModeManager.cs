@@ -23,6 +23,7 @@ public class ActionControlModeManager : MonoBehaviour
     {
         instance = null;
         CurrentMode = ActionControlMode.Card;
+        IsInputLocked = false;
     }
     private void Awake()
     {
@@ -55,6 +56,21 @@ public class ActionControlModeManager : MonoBehaviour
     public static bool IsCardMode => CurrentMode == ActionControlMode.Card;
     public static bool IsRecordMode => CurrentMode == ActionControlMode.Record;
 
+    /// <summary>
+    /// true가 되면 Record 모드의 키보드(A/D/Space) 입력을 더 이상 받지 않는다.
+    /// 미션 성공/실패 등으로 조작을 완전히 막아야 할 때 사용한다.
+    /// </summary>
+    public static bool IsInputLocked { get; private set; } = false;
+
+    public static void LockInput()
+    {
+        IsInputLocked = true;
+    }
+    public static void UnlockInput()
+    {
+        IsInputLocked = false;
+    }
+
     private void DecideControlMode()
     {
         // StageModeSetting.isPreview가 true면 Record(=Preview) 모드, false면 Card 모드로 시작한다.
@@ -70,6 +86,7 @@ public class ActionControlModeManager : MonoBehaviour
 
     private void Update()
     {
+        if (IsInputLocked) return;
         if (CurrentMode != ActionControlMode.Record) return;
         if (ActionExecuter.instance != null && ActionExecuter.instance.isLoading()) return;
 

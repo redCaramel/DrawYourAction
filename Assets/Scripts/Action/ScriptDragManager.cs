@@ -29,6 +29,27 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
     private bool isUsingCard = false;
     private bool isInteractable = false; // 좌측 상단 미리보기 상태에서는 입력을 받지 않음
 
+    /// <summary>
+    /// true가 되면 모든 카드가 클릭/드래그/사용 입력을 받지 않는다.
+    /// 미션 성공/실패 등으로 카드 사용을 완전히 막아야 할 때 사용한다.
+    /// </summary>
+    public static bool IsInputLocked { get; private set; } = false;
+
+    public static void LockInput()
+    {
+        IsInputLocked = true;
+    }
+    public static void UnlockInput()
+    {
+        IsInputLocked = false;
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatic()
+    {
+        IsInputLocked = false;
+    }
+
     public ScriptData Data { get; private set; }
 
     public static readonly List<Color> ScriptColor = new List<Color>
@@ -128,7 +149,7 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (isUsingCard || !isInteractable) return;
+        if (isUsingCard || !isInteractable || IsInputLocked) return;
 
         // 클릭 시 약간 커지는 연출 (피드백)
         rectTransform.DOScale(1.05f, 0.1f);
@@ -136,7 +157,7 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (isUsingCard || !isInteractable) return;
+        if (isUsingCard || !isInteractable || IsInputLocked) return;
 
         // 마우스 드래그 위치 반영
         rectTransform.anchoredPosition += eventData.delta / parentCanvas.scaleFactor;
@@ -158,7 +179,7 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (isUsingCard || !isInteractable) return;
+        if (isUsingCard || !isInteractable || IsInputLocked) return;
 
         float deltaY = rectTransform.anchoredPosition.y - originalPosition.y;
 

@@ -37,8 +37,25 @@ public class ActionMissionResultManager : MonoBehaviour
 
     // ----------------------------------------------------
 
+    /// <summary>
+    /// 카드 사용 / 키보드 조작 입력을 모두 막고, 플레이어를 그 자리에서 즉시 정지시킨다.
+    /// </summary>
+    private void LockPlayerControl()
+    {
+        ActionControlModeManager.LockInput();
+        ScriptDragManager.LockInput();
+
+        if (ActionExecuter.instance != null)
+            ActionExecuter.instance.StopLoading();
+
+        if (PlayerController.instance != null)
+            PlayerController.instance.SetControlLocked(true);
+    }
+
     public void MissonSuccess()
     {
+        LockPlayerControl();
+
         RectTransform popupRect;
         CanvasGroup canvasGroup;
         if(StageModeSetting.isPreview)
@@ -52,6 +69,7 @@ public class ActionMissionResultManager : MonoBehaviour
             popupRect = SuccessPopup.GetComponent<RectTransform>();
             canvasGroup = SuccessPopup.GetComponent<CanvasGroup>();
             SuccessPopup.SetActive(true);
+            StageClearManager.activateStage(StageImporter.stageCount+1);
         }
         
         popupRect.DOKill();
@@ -66,6 +84,8 @@ public class ActionMissionResultManager : MonoBehaviour
     }
     public void MissionFailure()
     {
+        LockPlayerControl();
+
         RectTransform popupRect = FailurePopup.GetComponent<RectTransform>();
         CanvasGroup canvasGroup = FailurePopup.GetComponent<CanvasGroup>();
         FailurePopup.SetActive(true);

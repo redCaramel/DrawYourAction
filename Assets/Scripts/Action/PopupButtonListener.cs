@@ -26,43 +26,57 @@ public class PopupButtonListener : MonoBehaviour
         p_backBtn.onClick.AddListener(p_back);
         p_againBtn.onClick.AddListener(p_again);
     }
+    private void UnlockPlayerControl()
+    {
+        ActionControlModeManager.UnlockInput();
+        ScriptDragManager.UnlockInput();
+    }
     private void s_again()
     {
+        UnlockPlayerControl();
         SceneManager.LoadScene(StageImporter.sceneName);
     }
     private void s_back()
     {
+        UnlockPlayerControl();
         SceneManager.LoadScene("StageScene");
     }
     private void f_again()
     {
+        UnlockPlayerControl();
         SceneManager.LoadScene(StageImporter.sceneName);
     }
     private void f_record()
     {
+        UnlockPlayerControl();
         StageModeSetting.setMode(false);
         SceneManager.LoadScene("RecordDevelopingScene");
     }
     private void f_back()
     {
+        UnlockPlayerControl();
         SceneManager.LoadScene("StageScene");
     }
     private void f_preview()
     {
+        UnlockPlayerControl();
         StageModeSetting.setMode(true);
         SceneManager.LoadScene(StageImporter.sceneName);
     }
     private void p_record()
     {
+        UnlockPlayerControl();
         StageModeSetting.setMode(false);
         SceneManager.LoadScene("RecordDevelopingScene");
     }
     private void p_back()
     {
+        UnlockPlayerControl();
         SceneManager.LoadScene("StageScene");
     }
     private void p_again()
     {
+        UnlockPlayerControl();
         StageModeSetting.setMode(true);
         SceneManager.LoadScene(StageImporter.sceneName);
     }

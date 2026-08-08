@@ -12,7 +12,7 @@ public class StageClearManager : MonoBehaviour
     void Awake()
     {
         if(currentStage < 0) currentStage = 1;
-        currentStage = 1;
+        //currentStage = 1;
     }
 
     void Update()
@@ -45,6 +45,6 @@ public class StageClearManager : MonoBehaviour
     }
     public static void activateStage(int index)
     {
-        currentStage = index;
+        if(currentStage < index) currentStage = index;
     }
 }

@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private int jumpTimeMax;
     private bool isGrounded = true;
     private bool jumpRequested;
+    private bool isControlLocked = false;
 
     // ----------------------------------------------------
     // Creating and Resetting Instance
@@ -91,16 +92,38 @@ public class PlayerController : MonoBehaviour
     {
         SetDirZero();
     }
+    /// <summary>
+    /// 플레이어의 조작(입력 반영)을 잠그거나 푼다.
+    /// 잠글 때는 즉시 그 자리에서 정지시킨다. (미션 성공/실패 시 등)
+    /// </summary>
+    public void SetControlLocked(bool locked)
+    {
+        isControlLocked = locked;
+        if (isControlLocked)
+        {
+            jumpRequested = false;
+            SetDirZero();
+            if (_rigid != null) _rigid.linearVelocity = Vector2.zero;
+        }
+    }
     public void ExecuteAction(Action act)
     {
+        if (isControlLocked) return;
+
         if(act.move == MovementType.Idle) SetDirZero();
         else if(act.move == MovementType.LeftNormal) ActionLeftNormal();
         else if(act.move == MovementType.RightNormal) ActionRightNormal();
-        
+
         if(act.jump == JumpType.JumpNormal) ActionJumpNormal();
     }
     private void FixedUpdate()
     {
+        if (isControlLocked)
+        {
+            _rigid.linearVelocity = Vector2.zero;
+            return;
+        }
+
         isGrounded = CheckGrounded();
         if(isGrounded) jumpTime = jumpTimeMax;
 

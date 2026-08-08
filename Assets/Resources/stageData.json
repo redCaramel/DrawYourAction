@@ -42,6 +42,46 @@
                     "isCleared" : false
                 }
             ]
+        },
+        {
+            "sceneNum" : 4, "sceneName" : "ActionScene4", "title" : "점프맵", "maxScript" : 3, "handSize" : 2, "cardTime" : [1,1,1],
+            "mission" : [
+                {
+                    "mainText" : "1번 깃발에 도달하기",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                },
+                {
+                    "mainText" : "2번 깃발에 도달하기",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                },
+                {
+                    "mainText" : "3번 깃발에 도달하기",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                },
+                {
+                    "mainText" : "4번 깃발에 도달하기",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                },
+                {
+                    "mainText" : "5번 깃발에 도달하기",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                }
+            ]
         }
     ]  
 }

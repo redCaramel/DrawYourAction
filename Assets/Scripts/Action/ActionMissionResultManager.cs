@@ -42,6 +42,11 @@ public class ActionMissionResultManager : MonoBehaviour
     /// </summary>
     private void LockPlayerControl()
     {
+        // closeSetting()이 내부적으로 UnlockInput()을 호출하므로, 잠금 로직보다 먼저 실행해야
+        // 아래에서 거는 잠금이 곧바로 풀리지 않는다.
+        if (PopupButtonListener.instance != null)
+            PopupButtonListener.instance.closeSetting();
+
         ActionControlModeManager.LockInput();
         ScriptDragManager.LockInput();
 

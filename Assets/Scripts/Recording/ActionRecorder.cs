@@ -64,6 +64,7 @@ public class ActionRecorder : MonoBehaviour
         ScriptDataManager.instance.EnsureScript(currentRecordingIndex);
         ScriptData data = ScriptDataManager.instance.getScript(currentRecordingIndex);
         data.status = 2;
+        data.actions.Clear(); // 재녹화 시 기존에 기록된 행동을 지우고 새로 채운다.
         ScriptDataManager.instance.SetScript(currentRecordingIndex, data);
         recordCount++;
         recording = true;

@@ -95,8 +95,10 @@ public class ActionControlModeManager : MonoBehaviour
         JumpType jump = JumpType.Idle;
         AttackType atk = AttackType.Idle;
 
-        if (Input.GetKey(KeyCode.A))
-            move = MovementType.LeftNormal;
+        if(Input.GetKeyDown(KeyCode.W)) 
+                atk = AttackType.AttackNormal;
+            else if(Input.GetKey(KeyCode.A))
+                move = MovementType.LeftNormal;
         else if (Input.GetKey(KeyCode.D))
             move = MovementType.RightNormal;
 

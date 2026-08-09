@@ -17,6 +17,7 @@ public enum JumpType
 public enum AttackType
 {
     // All of Attacks
-    Idle
+    Idle,
+    AttackNormal
     // TODO - More Attacks!
 }

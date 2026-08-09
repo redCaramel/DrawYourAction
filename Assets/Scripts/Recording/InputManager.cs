@@ -26,7 +26,9 @@ public class InputManager : MonoBehaviour
         AttackType atk = AttackType.Idle;
         if(RecordingMenuSelector.instance.getMenu()==1)
         {
-            if(Input.GetKey(KeyCode.A))
+            if(Input.GetKeyDown(KeyCode.W)) 
+                atk = AttackType.AttackNormal;
+            else if(Input.GetKey(KeyCode.A))
                 move = MovementType.LeftNormal;
             else if(Input.GetKey(KeyCode.D))
                 move = MovementType.RightNormal;

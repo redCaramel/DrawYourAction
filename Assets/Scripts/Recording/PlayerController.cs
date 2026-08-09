@@ -1,15 +1,24 @@
+using System.Collections;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Attack")]
+    [SerializeField] private GameObject atkRangeObject; // 공격 판정 오브젝트 (Collider2D + AttackHitbox 필요)
+    [SerializeField] private float atkRangeDuration = 0.2f; // 판정 오브젝트가 켜져있는 시간
+
     private Rigidbody2D _rigid;
     private SpriteRenderer _sprite;
     private Collider2D _collider;
     private Animator _anim;
+    private AttackHitbox _atkHitbox;
+    private Coroutine _atkRangeRoutine;
+    private Vector3 _atkRangeLocalPos; // atkRangeObject의 원래(오른쪽 기준) 로컬 위치
     private float playerSpeed;
     private float playerJumpPower;
     private int dir;
+    private int facingDir = 1; // 플레이어가 바라보는 방향 (-1: 왼쪽, 1: 오른쪽). dir과 달리 Idle에서도 유지된다.
     private int jumpTime;
     private int jumpTimeMax;
     private bool isGrounded = true;
@@ -35,6 +44,13 @@ public class PlayerController : MonoBehaviour
             _sprite = gameObject.GetComponent<SpriteRenderer>();
             _collider = gameObject.GetComponent<Collider2D>();
             _anim = gameObject.GetComponent<Animator>();
+
+            if (atkRangeObject != null)
+            {
+                _atkRangeLocalPos = atkRangeObject.transform.localPosition;
+                _atkHitbox = atkRangeObject.GetComponent<AttackHitbox>();
+                atkRangeObject.SetActive(false);
+            }
         }
         else Destroy(gameObject);
        
@@ -69,6 +85,7 @@ public class PlayerController : MonoBehaviour
          MovementType move;
         _sprite.flipX = true;
         dir = -1;
+        facingDir = -1;
         move = MovementType.LeftNormal;
         _anim.SetFloat("Speed", 1);
         return move;
@@ -78,6 +95,7 @@ public class PlayerController : MonoBehaviour
         MovementType move;
         _sprite.flipX = false;
         dir = 1;
+        facingDir = 1;
         move = MovementType.RightNormal;
         _anim.SetFloat("Speed", 1);
         return move;
@@ -87,6 +105,38 @@ public class PlayerController : MonoBehaviour
     {
         jumpRequested = true;
         return jumpTime > 0 ? JumpType.JumpNormal : JumpType.Idle;
+    }
+    private AttackType ActionAtkNormal()
+    {
+        AnimatorStateInfo stateInfo = _anim.GetCurrentAnimatorStateInfo(0);
+
+        // 이미 A1, A2, A3 중 하나가 재생 중이라면 실행하지 않음 (Tag 활용)
+        if (stateInfo.IsTag("atk")) return AttackType.Idle;
+        AttackType atk;
+        atk = AttackType.AttackNormal;
+        _anim.SetTrigger("Attack");
+        ShowAttackRange();
+        return atk;
+    }
+    private void ShowAttackRange()
+    {
+        if (atkRangeObject == null) return;
+
+        if (_atkRangeRoutine != null) StopCoroutine(_atkRangeRoutine);
+        _atkRangeRoutine = StartCoroutine(AttackRangeRoutine());
+    }
+    private IEnumerator AttackRangeRoutine()
+    {
+        // 바라보는 방향(facingDir)에 맞춰 판정 오브젝트 위치를 좌우로 뒤집는다.
+        atkRangeObject.transform.localPosition = new Vector3(_atkRangeLocalPos.x * facingDir, _atkRangeLocalPos.y, _atkRangeLocalPos.z);
+
+        _atkHitbox?.ClearDetected();
+        atkRangeObject.SetActive(true);
+
+        yield return new WaitForSeconds(atkRangeDuration);
+
+        atkRangeObject.SetActive(false);
+        _atkRangeRoutine = null;
     }
     public void StopMovement()
     {
@@ -115,6 +165,8 @@ public class PlayerController : MonoBehaviour
         else if(act.move == MovementType.RightNormal) ActionRightNormal();
 
         if(act.jump == JumpType.JumpNormal) ActionJumpNormal();
+
+        if(act.atk == AttackType.AttackNormal) ActionAtkNormal();
     }
     private void FixedUpdate()
     {

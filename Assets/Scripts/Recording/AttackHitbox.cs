@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 플레이어 공격 판정 오브젝트에 부착하는 컴포넌트.
 /// 콜라이더(Is Trigger) 안에 들어온 오브젝트를 감지해서 목록으로 들고 있는다.
-/// 실제 데미지 처리는 OnTriggerEnter2D의 TODO 지점 또는 ObjectDetected 이벤트를 구독해서 이후에 추가한다.
+/// 감지된 오브젝트(또는 그 부모)에 Mission2_KillAllEnemy가 있으면 데미지를 적용한다.
 /// </summary>
 [RequireComponent(typeof(Collider2D))]
 public class AttackHitbox : MonoBehaviour
@@ -28,7 +28,12 @@ public class AttackHitbox : MonoBehaviour
         if (!detected.Add(other)) return;
 
         ObjectDetected?.Invoke(other);
-        // TODO: 데미지 로직 - other(적 등)가 유효한 대상이면 데미지를 적용한다.
+
+        Mission2_KillAllEnemy enemy = other.GetComponentInParent<Mission2_KillAllEnemy>();
+        if (enemy != null)
+        {
+            enemy.TakeDamage(StatManager.instance.playerAtk);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)

@@ -11,6 +11,8 @@ public class StatManager : MonoBehaviour
     public float playerGravity => _playerGravity;
     [SerializeField] private int _playerJumpTime;
     public int playerJumpTime => _playerJumpTime;
+    [SerializeField] private int _playerAtk;
+    public int playerAtk => _playerAtk;
 
     // ----------------------------------------------------
     // Creating and Resetting Instance

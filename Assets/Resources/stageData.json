@@ -82,6 +82,18 @@
                     "isCleared" : false
                 }
             ]
+        },
+        {
+            "sceneNum" : 5, "sceneName" : "ActionScene5", "title" : "공격", "maxScript" : 1, "handSize" : 1, "cardTime" : [1],
+            "mission" : [
+                {
+                    "mainText" : "연습용 샌드백 잡기",
+                    "currentValue" : 0,
+                    "maxValue" : 1,
+                    "type" : 2,
+                    "isCleared" : false
+                }
+            ]
         }
     ]  
 }

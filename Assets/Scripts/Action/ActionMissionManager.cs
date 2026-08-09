@@ -8,6 +8,7 @@ public class ActionMissionManager : MonoBehaviour
 
     private List<MissionManagerInterface> activeMissions = new List<MissionManagerInterface>();
     private List<MissionData> missionDataList;
+    private List<int> lastCurrentValues = new List<int>();
     private bool levelCompleted = false;
 
     void Start()
@@ -36,6 +37,30 @@ public class ActionMissionManager : MonoBehaviour
         {
             Debug.LogWarning("PreviewMissonManager: missionObjects and missionData count mismatch.");
         }
+
+        InjectMissionData();
+
+        lastCurrentValues.Clear();
+        foreach (var data in missionDataList)
+        {
+            lastCurrentValues.Add(data != null ? data.currentValue : 0);
+        }
+    }
+
+    // missionObjects[i]가 IMissionDataConsumer를 구현하고 있으면, 같은 인덱스의 MissionData를 넘겨준다.
+    private void InjectMissionData()
+    {
+        int count = Mathf.Min(missionObjects.Count, missionDataList.Count);
+        for (int i = 0; i < count; i++)
+        {
+            if (missionObjects[i] == null) continue;
+
+            IMissionDataConsumer consumer = missionObjects[i].GetComponent<IMissionDataConsumer>();
+            if (consumer != null)
+            {
+                consumer.SetMissionData(missionDataList[i]);
+            }
+        }
     }
 
     void Update()
@@ -62,6 +87,13 @@ public class ActionMissionManager : MonoBehaviour
             if (missionDataList[i].isCleared != cleared)
             {
                 missionDataList[i].isCleared = cleared;
+                changed = true;
+            }
+
+            int currentValue = missionDataList[i].currentValue;
+            if (i < lastCurrentValues.Count && lastCurrentValues[i] != currentValue)
+            {
+                lastCurrentValues[i] = currentValue;
                 changed = true;
             }
         }

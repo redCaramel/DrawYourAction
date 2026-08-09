@@ -5,12 +5,14 @@ public class Mission2_KillAllEnemy : MonoBehaviour, MissionManagerInterface
 {
     [SerializeField] private int maxHp = 3;
     [SerializeField] private Animator anim;
+    [SerializeField] private EnemyHealthBar healthBar;
 
     private int hp;
     private bool isDead = false;
 
     private void Awake()
     {
+        healthBar.SetHealth(maxHp);
         anim.SetBool("Dead", false);
         hp = maxHp;
     }
@@ -20,6 +22,7 @@ public class Mission2_KillAllEnemy : MonoBehaviour, MissionManagerInterface
         if (isDead) return;
         anim.SetTrigger("Damaged");
         hp -= damage;
+        healthBar.TakeDamage(damage);
         if (hp <= 0)
         {
             anim.SetBool("Dead", true);

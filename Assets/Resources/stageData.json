@@ -113,6 +113,18 @@
                     "isCleared" : false
                 }
             ]
-        } 
+        },
+        {
+            "sceneNum" : 7, "sceneName" : "ActionScene7", "title" : "성벽 수비", "maxScript" : 2, "handSize" : 1, "cardTime" : [3,3],
+            "mission" : [
+                {
+                    "mainText" : "연습용 샌드백 잡기",
+                    "currentValue" : 0,
+                    "maxValue" : 14,
+                    "type" : 2,
+                    "isCleared" : false
+                }
+            ]
+        }
     ]  
 }

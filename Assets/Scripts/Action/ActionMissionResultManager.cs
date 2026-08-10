@@ -5,6 +5,7 @@ public class ActionMissionResultManager : MonoBehaviour
     [SerializeField] GameObject SuccessPopup;
     [SerializeField] GameObject FailurePopup;
     [SerializeField] GameObject PreviewPopup;
+    private bool isFinished = false;
     // ----------------------------------------------------
     // Creating and Resetting Instance
     // Don't modify here
@@ -59,6 +60,8 @@ public class ActionMissionResultManager : MonoBehaviour
 
     public void MissonSuccess()
     {
+        if(isFinished) return;
+        isFinished = true;
         LockPlayerControl();
 
         RectTransform popupRect;
@@ -89,6 +92,8 @@ public class ActionMissionResultManager : MonoBehaviour
     }
     public void MissionFailure()
     {
+        if(isFinished) return;
+        isFinished = true;
         LockPlayerControl();
 
         RectTransform popupRect = FailurePopup.GetComponent<RectTransform>();

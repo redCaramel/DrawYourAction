@@ -11,6 +11,9 @@ public class ActionMissionManager : MonoBehaviour
     private List<int> lastCurrentValues = new List<int>();
     private bool levelCompleted = false;
 
+    private Mission3_Time timeMission;
+    private bool timeMissionStopped = false;
+
     void Start()
     {
         foreach (var obj in missionObjects)
@@ -21,6 +24,7 @@ public class ActionMissionManager : MonoBehaviour
                 if (mission != null)
                 {
                     activeMissions.Add(mission);
+                    if (mission is Mission3_Time m3) timeMission = m3;
                 }
                 else
                 {
@@ -68,6 +72,7 @@ public class ActionMissionManager : MonoBehaviour
         if (levelCompleted) return;
 
         SyncMissionProgress();
+        CheckNonTimerMissionsCleared();
 
         if (CheckAllMissionsCleared())
         {
@@ -102,6 +107,21 @@ public class ActionMissionManager : MonoBehaviour
         {
             ui.Refresh();
         }
+    }
+
+    // Mission3(타이머)를 제외한 모든 미션이 클리어되면 타이머를 강제로 멈춘다.
+    private void CheckNonTimerMissionsCleared()
+    {
+        if (timeMission == null || timeMissionStopped || !timeMission.IsTiming) return;
+
+        foreach (var mission in activeMissions)
+        {
+            if (ReferenceEquals(mission, timeMission)) continue;
+            if (!mission.isClear()) return;
+        }
+
+        timeMissionStopped = true;
+        timeMission.StopTimer();
     }
 
     private bool CheckAllMissionsCleared()

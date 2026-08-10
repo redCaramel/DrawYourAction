@@ -29,6 +29,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ActionScenes/ActionScene4.unity
     guid: b298152c3ec45344595fae838a0d42b6
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene5.unity
+    guid: 166a599f3bf7fc647b2d9c41d65a2017
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene6.unity
+    guid: 8e80688d793aff04bb5f696c90d1d8d6
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -6,8 +6,9 @@ public class Mission2_KillAllEnemy : MonoBehaviour, MissionManagerInterface
     [SerializeField] private int maxHp = 3;
     [SerializeField] private Animator anim;
     [SerializeField] private EnemyHealthBar healthBar;
+    public bool enable = true;
 
-    private int hp;
+    [SerializeField] private int hp;
     private bool isDead = false;
 
     private void Awake()
@@ -19,22 +20,16 @@ public class Mission2_KillAllEnemy : MonoBehaviour, MissionManagerInterface
 
     public void TakeDamage(int damage)
     {
-        if (isDead) return;
+        if (isDead || !enable) return;
         anim.SetTrigger("Damaged");
+        Debug.Log("asdf");
         hp -= damage;
         healthBar.TakeDamage(damage);
         if (hp <= 0)
         {
             anim.SetBool("Dead", true);
-            Die();
+            isDead = true;
         }
-    }
-
-    private void Die()
-    {
-        isDead = true;
-        // TODO: 사망 애니메이션/이펙트 등 필요 시 여기에 추가
-        gameObject.SetActive(false);
     }
 
     public bool isClear()

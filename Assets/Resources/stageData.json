@@ -125,6 +125,25 @@
                     "isCleared" : false
                 }
             ]
+        },
+        {
+            "sceneNum" : 8, "sceneName" : "ActionScene8", "title" : "왕성으로 가는 길", "maxScript" : 2, "handSize" : 1, "cardTime" : [3,1],
+            "mission" : [
+                {
+                    "mainText" : "깃발에 도달하기",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                },
+                {
+                    "mainText" : "제한시간 내 미선 완수",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 3,
+                    "isCleared" : false
+                }
+            ]
         }
     ]  
 }

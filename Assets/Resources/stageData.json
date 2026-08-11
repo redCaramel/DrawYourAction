@@ -87,7 +87,7 @@
             "sceneNum" : 5, "sceneName" : "ActionScene5", "title" : "공격", "maxScript" : 1, "handSize" : 1, "cardTime" : [1],
             "mission" : [
                 {
-                    "mainText" : "연습용 샌드백 잡기",
+                    "mainText" : "연습용 샌드백 파괴",
                     "currentValue" : 0,
                     "maxValue" : 1,
                     "type" : 2,
@@ -99,7 +99,7 @@
             "sceneNum" : 6, "sceneName" : "ActionScene6", "title" : "연무장", "maxScript" : 2, "handSize" : 1, "cardTime" : [3,3],
             "mission" : [
                 {
-                    "mainText" : "연습용 샌드백 잡기",
+                    "mainText" : "연습용 인형 파괴",
                     "currentValue" : 0,
                     "maxValue" : 14,
                     "type" : 2,
@@ -118,9 +118,9 @@
             "sceneNum" : 7, "sceneName" : "ActionScene7", "title" : "성벽 수비", "maxScript" : 2, "handSize" : 1, "cardTime" : [3,3],
             "mission" : [
                 {
-                    "mainText" : "연습용 샌드백 잡기",
+                    "mainText" : "모든 고블린 처치",
                     "currentValue" : 0,
-                    "maxValue" : 14,
+                    "maxValue" : 5,
                     "type" : 2,
                     "isCleared" : false
                 }
@@ -131,6 +131,32 @@
             "mission" : [
                 {
                     "mainText" : "깃발에 도달하기",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                },
+                {
+                    "mainText" : "제한시간 내 미선 완수",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 3,
+                    "isCleared" : false
+                }
+            ]
+        },
+        {
+            "sceneNum" : 9, "sceneName" : "ActionScene9", "title" : "용사 시험", "maxScript" : 3, "handSize" : 2, "cardTime" : [1,2,2],
+            "mission" : [
+                {
+                    "mainText" : "모든 시험용 인형 파괴",
+                    "currentValue" : 0,
+                    "maxValue" : 9,
+                    "type" : 2,
+                    "isCleared" : false
+                },
+                {
+                    "mainText" : "깃대에 도달하기",
                     "currentValue" : 0,
                     "maxValue" : 0,
                     "type" : 1,

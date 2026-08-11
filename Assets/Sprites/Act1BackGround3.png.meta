@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 32e23453d1eaefc42a4b4b75dbf298df
+guid: e728f8136339eb9448459624f6cc935e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4607171170701466264
-    second: "\uC2A4\uD06C\uB9B0\uC0F7 2026-08-11 044828_0"
+      213: -746129584670679074
+    second: Gemini_Generated_Image_tigbyktigbyktigb_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uC2A4\uD06C\uB9B0\uC0F7 2026-08-11 044828_0"
+      name: Gemini_Generated_Image_tigbyktigbyktigb_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 352
-        height: 246
+        width: 4320
+        height: 992
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8652be6ea3a0010c0800000000000000
-      internalID: -4607171170701466264
+      spriteID: edf5b4d881735a5f0800000000000000
+      internalID: -746129584670679074
       vertices: []
       indices: 
       edges: []
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Gemini_Generated_Image_tigbyktigbyktigb_0: -746129584670679074
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -44,6 +44,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ActionScenes/ActionScene9.unity
     guid: 217e755dbfe441d4287b2de27fc786b2
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene10.unity
+    guid: c84e7ae350f9cbe4d8042e52f4ecc369
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

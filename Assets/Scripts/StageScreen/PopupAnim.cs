@@ -211,7 +211,7 @@ public class PopupAnim : MonoBehaviour
         {
             if(times[i] > 0)
             {
-                temp += $"{i}초({times[i]}) ";
+                temp += $"{i}초({times[i]})\n";
             }
         }
         scriptTimes.text = temp;

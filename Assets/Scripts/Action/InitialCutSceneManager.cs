@@ -112,7 +112,8 @@ public class InitialCutSceneManager : MonoBehaviour
         // Update()가 같은 프레임에 중복으로 진입하지 않도록 즉시 정리
         isCutSceneShowing = false;
         activeCutScene = null;
-        endingText1.GetComponent<TextMeshProUGUI>().text = $"Act {StageImporter.stageCount/5}";
+        int act = (StageImporter.stageCount-1)/5;
+        endingText1.GetComponent<TextMeshProUGUI>().text = $"Act {act}";
         endingText2.GetComponent<TextMeshProUGUI>().text = $"Scene #{StageImporter.stageCount}";
 
         StartCoroutine(Co_PlayEndingTextsThenFinish());

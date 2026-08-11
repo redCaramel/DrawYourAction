@@ -170,6 +170,18 @@
                     "isCleared" : false
                 }
             ]
+        },
+        {
+            "sceneNum" : 10, "sceneName" : "ActionScene10", "title" : "최종 테스트", "maxScript" : 3, "handSize" : 2, "cardTime" : [1,2,2],
+            "mission" : [
+                {
+                    "mainText" : "최종 시험용 골렘 파괴",
+                    "currentValue" : 0,
+                    "maxValue" : 1,
+                    "type" : 2,
+                    "isCleared" : false
+                }
+            ]
         }
     ]  
 }

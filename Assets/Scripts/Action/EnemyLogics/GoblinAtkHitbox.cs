@@ -11,7 +11,7 @@ public class GoblinAtkHitbox : MonoBehaviour
 {
     [SerializeField] private Act1Goblin goblin;
     private readonly HashSet<Collider2D> detected = new HashSet<Collider2D>();
-    [SerializeField] private Animator playerAnim;
+    [SerializeField] private Animator playerAnim; // 프리팹이라 Inspector에서 지정할 수 없으므로, 비워두면 PlayerController.instance에서 자동으로 가져온다.
     /// <summary>공격 판정을 다시 켤 때 이전에 감지했던 목록을 비운다.</summary>
     public void ClearDetected()
     {
@@ -19,7 +19,12 @@ public class GoblinAtkHitbox : MonoBehaviour
     }
     void Awake()
     {
-        playerAnim.SetBool("dead", false);
+        if (playerAnim == null && PlayerController.instance != null)
+        {
+            playerAnim = PlayerController.instance.GetComponent<Animator>();
+        }
+
+        if (playerAnim != null) playerAnim.SetBool("dead", false);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -30,7 +35,7 @@ public class GoblinAtkHitbox : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             goblin.StopAction();
-            playerAnim.SetTrigger("death");
+            if (playerAnim != null) playerAnim.SetTrigger("death");
             if (ActionMissionResultManager.instance != null)
             {
                 ActionMissionResultManager.instance.MissionFailure();

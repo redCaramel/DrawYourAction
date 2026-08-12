@@ -6,6 +6,9 @@ public class ActionMissionResultManager : MonoBehaviour
     [SerializeField] GameObject FailurePopup;
     [SerializeField] GameObject PreviewPopup;
     private bool isFinished = false;
+
+    /// <summary>MissonSuccess() 또는 MissionFailure()가 호출되면(둘 중 먼저 호출되는 한 번만) 발생.</summary>
+    public event System.Action OnMissionFinished;
     // ----------------------------------------------------
     // Creating and Resetting Instance
     // Don't modify here
@@ -62,6 +65,7 @@ public class ActionMissionResultManager : MonoBehaviour
     {
         if(isFinished) return;
         isFinished = true;
+        OnMissionFinished?.Invoke();
         LockPlayerControl();
 
         RectTransform popupRect;
@@ -94,6 +98,7 @@ public class ActionMissionResultManager : MonoBehaviour
     {
         if(isFinished) return;
         isFinished = true;
+        OnMissionFinished?.Invoke();
         LockPlayerControl();
 
         RectTransform popupRect = FailurePopup.GetComponent<RectTransform>();

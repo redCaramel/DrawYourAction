@@ -200,7 +200,7 @@ public class PopupAnim : MonoBehaviour
             temp += $"- {mission.mainText}\n";
         }
         missions.text = temp;
-        temp = "- ";
+        temp = "";
         int[] times = new int[31];
         for(int i = 0;i < StageImporter.cardTime.Count;i++)
         {
@@ -211,7 +211,7 @@ public class PopupAnim : MonoBehaviour
         {
             if(times[i] > 0)
             {
-                temp += $"{i}초({times[i]})\n";
+                temp += $"- {i}초({times[i]})\n";
             }
         }
         scriptTimes.text = temp;

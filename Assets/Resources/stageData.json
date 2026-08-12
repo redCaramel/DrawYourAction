@@ -199,10 +199,22 @@
             "sceneNum" : 12,  "sceneName" : "ActionScene12", "title" : "어둠에서의 습격", "maxScript" : 3, "handSize" : 3, "cardTime" : [1,2,2],
             "mission" : [
                 {
-                    "mainText" : "생존",
+                    "mainText" : "90초간 생존",
                     "currentValue" : 0,
                     "maxValue" : 0,
                     "type" : 4,
+                    "isCleared" : false
+                }
+            ]
+        },
+        {
+            "sceneNum" : 13,  "sceneName" : "ActionScene13", "title" : "고블린 퇴치", "maxScript" : 3, "handSize" : 3, "cardTime" : [1,2,2],
+            "mission" : [
+                {
+                    "mainText" : "고블린 20마리 퇴치",
+                    "currentValue" : 0,
+                    "maxValue" : 20,
+                    "type" : 2,
                     "isCleared" : false
                 }
             ]

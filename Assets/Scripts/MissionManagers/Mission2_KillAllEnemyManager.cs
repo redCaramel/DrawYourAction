@@ -16,6 +16,13 @@ public class Mission2_KillAllEnemyManager : MonoBehaviour, MissionManagerInterfa
         missionData = data;
     }
 
+    /// <summary>런타임에 새로 소환된 적(예: GoblinSpawner가 생성한 goblin)을 감시 목록에 추가한다.</summary>
+    public void AddEnemy(Mission2_KillAllEnemy enemy)
+    {
+        if (enemy == null) return;
+        enemies.Add(enemy);
+    }
+
     private void Update()
     {
         if (cleared) return;

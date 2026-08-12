@@ -11,6 +11,9 @@ using UnityEngine;
 /// 그 자리에서 groundStickDuration만큼 유지된 뒤 사라진다. 발사 직전에는 warningBox 프리팹으로 화살의
 /// 이동 경로를 잠깐 표시해 예고한다. ActionMissionManager의 missionObjects가 모두 클리어되면
 /// (OnAllMissionsCleared) 더 이상 화살을 발사하지 않는다.
+/// arrowCutSceneActivate가 켜져 있으면, 이 컴포넌트가 활성화된 후 cutSceneArrowDelay만큼 지난 시점에
+/// cutSceneArrowSpawnPoint 위치에서 정확히 아래쪽으로 향하는 화살을 한 번 발사한다(경고 포함, 위 주기적
+/// 발사와는 별개의 1회성 연출).
 /// </summary>
 public class Act2Arrows : MonoBehaviour
 {
@@ -45,6 +48,11 @@ public class Act2Arrows : MonoBehaviour
     [SerializeField] private float groundStickDuration = 2f; // Ground에 닿은 뒤 사라지기까지 유지되는 시간
     [SerializeField] private float maxFlightTime = 6f; // Ground에 닿지 못했을 때를 대비한 안전 소멸 시간
 
+    [Header("컷씬용 특수 화살 (1회성)")]
+    [SerializeField] private bool arrowCutSceneActivate = false; // 켜져 있을 때만 아래의 1회성 연출 화살을 발동한다
+    [SerializeField] private Transform cutSceneArrowSpawnPoint; // 이 화살이 소환될 정확한 위치
+    [SerializeField] private float cutSceneArrowDelay = 2f; // 이 컴포넌트가 활성화된 후 화살이 발사되기까지의 대기 시간
+
     private Coroutine spawnRoutine;
     private bool isFiring = false;
     private float firingStartTime; // StartArrow()가 호출된 시각. 발사 주기를 줄이는 데 기준이 되는 경과 시간을 계산할 때 사용
@@ -54,6 +62,14 @@ public class Act2Arrows : MonoBehaviour
         if (player == null && PlayerController.instance != null)
         {
             player = PlayerController.instance.transform;
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (arrowCutSceneActivate)
+        {
+            StartCoroutine(Co_CutSceneArrow());
         }
     }
 
@@ -204,6 +220,37 @@ public class Act2Arrows : MonoBehaviour
             GameObject arrow = Instantiate(arrowPrefab, spawnPositions[i], Quaternion.Euler(0f, 0f, fireAngleDeg));
             StartCoroutine(Co_MoveArrow(arrow, fireDirs[i]));
         }
+        // ============================================================
+    }
+
+    // arrowCutSceneActivate가 켜져 있을 때, 활성화 후 cutSceneArrowDelay만큼 지난 시점에 cutSceneArrowSpawnPoint
+    // 위치에서 정확히 아래쪽(Vector2.down)으로 향하는 화살을 한 번 발사한다. 다른 화살과 마찬가지로
+    // warningBoxPrefab으로 경로를 먼저 예고한 뒤 발사한다.
+    private IEnumerator Co_CutSceneArrow()
+    {
+        if (cutSceneArrowSpawnPoint == null || arrowPrefab == null) yield break;
+
+        if (cutSceneArrowDelay > 0f) yield return new WaitForSeconds(cutSceneArrowDelay);
+
+        Vector2 spawnPos = cutSceneArrowSpawnPoint.position;
+        Vector2 fireDir = Vector2.down;
+        float fireAngleDeg = Mathf.Atan2(fireDir.y, fireDir.x) * Mathf.Rad2Deg;
+
+        // ===== 경고 표시: 정확히 아래쪽으로 향하는 경로를 warningBox로 미리 표시 =====
+        GameObject warning = null;
+        if (warningBoxPrefab != null)
+        {
+            warning = Instantiate(warningBoxPrefab, spawnPos, Quaternion.Euler(0f, 0f, fireAngleDeg));
+        }
+
+        if (warningDuration > 0f) yield return new WaitForSeconds(warningDuration);
+
+        if (warning != null) Destroy(warning);
+        // ============================================================
+
+        // ===== 발사: 화살을 소환해 정확히 아래쪽으로 진행시킨다 =====
+        GameObject arrow = Instantiate(arrowPrefab, spawnPos, Quaternion.Euler(0f, 0f, fireAngleDeg));
+        StartCoroutine(Co_MoveArrow(arrow, fireDir));
         // ============================================================
     }
 

@@ -182,6 +182,30 @@
                     "isCleared" : false
                 }
             ]
+        },
+        {
+            "sceneNum" : 11,  "sceneName" : "ActionScene11", "title" : "어둠의 숲", "maxScript" : 2, "handSize" : 1, "cardTime" : [1,1],
+            "mission" : [
+                {
+                    "mainText" : "목표지점 도달",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                }
+            ]
+        },
+        {
+            "sceneNum" : 12,  "sceneName" : "ActionScene12", "title" : "어둠에서의 습격", "maxScript" : 3, "handSize" : 3, "cardTime" : [1,2,2],
+            "mission" : [
+                {
+                    "mainText" : "생존",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 4,
+                    "isCleared" : false
+                }
+            ]
         }
     ]  
 }

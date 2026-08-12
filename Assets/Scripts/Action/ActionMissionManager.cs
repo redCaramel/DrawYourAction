@@ -14,6 +14,37 @@ public class ActionMissionManager : MonoBehaviour
     private Mission3_Time timeMission;
     private bool timeMissionStopped = false;
 
+    /// <summary>missionObjects가 모두 클리어되어 스테이지가 끝났을 때(ExecuteFinalClear) 발생.</summary>
+    public event System.Action OnAllMissionsCleared;
+
+    // ----------------------------------------------------
+    // Creating and Resetting Instance
+    // Don't modify here
+    public static ActionMissionManager instance {get; private set;}
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatic()
+    {
+        instance = null;
+    }
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else Destroy(gameObject);
+    }
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
+    }
+
+    // ----------------------------------------------------
+
     void Start()
     {
         foreach (var obj in missionObjects)
@@ -143,5 +174,6 @@ public class ActionMissionManager : MonoBehaviour
     {
         levelCompleted = true;
         ActionMissionResultManager.instance.MissonSuccess();
+        OnAllMissionsCleared?.Invoke();
     }
 }

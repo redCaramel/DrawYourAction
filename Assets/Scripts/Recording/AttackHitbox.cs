@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -33,6 +34,12 @@ public class AttackHitbox : MonoBehaviour
         if (enemy != null)
         {
             enemy.TakeDamage(StatManager.instance.playerAtk);
+        }
+
+        BreakableObject breakAble = other.GetComponentInParent<BreakableObject>();
+        if(breakAble != null && !breakAble.isBroken)
+        {
+            breakAble.Break();
         }
     }
 

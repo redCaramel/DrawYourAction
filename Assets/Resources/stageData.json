@@ -218,6 +218,32 @@
                     "isCleared" : false
                 }
             ]
+        },
+        {
+            "sceneNum" : 14,  "sceneName" : "ActionScene14", "title" : "숲길 지나기", "maxScript" : 3, "handSize" : 1, "cardTime" : [1,2,2],
+            "mission" : [
+                {
+                    "mainText" : "목표 지점 도달",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 1,
+                    "isCleared" : false
+                },
+                {
+                    "mainText" : "고블린 무리 마무리",
+                    "currentValue" : 0,
+                    "maxValue" : 5,
+                    "type" : 2,
+                    "isCleared" : false
+                },
+                {
+                    "mainText" : "제한시간 내 미선 완수",
+                    "currentValue" : 0,
+                    "maxValue" : 0,
+                    "type" : 3,
+                    "isCleared" : false
+                }
+            ]
         }
     ]  
 }

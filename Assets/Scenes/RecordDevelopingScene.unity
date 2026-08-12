@@ -4587,11 +4587,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c913b2aebaf6860468565b5005a76dce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerSpeed: 7
-  _playerJumpPower: 15
-  _playerGravity: 4
-  _playerJumpTime: 2
-  _playerAtk: 0
+  playerSpeed: 7
+  playerJumpPower: 15
+  playerGravity: 4
+  playerJumpTime: 2
+  playerAtk: 1
 --- !u!4 &867788923
 Transform:
   m_ObjectHideFlags: 0
@@ -8440,6 +8440,7 @@ MonoBehaviour:
   drawingCanvas: {fileID: 1743736177}
   resetButton: {fileID: 1651847905}
   saveButton: {fileID: 96347763}
+  exitButton: {fileID: 2027081246}
   previewThumbnail: {fileID: 1963617310}
   popup: {fileID: 2020219653}
   textureSize: 128
@@ -9554,7 +9555,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2020219654
 RectTransform:
   m_ObjectHideFlags: 0

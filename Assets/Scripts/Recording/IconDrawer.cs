@@ -8,6 +8,7 @@ public class IconDrawer : MonoBehaviour, IPointerDownHandler, IDragHandler
     [SerializeField] private RawImage drawingCanvas; // 그림을 그릴 RawImage
     [SerializeField] private Button resetButton;    // 초기화 버튼
     [SerializeField] private Button saveButton;     // 적용 버튼
+    [SerializeField] private Button exitButton;
     [SerializeField] private Image previewThumbnail;
     [SerializeField] private GameObject popup;
 
@@ -34,6 +35,8 @@ public class IconDrawer : MonoBehaviour, IPointerDownHandler, IDragHandler
             resetButton.onClick.AddListener(ResetCanvas);
         if (saveButton != null)
             saveButton.onClick.AddListener(SaveCanvas);
+        if(exitButton != null) 
+            exitButton.onClick.AddListener(exit);
     }
 
     // 텍스처 생성 및 흰색 초기화
@@ -84,6 +87,10 @@ public class IconDrawer : MonoBehaviour, IPointerDownHandler, IDragHandler
         ScriptWriteManager.instance.setPreviewThumbnail(newIconSprite);
 
         // 팝업 닫기
+        popup.SetActive(false);
+    }
+    public void exit()
+    {
         popup.SetActive(false);
     }
     // 포인터 클릭 시

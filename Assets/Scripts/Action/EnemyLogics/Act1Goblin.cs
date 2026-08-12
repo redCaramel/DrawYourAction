@@ -11,6 +11,8 @@ public class Act1Goblin : MonoBehaviour
     [Header("이동")]
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float attackRange = 1.5f; // 이 범위 안에 들어오면 멈추고 공격을 시작한다.
+    [SerializeField] private bool ignoreChaseRange = true; // true: 사거리 상관없이 플레이어를 계속 추격한다. false: chaseRange 안에 있을 때만 추격한다.
+    [SerializeField] private float chaseRange = 5f; // ignoreChaseRange가 false일 때, 이 범위 밖의 플레이어는 추격하지 않는다.
 
     [Header("공격")]
     [SerializeField] private float attackDelay = 0.6f; // attack 트리거 후 atk 트리거까지 멈춰있는 시간
@@ -100,8 +102,9 @@ public class Act1Goblin : MonoBehaviour
         {
             attackRoutineHandle = StartCoroutine(AttackRoutine());
         }
-        else
+        else if (ignoreChaseRange || distance <= chaseRange)
         {
+            // ignoreChaseRange가 true면 거리와 무관하게, false면 chaseRange 안에 있을 때만 추격한다.
             MoveTowardsPlayer();
         }
     }

@@ -244,6 +244,18 @@
                     "isCleared" : false
                 }
             ]
+        },
+        {
+            "sceneNum" : 15, "sceneName" : "ActionScene15", "title" : "숲의 나무정령", "maxScript" : 3, "handSize" : 2, "cardTime" : [1,2,3 ],
+            "mission" : [
+                {
+                    "mainText" : "나무정령 처치",
+                    "currentValue" : 0,
+                    "maxValue" : 1,
+                    "type" : 2,
+                    "isCleared" : false
+                }
+            ]
         }
     ]  
 }

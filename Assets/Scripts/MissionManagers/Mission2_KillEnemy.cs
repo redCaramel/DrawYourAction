@@ -72,4 +72,7 @@ public class Mission2_KillAllEnemy : MonoBehaviour, MissionManagerInterface
     {
         return isDead;
     }
+
+    // maxHp에 대한 현재 hp의 비율 (0~1). Act2Spirit의 hp 구간별(75%, 50%, 25%) atk2 발동 판정에 사용된다.
+    public float HpRatio => maxHp > 0 ? (float)hp / maxHp : 0f;
 }

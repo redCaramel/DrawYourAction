@@ -32,7 +32,7 @@ public class RecordingMenuSelector : MonoBehaviour
         rec.sprite = buttonSprites[1];
         write.sprite = buttonSprites[2];
         set.sprite = buttonSprites[4];
-
+        backButton.GetComponent<Button>().onClick.AddListener(backToMenu);
         recordButton.GetComponent<Button>().onClick.AddListener(OnRecordButtonClicked);
         writeButton.GetComponent<Button>().onClick.AddListener(OnWriteButtonClicked);
         setButton.GetComponent<Button>().onClick.AddListener(OnSetButtonClicked);

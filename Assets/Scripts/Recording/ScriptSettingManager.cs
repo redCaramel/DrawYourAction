@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScriptSettingManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class ScriptSettingManager : MonoBehaviour
     [SerializeField] private GameObject SlotPrefab;
     [SerializeField] private GameObject contentParent;
     private int instanceCount;
+    private Color redC = new Color(156f/255f, 109/255f, 109/255f);
 
     private const int SlotsPerRow = 6;
 
@@ -30,6 +32,11 @@ public class ScriptSettingManager : MonoBehaviour
             RectTransform rect = slot.GetComponent<RectTransform>();
             rect.anchoredPosition = new Vector2(StartVector.x + col * XSpacing, StartVector.y -  row * YSpacing);
             slot.GetComponent<ScriptDropper>().slotIndex = i;
+
+            if (i < StageImporter.handCount)
+            {
+                slot.GetComponent<Image>().color = redC;
+            }
         }
     }
 

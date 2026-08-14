@@ -16,6 +16,7 @@ public class PopupAnim : MonoBehaviour
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI missions;
     [SerializeField] private TextMeshProUGUI scriptTimes;
+    [SerializeField] private TextMeshProUGUI handsize;
 
     // popup이 카메라 대비 유지해야 하는 상대 위치 (Start 시점, 즉 디자인상의 초기 배치를 기준으로 고정)
     private Vector3 popupOffsetFromCamera;
@@ -215,5 +216,6 @@ public class PopupAnim : MonoBehaviour
             }
         }
         scriptTimes.text = temp;
+        handsize.text = $"* 손에 들 수 있는 스크립트 : {StageImporter.handCount}개";
     }
 }

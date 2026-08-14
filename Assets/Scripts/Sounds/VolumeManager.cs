@@ -28,11 +28,27 @@ public class VolumeManager : MonoBehaviour
 
     public void SetBGMVolume(float vol)
     {
+        if (Mathf.Approximately(bgmVolume, vol)) return;
         bgmVolume = vol;
+        AutoSave();
     }
     public void SetSFXVolume(float vol)
     {
+        if (Mathf.Approximately(sfxVolume, vol)) return;
         sfxVolume = vol;
+        AutoSave();
+    }
+
+    // 세이브 파일을 불러와 볼륨 값만 반영할 때 사용 (자동 저장을 유발하지 않음)
+    public void LoadVolume(float bgm, float sfx)
+    {
+        bgmVolume = bgm;
+        sfxVolume = sfx;
+    }
+
+    private void AutoSave()
+    {
+        if (SaveManager.Instance != null) SaveManager.Instance.SaveCurrentState();
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]

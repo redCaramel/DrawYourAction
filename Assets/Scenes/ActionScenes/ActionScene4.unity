@@ -1378,6 +1378,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 868507892}
     m_Modifications:
+    - target: {fileID: 3110512424042722553, guid: d3daf315167430b45a6471e851e517ab, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3110512424042722553, guid: d3daf315167430b45a6471e851e517ab, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5257757679289423422, guid: d3daf315167430b45a6471e851e517ab, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1461,6 +1469,18 @@ PrefabInstance:
     - target: {fileID: 5517941869363155287, guid: d3daf315167430b45a6471e851e517ab, type: 3}
       propertyPath: m_Name
       value: SettingPopup
+      objectReference: {fileID: 0}
+    - target: {fileID: 5517941869363155287, guid: d3daf315167430b45a6471e851e517ab, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6704598134151921939, guid: d3daf315167430b45a6471e851e517ab, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6704598134151921939, guid: d3daf315167430b45a6471e851e517ab, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9463,8 +9483,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "#Scene 10 - \uC0D8\uD50C\uC52C \uC774\uB984\n\n- \uBAA9\uD45C \uB3C4\uB2EC"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f8b6f0754ef3ad34aa60d20ed2e0209b, type: 2}
-  m_sharedMaterial: {fileID: 1889749317657195654, guid: f8b6f0754ef3ad34aa60d20ed2e0209b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 415c964d36aa471458214c81c8e98512, type: 2}
+  m_sharedMaterial: {fileID: 5759866753753498167, guid: 415c964d36aa471458214c81c8e98512, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -11496,7 +11516,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -7
   m_Sprite: {fileID: 21300000, guid: e2d08eb4cf9b131438ea3beadd201f79, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

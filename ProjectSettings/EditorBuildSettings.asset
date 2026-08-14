@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/TItleScene.unity
+    guid: 0da4e8af4f61cf04b87d7cba9c90686c
+  - enabled: 1
     path: Assets/Scenes/RecordDevelopingScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
@@ -22,10 +25,10 @@ EditorBuildSettings:
     guid: dd00e82dbf1eecb41a6aaf0ef84bcd14
   - enabled: 1
     path: Assets/Scenes/ActionScenes/ActionScene2.unity
-    guid: 5feb253b43fef694baad8ffe12ea18da
+    guid: bad705da0d7da2049bb4a0aa1bf5d8b6
   - enabled: 1
     path: Assets/Scenes/ActionScenes/ActionScene3.unity
-    guid: f1baab608fc2fff4084728a0470194c9
+    guid: ccc5c4da8e6a6f44a89076609a1b8d0c
   - enabled: 1
     path: Assets/Scenes/ActionScenes/ActionScene4.unity
     guid: b298152c3ec45344595fae838a0d42b6
@@ -62,6 +65,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ActionScenes/ActionScene15.unity
     guid: ed01e0f89a77fcd479243f48e8cc60d9
+  - enabled: 1
+    path: Assets/Scenes/StageScene.unity
+    guid: 8ae032c5a8db862429486857efc4907d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

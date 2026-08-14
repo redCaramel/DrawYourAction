@@ -5,7 +5,17 @@ using UnityEngine.UI;
 
 public class StageClearManager : MonoBehaviour
 {
-    public static int currentStage = 1;
+    private static int _currentStage = 1;
+    public static int currentStage
+    {
+        get => _currentStage;
+        set
+        {
+            if (_currentStage == value) return;
+            _currentStage = value;
+            if (SaveManager.Instance != null) SaveManager.Instance.SaveCurrentState();
+        }
+    }
     [SerializeField] List<GameObject> stageButtons;
     [SerializeField] List<Sprite> btnSprites;
 

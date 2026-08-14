@@ -11521,8 +11521,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "#Scene 10 - \uC0D8\uD50C\uC52C \uC774\uB984\n\n- \uBAA9\uD45C \uB3C4\uB2EC"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f8b6f0754ef3ad34aa60d20ed2e0209b, type: 2}
-  m_sharedMaterial: {fileID: 1889749317657195654, guid: f8b6f0754ef3ad34aa60d20ed2e0209b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 415c964d36aa471458214c81c8e98512, type: 2}
+  m_sharedMaterial: {fileID: 5759866753753498167, guid: 415c964d36aa471458214c81c8e98512, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

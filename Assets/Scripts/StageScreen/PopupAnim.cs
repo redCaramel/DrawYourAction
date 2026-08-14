@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
-using UnityEditor.AssetImporters;
 using UnityEngine;
 
 public class PopupAnim : MonoBehaviour

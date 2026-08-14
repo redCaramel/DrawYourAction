@@ -54,6 +54,7 @@ public class IconDrawer : MonoBehaviour, IPointerDownHandler, IDragHandler
     // 캔버스 전체를 흰색(배경색)으로 초기화
     public void ResetCanvas()
     {
+        AudioManager.instance.PlaySFX(SFXType.button1);
         Color[] pixels = new Color[textureSize * textureSize];
         for (int i = 0; i < pixels.Length; i++)
         {
@@ -67,6 +68,7 @@ public class IconDrawer : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     public void SaveCanvas()
     {
+        AudioManager.instance.PlaySFX(SFXType.button1);
         Texture2D drawnTex = GetDrawnTexture();
 
         // drawableTexture는 팝업을 다시 열 때마다 계속 재사용/수정되는 텍스처이므로
@@ -91,6 +93,7 @@ public class IconDrawer : MonoBehaviour, IPointerDownHandler, IDragHandler
     }
     public void exit()
     {
+        AudioManager.instance.PlaySFX(SFXType.button1);
         popup.SetActive(false);
     }
     // 포인터 클릭 시

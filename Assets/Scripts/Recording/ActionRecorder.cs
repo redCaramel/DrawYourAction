@@ -60,6 +60,7 @@ public class ActionRecorder : MonoBehaviour
     public int GetRecordCount() => recordCount;
     public void StartRecording(int time)
     {
+        AudioManager.instance.PlaySFX(SFXType.record);
         currentRecordingIndex = ScriptObjectManager.instance.GetScriptIndex();
         ScriptDataManager.instance.EnsureScript(currentRecordingIndex);
         ScriptData data = ScriptDataManager.instance.getScript(currentRecordingIndex);

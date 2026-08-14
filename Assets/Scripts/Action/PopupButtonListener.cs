@@ -95,16 +95,19 @@ public class PopupButtonListener : MonoBehaviour
     }
     private void s_again()
     {
+        AudioManager.instance.PlaySFX(SFXType.button2);
         UnlockPlayerControl();
         SceneManager.LoadScene(StageImporter.sceneName);
     }
     private void s_back()
     {
+        AudioManager.instance.PlaySFX(SFXType.button2);
         UnlockPlayerControl();
         SceneManager.LoadScene("StageScene");
     }
     private void f_again()
     {
+        AudioManager.instance.PlaySFX(SFXType.button2);
         UnlockPlayerControl();
         SceneManager.LoadScene(StageImporter.sceneName);
     }
@@ -116,28 +119,33 @@ public class PopupButtonListener : MonoBehaviour
     }
     private void f_back()
     {
+        AudioManager.instance.PlaySFX(SFXType.button2);
         UnlockPlayerControl();
         SceneManager.LoadScene("StageScene");
     }
     private void f_preview()
     {
+        AudioManager.instance.PlaySFX(SFXType.button2);
         UnlockPlayerControl();
         StageModeSetting.setMode(true);
         SceneManager.LoadScene(StageImporter.sceneName);
     }
     private void p_record()
     {
+        AudioManager.instance.PlaySFX(SFXType.button2);
         UnlockPlayerControl();
         StageModeSetting.setMode(false);
         SceneManager.LoadScene("RecordDevelopingScene");
     }
     private void p_back()
     {
+        AudioManager.instance.PlaySFX(SFXType.button2);
         UnlockPlayerControl();
         SceneManager.LoadScene("StageScene");
     }
     private void p_again()
     {
+        AudioManager.instance.PlaySFX(SFXType.button2);
         UnlockPlayerControl();
         StageModeSetting.setMode(true);
         SceneManager.LoadScene(StageImporter.sceneName);
@@ -145,6 +153,7 @@ public class PopupButtonListener : MonoBehaviour
     private void openSetting()
     {
         if(isSettingOn) return;
+        AudioManager.instance.PlaySFX(SFXType.button2);
         if(ActionControlModeManager.IsInputLocked || ScriptDragManager.IsInputLocked) return;
         isSettingOn = true;
         LockPlayerControl();
@@ -168,6 +177,7 @@ public class PopupButtonListener : MonoBehaviour
     }
     public void closeSetting()
     {
+        AudioManager.instance.PlaySFX(SFXType.button1);
         GameObject popup = StageModeSetting.isPreview ? PreviewPopup : SuccessPopup;
 
         RectTransform popupRect = popup.GetComponent<RectTransform>();
@@ -186,6 +196,7 @@ public class PopupButtonListener : MonoBehaviour
     }
     public void activateSetting()
     {
+        AudioManager.instance.PlaySFX(SFXType.button2);
         bgmVolumeBeforeEdit = VolumeManager.instance.bgmVolume;
         sfxVolumeBeforeEdit = VolumeManager.instance.sfxVolume;
 
@@ -209,6 +220,7 @@ public class PopupButtonListener : MonoBehaviour
     }
     private void closeVolumeSetting()
     {
+        AudioManager.instance.PlaySFX(SFXType.button2);
         RectTransform popupRect = VolumeSettingPopup.GetComponent<RectTransform>();
         CanvasGroup canvasGroup = VolumeSettingPopup.GetComponent<CanvasGroup>();
 

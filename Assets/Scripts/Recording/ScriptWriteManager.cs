@@ -68,12 +68,14 @@ public class ScriptWriteManager : MonoBehaviour
     // ----------------------------------------------------
     public void OnTitleApplyButtonClicked()
     {
+        AudioManager.instance.PlaySFX(SFXType.button1);
         ActionRecorder.instance.setScriptTitle(ScriptObjectManager.instance.GetScriptIndex(), titleInputField.text);
         ScriptObjectManager.instance.SetScriptColor(ScriptObjectManager.instance.GetScriptIndex(), previewScriptColor);
         ScriptObjectManager.instance.SetScriptThumbnail(ScriptObjectManager.instance.GetScriptIndex(), previewScriptThumbnail);
     }
     private void OnThumbnailButtonClicked()
     {
+        AudioManager.instance.PlaySFX(SFXType.button1);
         DrawingPopup.SetActive(true);
         iconDrawer.ResetCanvas();
     }
@@ -105,6 +107,7 @@ public class ScriptWriteManager : MonoBehaviour
     }
     private void OnColorButtonClicked(int num)
     {
+        AudioManager.instance.PlaySFX(SFXType.button1);
         int temp = previewScriptColor;
         previewScriptColor = num;
         colorGroup[temp].GetComponent<RawImage>().color = new Color(1, 1, 1);

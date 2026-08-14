@@ -19,3 +19,25 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 03f0ab940ace0a5479bcbd8f665debaf, type: 3}
   - type: 2
     clip: {fileID: 8300000, guid: 18041b28be825544eaefa4e24813561c, type: 3}
+  - type: 3
+    clip: {fileID: 8300000, guid: 98abf591876e5414ab1b067e427fdff6, type: 3}
+  - type: 4
+    clip: {fileID: 8300000, guid: 8a2b24a052a4e7148a4b6effeb5aab45, type: 3}
+  - type: 5
+    clip: {fileID: 8300000, guid: 78bb5d17697682d4c9b0ae65fd93dc30, type: 3}
+  - type: 6
+    clip: {fileID: 8300000, guid: c0e6148df584cc84181e6f3fc7c96b83, type: 3}
+  - type: 7
+    clip: {fileID: 8300000, guid: 63cb23c568b6d3c44b899aec1af4a39f, type: 3}
+  - type: 8
+    clip: {fileID: 8300000, guid: 9d4456d674f52524b88e0f2894b8efb9, type: 3}
+  - type: 9
+    clip: {fileID: 8300000, guid: 61362ef547f3a0841b4fbfa1a35c422f, type: 3}
+  - type: 10
+    clip: {fileID: 8300000, guid: 5267e85b8cf839640b2add76a36bc996, type: 3}
+  - type: 11
+    clip: {fileID: 8300000, guid: cefdf2a2cb9d7c848afcd5a628097031, type: 3}
+  - type: 12
+    clip: {fileID: 8300000, guid: a475f85e325f84642af5a0bd633b69ef, type: 3}
+  - type: 13
+    clip: {fileID: 8300000, guid: 6d722cf7abe34474d8ebe487356b0884, type: 3}

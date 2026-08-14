@@ -58,15 +58,20 @@ public class StageEntryManager : MonoBehaviour
         Debug.Log(currentStage);
         if(currentStage == 0) return;
         if(!StageImporter.ImportStage(currentStage)) return;
+        AudioManager.instance.PlaySFX(SFXType.button2);
         StageModeSetting.setMode(false);
         SceneManager.LoadScene("RecordDevelopingScene");
+        
     }
     private void OnPreviewButtonClicked()
     {
+       
         if(currentStage==0) return;
         if(!StageImporter.ImportStage(currentStage)) return;
+         AudioManager.instance.PlaySFX(SFXType.button2);
         StageModeSetting.setMode(true);
         SceneManager.LoadScene(StageImporter.sceneName);
+        
     }
     private void OnStageButtonClicked(int num)
     {
@@ -74,8 +79,10 @@ public class StageEntryManager : MonoBehaviour
         currentStage = num;
         if(StageClearManager.currentStage < currentStage) return;
         if(!StageImporter.ImportStage(currentStage)) return;
+        AudioManager.instance.PlaySFX(SFXType.button1);
         PopupAnim.ShowPopup(currentStage);
         Debug.Log(currentStage);
+        
     }
 
 }

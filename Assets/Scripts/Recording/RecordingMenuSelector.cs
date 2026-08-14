@@ -54,11 +54,13 @@ public class RecordingMenuSelector : MonoBehaviour
 
     public void backToMenu()
     {
+        AudioManager.instance.PlaySFX(SFXType.button2);
         SceneManager.LoadScene("StageScene");
     }
 
     public void OnRecordButtonClicked()
     {
+        AudioManager.instance.PlaySFX(SFXType.button1);
         selectedMenu = 1;
         rec.sprite = buttonSprites[1];
         write.sprite = buttonSprites[2];
@@ -68,6 +70,7 @@ public class RecordingMenuSelector : MonoBehaviour
     public void OnWriteButtonClicked()
     {
         if(ActionRecorder.instance.isRecording()) return;
+        AudioManager.instance.PlaySFX(SFXType.button1);
         selectedMenu = 2;
         rec.sprite = buttonSprites[0];
         write.sprite = buttonSprites[3];
@@ -77,6 +80,7 @@ public class RecordingMenuSelector : MonoBehaviour
     public void OnSetButtonClicked()
     {
         if(ActionRecorder.instance.isRecording()) return;
+        AudioManager.instance.PlaySFX(SFXType.button1);
         selectedMenu = 3;
         rec.sprite = buttonSprites[0];
         write.sprite = buttonSprites[2];

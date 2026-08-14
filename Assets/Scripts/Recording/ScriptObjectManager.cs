@@ -115,6 +115,7 @@ public class ScriptObjectManager : MonoBehaviour
         ProgressBarManager.instance.SetMaxDuration(ScriptDataManager.instance.getScript(index).maxDuration);
         ScriptWriteManager.instance.UpdateWriteScreen(index);
         selectedScriptIndex = index;
+        AudioManager.instance.PlaySFX(SFXType.button1);
     }
 
     public int GetScriptIndex()

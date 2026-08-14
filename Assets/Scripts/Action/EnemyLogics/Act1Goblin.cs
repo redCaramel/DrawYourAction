@@ -160,6 +160,7 @@ public class Act1Goblin : MonoBehaviour
         yield return new WaitForSeconds(attackDelay);
 
         anim.SetTrigger("atk");
+        AudioManager.instance.PlaySFX(SFXType.attack);
         ShowAtkHitbox();
         yield return StartCoroutine(WaitForStateFinish(runStateName));
 

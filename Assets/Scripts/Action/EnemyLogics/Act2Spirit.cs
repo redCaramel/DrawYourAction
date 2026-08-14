@@ -285,6 +285,7 @@ public class Act2Spirit : MonoBehaviour
 
         // ===== SpiritAtk1_2Anim 재생 구간(공격 순간): 경고 표시를 끄고 실제 판정 히트박스를 활성화한다 =====
         ShowAtk1Hitbox();
+        AudioManager.instance.PlaySFX(SFXType.smash1);
         // ============================================================================
 
         // SpiritAtk1_2Anim이 끝나고 Idle로 돌아오는 시점까지 대기 (= SpiritAtk1_2Anim 종료 시점)
@@ -310,6 +311,8 @@ public class Act2Spirit : MonoBehaviour
 
         // ===== SpiritAtk3_2Anim 재생 구간(공격 순간): 경고 표시를 끄고 실제 판정 히트박스를 활성화한다 =====
         ShowAtk3Hitbox(targetX);
+        AudioManager.instance.PlaySFX(SFXType.smash1);
+        // =========================================================
         // ============================================================================
 
         // SpiritAtk3_2Anim이 끝나고 Idle로 돌아오는 시점까지 대기 (= SpiritAtk3_2Anim 종료 시점)
@@ -340,7 +343,7 @@ public class Act2Spirit : MonoBehaviour
             Vector3 spawnPos = origin + intervalVec * i;
             atk2AliveCount++;
             atk2InstanceRoutines.Add(StartCoroutine(Atk2InstanceRoutine(spawnPos)));
-
+            if(i==3) AudioManager.instance.PlaySFX(SFXType.scream);
             if (i < atk2SpawnCount - 1)
             {
                 yield return new WaitForSeconds(atk2SpawnCadence);

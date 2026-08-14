@@ -214,6 +214,7 @@ public class Act2Arrows : MonoBehaviour
         // ============================================================
 
         // ===== 발사: 화살들을 각자의 fireDir 방향으로 동시에 진행시킨다 =====
+        AudioManager.instance.PlaySFX(SFXType.arrow);
         for (int i = 0; i < count; i++)
         {
             float fireAngleDeg = Mathf.Atan2(fireDirs[i].y, fireDirs[i].x) * Mathf.Rad2Deg;

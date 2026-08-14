@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour
     {
         _anim.SetFloat("Speed", 0);
         dir = 0;
+        AudioManager.instance.StopLoopSFX();
     }
     private MovementType ActionLeftNormal()
     {
@@ -88,6 +89,7 @@ public class PlayerController : MonoBehaviour
         facingDir = -1;
         move = MovementType.LeftNormal;
         _anim.SetFloat("Speed", 1);
+        AudioManager.instance.PlayLoopSFX(SFXType.run);
         return move;
     }
     private MovementType ActionRightNormal()
@@ -98,20 +100,23 @@ public class PlayerController : MonoBehaviour
         facingDir = 1;
         move = MovementType.RightNormal;
         _anim.SetFloat("Speed", 1);
+        AudioManager.instance.PlayLoopSFX(SFXType.run);
         return move;
     }
 
     private JumpType ActionJumpNormal()
     {
         jumpRequested = true;
+        AudioManager.instance.PlaySFX(SFXType.jump);
         return jumpTime > 0 ? JumpType.JumpNormal : JumpType.Idle;
     }
     private AttackType ActionAtkNormal()
     {
         AnimatorStateInfo stateInfo = _anim.GetCurrentAnimatorStateInfo(0);
-
+        
         // 이미 A1, A2, A3 중 하나가 재생 중이라면 실행하지 않음 (Tag 활용)
         if (stateInfo.IsTag("atk")) return AttackType.Idle;
+        AudioManager.instance.PlaySFX(SFXType.attack);
         AttackType atk;
         atk = AttackType.AttackNormal;
         _anim.SetTrigger("Attack");

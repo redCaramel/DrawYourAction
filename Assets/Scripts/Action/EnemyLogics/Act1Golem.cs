@@ -231,6 +231,7 @@ public class Act1Golem : MonoBehaviour
 
         // ===== GolemAtk1_2Anim 재생 구간(공격 순간): 경고 표시를 끄고 실제 판정 히트박스를 활성화한다 =====
         ShowAtk1Hitbox(atkFacingDir);
+        AudioManager.instance.PlaySFX(SFXType.smash1);
         // ============================================================================
 
         // GolemAtk1_2Anim이 끝나고 Idle로 돌아오는 시점까지 대기 (= GolemAtk1_2Anim 종료 시점)
@@ -256,6 +257,7 @@ public class Act1Golem : MonoBehaviour
 
         // ===== GolemAtk2_2Anim 재생 구간(공격 순간): 경고 표시를 끄고 실제 판정 히트박스를 활성화한다 =====
         ShowAtk2Hitbox(atkFacingDir);
+        AudioManager.instance.PlaySFX(SFXType.smash2);
         // ============================================================================
 
         // GolemAtk2_2Anim이 끝나고 Idle로 돌아오는 시점까지 대기 (= GolemAtk2_2Anim 종료 시점)

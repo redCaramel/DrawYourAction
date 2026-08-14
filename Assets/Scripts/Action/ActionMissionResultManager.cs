@@ -64,6 +64,7 @@ public class ActionMissionResultManager : MonoBehaviour
     public void MissonSuccess()
     {
         if(isFinished) return;
+        AudioManager.instance.PlaySFX(SFXType.success);
         isFinished = true;
         OnMissionFinished?.Invoke();
         LockPlayerControl();
@@ -97,6 +98,7 @@ public class ActionMissionResultManager : MonoBehaviour
     public void MissionFailure()
     {
         if(isFinished) return;
+        AudioManager.instance.PlaySFX(SFXType.fail);
         isFinished = true;
         OnMissionFinished?.Invoke();
         LockPlayerControl();

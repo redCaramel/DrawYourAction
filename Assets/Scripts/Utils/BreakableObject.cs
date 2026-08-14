@@ -24,5 +24,6 @@ public class BreakableObject : MonoBehaviour
         sprite.sprite = sprites[1];
         col.enabled = false;
         wall.SetActive(false);
+        AudioManager.instance.PlaySFX(SFXType.tree);
     }
 }

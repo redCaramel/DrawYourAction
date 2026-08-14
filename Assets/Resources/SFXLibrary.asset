@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edb0d3d799cb45043a99f5d4d73c22c7, type: 3}
   m_Name: SFXLibrary
   m_EditorClassIdentifier: 
-  sfxList: []
+  sfxList:
+  - type: 0
+    clip: {fileID: 8300000, guid: 0008e552ecb085b4397e819363e68c8e, type: 3}
+  - type: 1
+    clip: {fileID: 8300000, guid: 03f0ab940ace0a5479bcbd8f665debaf, type: 3}
+  - type: 2
+    clip: {fileID: 8300000, guid: 18041b28be825544eaefa4e24813561c, type: 3}

@@ -35,6 +35,7 @@ public class StageMapMover : MonoBehaviour
             instance = this;
         }
         else Destroy(gameObject);
+        UnlockInput();
     }
     private void OnDestroy()
     {
@@ -48,8 +49,25 @@ public class StageMapMover : MonoBehaviour
     public float MinZoom => minZoom;
     public float MaxZoom => maxZoom;
 
+    public static bool IsInputLocked { get; private set; } = false;
+
+    public static void LockInput()
+    {
+        IsInputLocked = true;
+    }
+    public static void UnlockInput()
+    {
+        IsInputLocked = false;
+    }
+
     void Update()
     {
+        if (IsInputLocked)
+        {
+            isDragging = false;
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0) && !IsPointerOverButton())
         {
             PopupAnim.HidePopup();

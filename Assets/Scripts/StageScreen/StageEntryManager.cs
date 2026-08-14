@@ -10,8 +10,34 @@ public class StageEntryManager : MonoBehaviour
     [SerializeField] private Button entryButton;
     [SerializeField] private Button preivewButton;
     private int currentStage = 0;
+
+    // ----------------------------------------------------
+    // Creating and Resetting Instance
+    // Don't modify here
+    public static StageEntryManager instance { get; private set; }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatic()
+    {
+        instance = null;
+    }
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
+    }
+    // ----------------------------------------------------
+
     void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else Destroy(gameObject);
+
         for(int i = 0;i < stageButtons.Count;i++)
         {
             int stageIndex = i+1;
@@ -19,6 +45,13 @@ public class StageEntryManager : MonoBehaviour
         }
         entryButton.onClick.AddListener(OnEntryButtonClicked);
         preivewButton.onClick.AddListener(OnPreviewButtonClicked);
+    }
+    public void SetStageButtonsInteractable(bool interactable)
+    {
+        for(int i = 0;i < stageButtons.Count;i++)
+        {
+            stageButtons[i].GetComponent<Button>().interactable = interactable;
+        }
     }
     private void OnEntryButtonClicked()
     {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class RecordingMenuSelector : MonoBehaviour
@@ -50,6 +51,11 @@ public class RecordingMenuSelector : MonoBehaviour
     }
 
     // ----------------------------------------------------
+
+    public void backToMenu()
+    {
+        SceneManager.LoadScene("StageScene");
+    }
 
     public void OnRecordButtonClicked()
     {

@@ -6,8 +6,68 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/TItleScene.unity
+    guid: 0da4e8af4f61cf04b87d7cba9c90686c
+  - enabled: 1
+    path: Assets/Scenes/RecordDevelopingScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/RecordBeforeScene.unity
+    guid: cdcef4ad4a08bf14096cde208321be36
+  - enabled: 1
+    path: Assets/Scenes/ActionDevelopingScene.unity
+    guid: 7d73253007d18554b9dbda92592c0996
+  - enabled: 1
+    path: Assets/Scenes/PreviewScene.unity
+    guid: eaac57ad493be784592200265d294cee
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene1.unity
+    guid: dd00e82dbf1eecb41a6aaf0ef84bcd14
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene2.unity
+    guid: bad705da0d7da2049bb4a0aa1bf5d8b6
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene3.unity
+    guid: ccc5c4da8e6a6f44a89076609a1b8d0c
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene4.unity
+    guid: b298152c3ec45344595fae838a0d42b6
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene5.unity
+    guid: 166a599f3bf7fc647b2d9c41d65a2017
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene6.unity
+    guid: 8e80688d793aff04bb5f696c90d1d8d6
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene7.unity
+    guid: ea366e6a0cd70d049b8c5f3339712318
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene8.unity
+    guid: fd54dcbcb76169949811cdd2025ab041
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene9.unity
+    guid: 217e755dbfe441d4287b2de27fc786b2
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene10.unity
+    guid: c84e7ae350f9cbe4d8042e52f4ecc369
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene11.unity
+    guid: b942b3dc339350a4c8aba430580c22a4
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene12.unity
+    guid: 3f4da78581539ec47956d90ca50def45
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene13.unity
+    guid: 0f5ff7832f7c7ee4c948ce311e178f16
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene14.unity
+    guid: 47a9188600ccc8c409b92df424cf0a2b
+  - enabled: 1
+    path: Assets/Scenes/ActionScenes/ActionScene15.unity
+    guid: ed01e0f89a77fcd479243f48e8cc60d9
+  - enabled: 1
+    path: Assets/Scenes/StageScene.unity
+    guid: 8ae032c5a8db862429486857efc4907d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

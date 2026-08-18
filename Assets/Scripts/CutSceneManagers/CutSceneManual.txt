@@ -1,0 +1,2 @@
+1. CutSceneManager(N).cs을 InitialCutSceneManager의 하위 오브젝트에 붙인다.
+2. InitialCutSceneManager의 인스펙터에서 Cut Scene Objects 리스트에 오브젝트를 넣는다.

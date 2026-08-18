@@ -11,9 +11,10 @@ public class ScriptObjectManager : MonoBehaviour
     [SerializeField] private GameObject scriptPrefab;
     [SerializeField] private RectTransform scriptListContent;
     [SerializeField] private float scriptSpacing = 20f;
+    [SerializeField] private float initialSpacing = 30f;
     private bool isFirstUpdate = true;
 
-    public static readonly List<Color> ScriptColor = new List<Color>
+    public static readonly List<Color> StatusColor = new List<Color>
     {
         new Color(1f, 1f, 1f),
         new Color(241/255f, 255/255f, 139/255f),
@@ -21,6 +22,19 @@ public class ScriptObjectManager : MonoBehaviour
         new Color(81/255f, 1f, 0f)
     };
 
+    public static readonly List<Color> ScriptColor = new List<Color>
+    {
+        new Color(1f, 0f, 0f),
+        new Color(255f/255f, 131f/255f, 0f/255f),
+        new Color(255f/255f, 255f/255f, 0f/255f),
+        new Color(129f/255f, 255f/255f, 0f/255f),
+        new Color(0f/255f, 255f/255f, 255f/255f),
+        new Color(0f/255f, 24f/255f, 255f/255f),
+        new Color(151f/255f, 0f/255f, 255f/255f),
+        new Color(255f/255f, 0f/255f, 183f/255f),
+        new Color(255f/255f, 255f/255f, 255f/255f),
+        new Color(140f/255f, 140f/255f, 140f/255f)
+    };
     // ----------------------------------------------------
     // Creating and Resetting Instance
     // Don't modify here
@@ -55,6 +69,7 @@ public class ScriptObjectManager : MonoBehaviour
     // has one entry per ScriptData index in ScriptManager.
     private void EnsureSlot(int index)
     {
+        bool isFirst = true;
         float itemHeight = scriptPrefab.GetComponent<RectTransform>().rect.height;
         while (Scripts.Count <= index)
         {
@@ -64,7 +79,12 @@ public class ScriptObjectManager : MonoBehaviour
             rect.anchorMin = new Vector2(0.5f, 1f);
             rect.anchorMax = new Vector2(0.5f, 1f);
             rect.pivot = new Vector2(0.5f, 1f);
-            rect.anchoredPosition = new Vector2(0f, -i * (itemHeight + scriptSpacing) - scriptSpacing);
+            if(isFirst)
+            {
+                rect.anchoredPosition = new Vector2(0f, -i * (itemHeight + scriptSpacing) - scriptSpacing - initialSpacing);
+                isFirst = false;
+            }
+            else rect.anchoredPosition = new Vector2(0f, -i * (itemHeight + scriptSpacing) - scriptSpacing);
             slot.GetComponent<ScriptDragger>().ScriptIndex = i;
             slot.GetComponent<Button>().onClick.AddListener(() => OnScriptClicked(i));
             Scripts.Add(slot);
@@ -82,25 +102,32 @@ public class ScriptObjectManager : MonoBehaviour
     public void UpdateScriptView(int index, ScriptData data)
     {
         EnsureSlot(index);
-        Scripts[index].GetComponentInChildren<TMP_Text>().text =
+        Scripts[index].transform.Find("title").GetComponent<TMP_Text>().text =
             string.IsNullOrEmpty(data.name) ? "스크립트 " + (index + 1) : data.name;
-        SetScriptColor(index, data.status);
+        Scripts[index].transform.Find("time").GetComponent<TMP_Text>().text =
+            string.IsNullOrEmpty(data.name) ? "- sec" : $"{data.maxDuration} sec";
+        Scripts[index].GetComponent<Image>().color = ScriptColor[data.color];
     }
 
     private void OnScriptClicked(int index)
     {
         ChangeSelectedScript(selectedScriptIndex, index);
+        ProgressBarManager.instance.SetMaxDuration(ScriptDataManager.instance.getScript(index).maxDuration);
+        ScriptWriteManager.instance.UpdateWriteScreen(index);
         selectedScriptIndex = index;
+        AudioManager.instance.PlaySFX(SFXType.button1);
     }
 
     public int GetScriptIndex()
     {
         return selectedScriptIndex;
     }
-    private void SetScriptColor(int index, int val)
+    public void SetScriptColor(int index, int color)
     {
-
-        Scripts[index].GetComponent<Image>().color = ScriptColor[val];
+        ScriptData data = ScriptDataManager.instance.getScript(index);
+        data.color = color;
+        ScriptDataManager.instance.SetScript(index, data);
+        Scripts[index].GetComponent<Image>().color = ScriptColor[color];
 
     }
     private void ChangeSelectedScript(int old, int newer) {
@@ -118,7 +145,7 @@ public class ScriptObjectManager : MonoBehaviour
     private void HighlightScriptOutline(int index)
     {
         Outline outline = Scripts[index].GetComponent<Outline>();
-        outline.effectColor = new Color(255, 0, 0);
+        outline.effectColor = StatusColor[ScriptDataManager.instance.getScript(index).status];
         outline.effectDistance = new Vector2(10, -10);
     }
 
@@ -150,5 +177,16 @@ public class ScriptObjectManager : MonoBehaviour
             if (ScriptArrManager.instance.GetScriptAtSlot(slot) == scriptIndex) return true;
         }
         return false;
+    }
+    void Update()
+    {
+        HighlightScriptOutline(selectedScriptIndex);
+    }
+    public void SetScriptThumbnail(int index, Sprite thumbnail)
+    {
+        ScriptData data = ScriptDataManager.instance.getScript(index);
+        data.thumbnail = thumbnail;
+        ScriptDataManager.instance.SetScript(index, data);
+        Scripts[index].transform.Find("thumbnail").GetComponent<Image>().sprite = thumbnail;
     }
 }

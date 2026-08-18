@@ -28,7 +28,7 @@ public class ScriptCardManager : MonoBehaviour
 
     public void InitializeDeck()
     {
-        handSize = CreateRecordInstance.handCount;
+        handSize = StageImporter.handCount;
         drawScript.Clear();
         handScript.Clear();
 

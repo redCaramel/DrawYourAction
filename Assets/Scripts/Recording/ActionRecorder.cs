@@ -60,10 +60,13 @@ public class ActionRecorder : MonoBehaviour
     public int GetRecordCount() => recordCount;
     public void StartRecording(int time)
     {
+        AudioManager.instance.PlaySFX(SFXType.record);
         currentRecordingIndex = ScriptObjectManager.instance.GetScriptIndex();
         ScriptDataManager.instance.EnsureScript(currentRecordingIndex);
         ScriptData data = ScriptDataManager.instance.getScript(currentRecordingIndex);
-        ScriptDataManager.instance.SetScript(currentRecordingIndex, new ScriptData(data.name, data.maxDuration, 2));
+        data.status = 2;
+        data.actions.Clear(); // 재녹화 시 기존에 기록된 행동을 지우고 새로 채운다.
+        ScriptDataManager.instance.SetScript(currentRecordingIndex, data);
         recordCount++;
         recording = true;
         recordDuration = time;

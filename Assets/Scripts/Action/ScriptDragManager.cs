@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using TMPro;
+using System.Collections.Generic;
 
 public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
@@ -19,19 +20,60 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     [Header("카드 데이터 표시")]
     [SerializeField] private TMP_Text titleText; // 카드에 표시할 스크립트 이름
+    [SerializeField] private TMP_Text timeText;
+    [SerializeField] private Image color;
+    [SerializeField] private Image thumbnail;
 
     private Vector2 originalPosition;
     private Canvas parentCanvas;
     private bool isUsingCard = false;
     private bool isInteractable = false; // 좌측 상단 미리보기 상태에서는 입력을 받지 않음
 
+    /// <summary>
+    /// true가 되면 모든 카드가 클릭/드래그/사용 입력을 받지 않는다.
+    /// 미션 성공/실패 등으로 카드 사용을 완전히 막아야 할 때 사용한다.
+    /// </summary>
+    public static bool IsInputLocked { get; private set; } = false;
+
+    public static void LockInput()
+    {
+        IsInputLocked = true;
+    }
+    public static void UnlockInput()
+    {
+        IsInputLocked = false;
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatic()
+    {
+        IsInputLocked = false;
+    }
+
     public ScriptData Data { get; private set; }
+
+    public static readonly List<Color> ScriptColor = new List<Color>
+    {
+        new Color(1f, 0f, 0f),
+        new Color(255f/255f, 131f/255f, 0f/255f),
+        new Color(255f/255f, 255f/255f, 0f/255f),
+        new Color(129f/255f, 255f/255f, 0f/255f),
+        new Color(0f/255f, 255f/255f, 255f/255f),
+        new Color(0f/255f, 24f/255f, 255f/255f),
+        new Color(151f/255f, 0f/255f, 255f/255f),
+        new Color(255f/255f, 0f/255f, 183f/255f),
+        new Color(255f/255f, 255f/255f, 255f/255f),
+        new Color(140f/255f, 140f/255f, 140f/255f)
+    };
 
     private void Awake()
     {
         if (canvasGroup == null) canvasGroup = GetComponent<CanvasGroup>();
         if (rectTransform == null) rectTransform = GetComponent<RectTransform>();
-        if (titleText == null) titleText = GetComponentInChildren<TMP_Text>();
+        if (titleText == null) titleText = transform.Find("title").GetComponent<TMP_Text>();
+        if(timeText == null) timeText = transform.Find("time").GetComponent<TMP_Text>();
+        if(color==null) color = GetComponent<Image>();
+        if(thumbnail==null) thumbnail = transform.Find("thumbnail").GetComponent<Image>();
         parentCanvas = GetComponentInParent<Canvas>();
     }
 
@@ -42,6 +84,9 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
     {
         Data = data;
         if (titleText != null) titleText.text = data.name;
+        if (timeText != null) timeText.text = $"{data.maxDuration} sec";
+        if (color != null) color.color = ScriptColor[data.color];
+        if (thumbnail != null) thumbnail.sprite = data.thumbnail;
     }
 
     /// <summary>
@@ -104,7 +149,7 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (isUsingCard || !isInteractable) return;
+        if (isUsingCard || !isInteractable || IsInputLocked) return;
 
         // 클릭 시 약간 커지는 연출 (피드백)
         rectTransform.DOScale(1.05f, 0.1f);
@@ -112,7 +157,7 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (isUsingCard || !isInteractable) return;
+        if (isUsingCard || !isInteractable || IsInputLocked) return;
 
         // 마우스 드래그 위치 반영
         rectTransform.anchoredPosition += eventData.delta / parentCanvas.scaleFactor;
@@ -134,7 +179,7 @@ public class ScriptDragManager : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (isUsingCard || !isInteractable) return;
+        if (isUsingCard || !isInteractable || IsInputLocked) return;
 
         float deltaY = rectTransform.anchoredPosition.y - originalPosition.y;
 

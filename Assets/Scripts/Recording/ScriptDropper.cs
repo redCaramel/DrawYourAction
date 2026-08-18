@@ -37,7 +37,7 @@ public class ScriptDropper : MonoBehaviour, IDropHandler
         // 드래그된 아이템을 이 슬롯의 자식으로 설정
         dragged.transform.SetParent(transform);
         dragged.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-
+        AudioManager.instance.PlaySFX(SFXType.button1);
         ScriptArrManager.instance.SetScriptAtSlot(slotIndex, draggedItem.ScriptIndex);
 
         ScriptObjectManager.instance.SelectNextUnplacedScript();

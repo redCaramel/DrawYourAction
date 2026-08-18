@@ -85,7 +85,7 @@ public class CardSpawnManager : MonoBehaviour
     /// </summary>
     public void InitializeAndSpawnHand()
     {
-        initialHandSize = CreateRecordInstance.handCount;
+        initialHandSize = StageImporter.handCount;
 
         // 1. 기존 데이터 및 남아있는 카드 UI 제거
         drawPile.Clear();

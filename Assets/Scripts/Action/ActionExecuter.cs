@@ -68,4 +68,18 @@ public class ActionExecuter : MonoBehaviour
     {
         return loading;
     }
+
+    /// <summary>
+    /// 재생 중이던(또는 대기 중이던) 카드 액션을 즉시 중단한다.
+    /// 미션 성공/실패 등으로 더 이상 액션을 진행시키면 안 될 때 사용한다.
+    /// </summary>
+    public void StopLoading()
+    {
+        _queue.Clear();
+        loading = false;
+        if (PlayerController.instance != null)
+        {
+            PlayerController.instance.StopMovement();
+        }
+    }
 }

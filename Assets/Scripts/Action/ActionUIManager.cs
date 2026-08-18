@@ -29,6 +29,8 @@ public class ActionUIManager : MonoBehaviour
             string end = mission.isCleared ? "</s>" : "";
             if(mission.maxValue!=0)
                 result += $"* {st}{mission.mainText} ({mission.currentValue}/{mission.maxValue}){end}\n";
+            else if(mission.type == 3 || mission.type == 4)
+                result += $"* {st}{mission.mainText} ({mission.currentValue}){end}\n";
             else
                 result += $"* {st}{mission.mainText}{end}\n";
 
